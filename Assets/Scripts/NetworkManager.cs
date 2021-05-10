@@ -19,6 +19,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text currentRoomText;
     [SerializeField] private Text[] playerListTexts;
     [SerializeField] private InputField nicknameInputField;
+    [SerializeField] private Button startButton;
     
     private bool hasAvailableRooms;
 
@@ -89,7 +90,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void JoinRoom()
     {
         if (hasAvailableRooms)
+        {
             PhotonNetwork.JoinRoom(roomsDropdown.options[roomsDropdown.value].text);
+            
+            menuPanel.SetActive(false);
+            connectingPanel.SetActive(true);
+        }
+            
     }
 
     private void UpdatePlayerList()
@@ -105,9 +112,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         connectingPanel.SetActive(false);
         statusPanel.SetActive(true);
-        
+
+        // If master client, then able to launch game
+        if (PhotonNetwork.IsMasterClient)
+            startButton.interactable = true;
+
         currentRoomText.text = "Room name: " +  PhotonNetwork.CurrentRoom.Name;
         UpdatePlayerList();
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        connectingPanel.SetActive(false);
+        menuPanel.SetActive(true);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
