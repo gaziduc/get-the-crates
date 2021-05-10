@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
@@ -20,8 +19,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text currentRoomText;
     [SerializeField] private Text[] playerListTexts;
     [SerializeField] private InputField nicknameInputField;
-
-    private string nickname;
+    
+    private bool hasAvailableRooms;
 
     // Start is called before the first frame update
     private void Start()
@@ -39,12 +38,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         connectingPanel.SetActive(false);
-        nicknamePanel.SetActive(true);
+        
+        if (!PlayerPrefs.HasKey("Nickname"))
+            nicknamePanel.SetActive(true);
+        else
+        {
+            PhotonNetwork.NickName = PlayerPrefs.GetString("Nickname");
+            menuPanel.SetActive(true);
+        }
     }
 
     public void SetNickname()
     {
         PhotonNetwork.NickName = nicknameInputField.text;
+        PlayerPrefs.SetString("Nickname", PhotonNetwork.NickName);
         nicknamePanel.SetActive(false);
         menuPanel.SetActive(true);
     }
@@ -52,9 +59,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         roomsDropdown.ClearOptions();
-        
-        foreach (var room in roomList)
-            roomsDropdown.options.Add(new Dropdown.OptionData(room.Name));
+
+        if (roomList.Count == 0)
+        {
+            hasAvailableRooms = false;
+            roomsDropdown.options.Add(new Dropdown.OptionData("No room available"));
+        }
+        else
+        {
+            hasAvailableRooms = true;
+            
+            foreach (var room in roomList)
+                roomsDropdown.options.Add(new Dropdown.OptionData(room.Name));
+        }
     }
 
     public void CreateRoom()
@@ -71,7 +88,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(roomsDropdown.options[roomsDropdown.value].text);
+        if (hasAvailableRooms)
+            PhotonNetwork.JoinRoom(roomsDropdown.options[roomsDropdown.value].text);
     }
 
     private void UpdatePlayerList()
@@ -104,16 +122,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+        GameObject player = PhotonNetwork.Instantiate(playerPrefabToInstantiate.name, new Vector3(-5, 0, 0), Quaternion.identity);
+        DontDestroyOnLoad(player);
+        
         PhotonNetwork.LoadLevel("Level");
-
-        StartCoroutine(InstanciatePlayer());
     }
 
-    private IEnumerator InstanciatePlayer()
+    public void LeaveGame()
     {
-        while (PhotonNetwork.LevelLoadingProgress < 1f)
-            yield return new WaitForSeconds(0.02f);
+        statusPanel.SetActive(false);
+        connectingPanel.SetActive(true);
         
-        PhotonNetwork.Instantiate(playerPrefabToInstantiate.name, new Vector3(-5, 0, 0), Quaternion.identity);
+        PhotonNetwork.LeaveRoom();
     }
 }
