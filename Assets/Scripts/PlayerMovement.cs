@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public float moveSpeed;
+    
     [SerializeField] private LayerMask platformsLayerMask;
-    [SerializeField] private float moveSpeed;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     private bool isGrounded;
@@ -43,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (jump)
             {
-                rb.AddForce(Vector2.up * 700);
+                rb.AddForce(Vector2.up * 800);
                 jump = false;
             }
         }

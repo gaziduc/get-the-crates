@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -13,13 +14,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject statusPanel;
     [SerializeField] private GameObject nicknamePanel;
-    [SerializeField] private GameObject playerPrefabToInstantiate;
     [SerializeField] private InputField roomNameInputField;
     [SerializeField] private Dropdown roomsDropdown;
     [SerializeField] private Text currentRoomText;
     [SerializeField] private Text[] playerListTexts;
     [SerializeField] private InputField nicknameInputField;
     [SerializeField] private Button startButton;
+    [SerializeField] private Text statusText;
     
     private bool hasAvailableRooms;
 
@@ -29,6 +30,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
+    }
+
+    private void Update()
+    {
+        if (statusText && statusText.gameObject.activeInHierarchy)
+            statusText.text = Regex.Replace(PhotonNetwork.NetworkClientState.ToString(), "([A-Z])", " $1");
     }
 
     public override void OnConnectedToMaster()
@@ -136,20 +143,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         UpdatePlayerList();
     }
-
-    public void StartGame()
-    {
-        GameObject player = PhotonNetwork.Instantiate(playerPrefabToInstantiate.name, new Vector3(-5, 0, 0), Quaternion.identity);
-        DontDestroyOnLoad(player);
-        
-        PhotonNetwork.LoadLevel("Level");
-    }
-
+    
     public void LeaveGame()
     {
         statusPanel.SetActive(false);
         connectingPanel.SetActive(true);
         
         PhotonNetwork.LeaveRoom();
+    }
+
+    public void StartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel("Level");
     }
 }
