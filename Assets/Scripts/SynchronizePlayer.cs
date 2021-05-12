@@ -42,7 +42,10 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
     {
         if (!view.IsMine)
         {
-            rigidbody.position = Vector2.MoveTowards(rigidbody.position, networkPosition, Time.fixedDeltaTime * player.moveSpeed);
+            if (Vector2.Distance(rigidbody.position, networkPosition) > 3f) // Teleport if to far
+                rigidbody.position = networkPosition;
+            else
+                rigidbody.position = Vector2.MoveTowards(rigidbody.position, networkPosition, Time.fixedDeltaTime * player.moveSpeed);
         }
     }
 }
