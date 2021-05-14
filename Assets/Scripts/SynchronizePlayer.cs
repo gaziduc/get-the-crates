@@ -7,6 +7,8 @@ using UnityEngine;
 public class SynchronizePlayer : MonoBehaviour, IPunObservable
 {
     private Rigidbody2D rigidbody;
+    private SpriteRenderer sp;
+    private Animator anim;
     private PhotonView view;
     private PlayerMovement player;
 
@@ -17,6 +19,8 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
         rigidbody = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
         player = GetComponent<PlayerMovement>();
+        sp = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -24,13 +28,15 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(rigidbody.position);
-            stream.SendNext(rigidbody.rotation);
+            stream.SendNext(sp.flipX);
+            stream.SendNext(anim.GetBool("IsRunning"));
             stream.SendNext(rigidbody.velocity);
         }
         else
         {
             networkPosition = (Vector2) stream.ReceiveNext();
-            rigidbody.rotation = (float) stream.ReceiveNext();
+            sp.flipX = (bool) stream.ReceiveNext();
+            anim.SetBool("IsRunning", (bool) stream.ReceiveNext());
             rigidbody.velocity = (Vector2) stream.ReceiveNext();
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));

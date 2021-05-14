@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
     [SerializeField] private float bulletSpeed;
-    
+
     private PhotonView view;
     
     [SerializeField] private LayerMask platformsLayerMask;
@@ -17,11 +17,17 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 change;
     private bool jump;
     private Vector3 direction;
+    private SpriteRenderer sp;
+    private Animator anim;
+    private AudioSource shoot;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        sp = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        shoot = GetComponent<AudioSource>();
         view = GetComponent<PhotonView>();
         direction = Vector3.right;
     }
@@ -33,12 +39,27 @@ public class PlayerMovement : MonoBehaviour
             change = Vector3.zero;
 
             if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                sp.flipX = true;
+                if (!anim.GetBool("IsRunning"))
+                    anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
+            }
             else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                sp.flipX = false;
+                if (!anim.GetBool("IsRunning"))
+                    anim.SetBool("IsRunning", true);
                 change.x = moveSpeed;
-
+            }
+            else
+            {
+                if (anim.GetBool("IsRunning"))
+                    anim.SetBool("IsRunning", false);
+            }
+            
             if (!change.Equals(Vector3.zero))
-                direction = change * 5f;
+                direction = change;
 
             if (IsGrounded() && Input.GetKeyDown(KeyCode.UpArrow))
                 jump = true;
@@ -73,7 +94,9 @@ public class PlayerMovement : MonoBehaviour
     [PunRPC]
     void ShootBulletRPC(float posX, float posY, float bulletDirection)
     {
-        GameObject bullet = GameObject.Instantiate(bulletPrefab,new Vector3(posX + bulletDirection, posY, 0), Quaternion.identity);
+        GameObject bullet = GameObject.Instantiate(bulletPrefab,new Vector3(posX + bulletDirection * 0.8f, posY, 0), Quaternion.identity);
         bullet.GetComponent<BulletMovement>().direction = new Vector3(bulletDirection * bulletSpeed, 0, 0);
+        
+        shoot.Play();
     }
 }

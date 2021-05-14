@@ -34,31 +34,30 @@ public class PlayerHealth : MonoBehaviour
         transform.GetChild(1).GetComponent<TextMesh>().text = "P" + (playerNum + 1);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.collider.CompareTag("Bullet"))
+        if (other.CompareTag("Bullet"))
         {
             if (view.IsMine)
-            {
-                view.RPC("Hurt", RpcTarget.All, view.ViewID);
-            }
-                
-            
+                view.RPC("HurtRPC", RpcTarget.All, view.ViewID);
+
             GameObject.Destroy(other.gameObject);
         }
     }
 
-    private IEnumerator Respawn(PlayerHealth player)
+    private IEnumerator Respawn(PlayerHealth player, PhotonView v)
     {
         yield return new WaitForSeconds(3f);
         player.transform.localScale = Vector3.one;
         player.health = initialHealth;
         gui.SetHealthText(player.health, player.playerNum);
-        player.playerManager.Respawn();
+        
+        if (v.IsMine)
+            player.playerManager.Respawn();
     }
 
     [PunRPC]
-    void Hurt(int ViewID)
+    void HurtRPC(int ViewID)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
         PlayerHealth player = v.GetComponent<PlayerHealth>(); 
@@ -68,7 +67,7 @@ public class PlayerHealth : MonoBehaviour
         
         if (player.health <= 0)
         {
-            StartCoroutine(Respawn(player));
+            StartCoroutine(Respawn(player, v));
             player.transform.localScale = Vector3.zero;
         }
     }
