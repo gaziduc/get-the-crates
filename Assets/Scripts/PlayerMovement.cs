@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, direction.normalized.x);
+                view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, direction.normalized.x, view.ViewID);
             }
         }
     }
@@ -92,10 +92,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [PunRPC]
-    void ShootBulletRPC(float posX, float posY, float bulletDirection)
+    void ShootBulletRPC(float posX, float posY, float bulletDirection, int viewID)
     {
-        GameObject bullet = GameObject.Instantiate(bulletPrefab,new Vector3(posX + bulletDirection * 0.8f, posY, 0), Quaternion.identity);
-        bullet.GetComponent<BulletMovement>().direction = new Vector3(bulletDirection * bulletSpeed, 0, 0);
+        GameObject bullet = GameObject.Instantiate(bulletPrefab,new Vector3(posX + bulletDirection * 0.2f, posY, 0), Quaternion.identity);
+        BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
+        
+        bulletMovement.direction = new Vector3(bulletDirection * bulletSpeed, 0, 0);
+        bulletMovement.viewID = viewID;
         
         shoot.Play();
     }

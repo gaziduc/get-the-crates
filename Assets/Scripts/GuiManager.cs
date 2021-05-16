@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GuiManager : MonoBehaviour
 {
     [SerializeField] private Text[] Nicknames;
-    [SerializeField] private Text[] Healths;
+    [SerializeField] private Slider[] Healths;
+    [SerializeField] private Gradient gradient;
+    [SerializeField] private Image[] fill;
 
     public void SetNicknameText(string nickname, int playerNum)
     {
@@ -20,12 +20,16 @@ public class GuiManager : MonoBehaviour
         
         return "red";
     }
-    
-    public void SetHealthText(int health, int playerNum)
+
+    public void SetMaxHealth(int health, int playerNum)
     {
-        Healths[playerNum].text = "Health: " + health;
+        Healths[playerNum].maxValue = health;
+        SetHealthBar(health, playerNum);
     }
     
-    
-    
+    public void SetHealthBar(int health, int playerNum)
+    {
+        Healths[playerNum].value = health;
+        fill[playerNum].color = gradient.Evaluate(Healths[playerNum].normalizedValue);
+    }
 }

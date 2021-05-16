@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private PhotonView view;
+    [HideInInspector] public PhotonView view;
     public int initialHealth;
     public int playerNum;
     private int health;
@@ -28,21 +28,10 @@ public class PlayerHealth : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             gui.SetNicknameText(PhotonNetwork.PlayerList[i].NickName, i);
-            gui.SetHealthText(initialHealth, i);
+            gui.SetMaxHealth(initialHealth, i);
         }
 
-        transform.GetChild(1).GetComponent<TextMesh>().text = "P" + (playerNum + 1);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Bullet"))
-        {
-            if (view.IsMine)
-                view.RPC("HurtRPC", RpcTarget.All, view.ViewID);
-
-            GameObject.Destroy(other.gameObject);
-        }
+        transform.GetChild(1).GetComponent<TextMesh>().text = PhotonNetwork.PlayerList[playerNum].NickName;
     }
 
     private IEnumerator Respawn(PlayerHealth player, PhotonView v)
@@ -50,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(3f);
         player.transform.localScale = Vector3.one;
         player.health = initialHealth;
-        gui.SetHealthText(player.health, player.playerNum);
+        gui.SetHealthBar(player.health, player.playerNum);
         
         if (v.IsMine)
             player.playerManager.Respawn();
@@ -63,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
         PlayerHealth player = v.GetComponent<PlayerHealth>(); 
         
         player.health--;
-        gui.SetHealthText(player.health, player.playerNum);
+        gui.SetHealthBar(player.health, player.playerNum);
         
         if (player.health <= 0)
         {
