@@ -27,9 +27,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     private void Start()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.GameVersion = gameVersion;
-        PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.GameVersion = gameVersion;
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     private void Update()
@@ -79,6 +82,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             
             foreach (var room in roomList)
                 roomsDropdown.options.Add(new Dropdown.OptionData(room.Name));
+            
+            roomsDropdown.RefreshShownValue();
         }
     }
 

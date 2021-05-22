@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
+    public bool canMove = true;
+    
     [SerializeField] private float bulletSpeed;
 
     private PhotonView view;
@@ -19,7 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 direction;
     private SpriteRenderer sp;
     private Animator anim;
-    private AudioSource shoot;
+    [SerializeField] private AudioSource shoot;
+    private GuiManager gui;
 
     void Start()
     {
@@ -27,9 +30,9 @@ public class PlayerMovement : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         sp = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        shoot = GetComponent<AudioSource>();
         view = GetComponent<PhotonView>();
         direction = Vector3.right;
+        gui = GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>();
     }
 
     private void Update()
@@ -37,7 +40,10 @@ public class PlayerMovement : MonoBehaviour
         if (view.IsMine)
         {
             change = Vector3.zero;
-
+            
+            if (!canMove)
+                return;
+            
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 sp.flipX = true;
@@ -101,5 +107,12 @@ public class PlayerMovement : MonoBehaviour
         bulletMovement.viewID = viewID;
         
         shoot.Play();
+    }
+    
+    [PunRPC]
+    void PauseRPC()
+    {
+        gui.pausePanel.SetActive(!gui.pausePanel.activeInHierarchy);
+        canMove = !canMove;
     }
 }
