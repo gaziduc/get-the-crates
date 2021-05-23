@@ -25,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
         else
             playerNum = 1;
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             gui.SetNicknameText(PhotonNetwork.PlayerList[i].NickName, i);
             gui.SetMaxHealth(initialHealth, i);

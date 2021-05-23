@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 
@@ -114,5 +115,20 @@ public class PlayerMovement : MonoBehaviour
     {
         gui.pausePanel.SetActive(!gui.pausePanel.activeInHierarchy);
         canMove = !canMove;
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (view.IsMine && other.gameObject.CompareTag("Crate"))
+        {
+            view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID);
+            
+            // Transfert ownership...
+            other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
+            
+            // ...to move position
+            other.transform.position = InstantiatePlayerOnStart.GetCrateNewPosition();
+            other.rigidbody.velocity = Vector2.zero;
+        }
     }
 }

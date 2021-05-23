@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - PlayerManager
+  - Crate
   layers:
   - Default
   - TransparentFX

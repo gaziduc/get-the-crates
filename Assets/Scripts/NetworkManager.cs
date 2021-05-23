@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private byte maxPlayersPerRoom = 2;
-    [SerializeField] private string gameVersion = "0.1";
+    [SerializeField] private string gameVersion = "0.2";
     [SerializeField] private GameObject connectingPanel;
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject statusPanel;

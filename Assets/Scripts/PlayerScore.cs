@@ -1,16 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
 {
-    public int score = 0;
+    public int score;
     private GuiManager gui;
     public PhotonView view;
     [SerializeField] private AudioSource crate;
-
+    
     private void Start()
     {
         gui = GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>();
