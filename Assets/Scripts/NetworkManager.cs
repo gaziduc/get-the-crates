@@ -129,8 +129,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             if (i == 1)
                 playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
         }
-        
-      
     }
 
     public override void OnJoinedRoom()

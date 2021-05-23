@@ -1,6 +1,5 @@
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class InstantiatePlayerOnStart : MonoBehaviour
 {
@@ -32,10 +31,9 @@ public class InstantiatePlayerOnStart : MonoBehaviour
         return new Vector3(Random.Range(-14f, 14f), 0, 0);
     }
 
-    public void GoToMainMenu()
+    public void RestartGame()
     {
-        PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene(0);
+        PhotonNetwork.LoadLevel("Empty");
     }
     
 }

@@ -1,4 +1,3 @@
-using System;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,11 +15,15 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Text winnerText;
     [SerializeField] private Text looserText;
     public GameObject pausePanel;
+    [SerializeField] private Button restartButton;
 
     private float timeRemaining = 60;
     
     void Start()
     {
+        if (PhotonNetwork.IsMasterClient)
+            restartButton.interactable = true;
+        
         SetTimeText();
         scores = new int[] { 0, 0 };
     }
@@ -75,11 +78,15 @@ public class GuiManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                PhotonView view = GameObject.FindWithTag("Player").GetComponent<PhotonView>();
-                view.RPC("PauseRPC", RpcTarget.All);
+                Pause();
             }
         }
-        
+    }
+
+    public void Pause()
+    {
+        PhotonView view = GameObject.FindWithTag("Player").GetComponent<PhotonView>();
+        view.RPC("PauseRPC", RpcTarget.All);
     }
 
     public void ShowEnd()
