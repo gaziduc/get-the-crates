@@ -113,11 +113,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void UpdatePlayerList()
     {
-        for (int i = 0; i < maxPlayersPerRoom && i < PhotonNetwork.CurrentRoom.Players.Count; i++)
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.Players.Count; i++)
         {
             var player = PhotonNetwork.PlayerList[i];
-            playerListTexts[i].text = "P" + (i + 1) + ": " + (player != null ? player.NickName : "No player");
+            playerListTexts[i].text = "P" + (i + 1) + ": " + player.NickName;
+            
+            if (i == 1)
+                playerListTexts[i].GetComponent<BlinkText>().DisableBlink();
         }
+
+        for (int i = PhotonNetwork.CurrentRoom.Players.Count; i < maxPlayersPerRoom; i++)
+        {
+            playerListTexts[i].text = "P" + (i + 1) + ": Waiting for a player...";
+            
+            if (i == 1)
+                playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
+        }
+        
+      
     }
 
     public override void OnJoinedRoom()
