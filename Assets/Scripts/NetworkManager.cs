@@ -21,6 +21,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField nicknameInputField;
     [SerializeField] private Button startButton;
     [SerializeField] private Text statusText;
+    [SerializeField] private Button joinButton;
     
     private bool hasAvailableRooms;
 
@@ -75,6 +76,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             hasAvailableRooms = false;
             roomsDropdown.options.Add(new Dropdown.OptionData("No room available"));
+            joinButton.interactable = false;
         }
         else
         {
@@ -82,9 +84,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             
             foreach (var room in roomList)
                 roomsDropdown.options.Add(new Dropdown.OptionData(room.Name));
-            
-            roomsDropdown.RefreshShownValue();
+
+            joinButton.interactable = true;
         }
+        
+        roomsDropdown.RefreshShownValue();
     }
 
     public void CreateRoom()

@@ -250,8 +250,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.6543, y: -15.7158}
-  m_SizeDelta: {x: 500, y: 340}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 650, y: 340}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54930453
 MonoBehaviour:
@@ -2340,6 +2340,7 @@ MonoBehaviour:
   nicknameInputField: {fileID: 1898269037}
   startButton: {fileID: 1189064943}
   statusText: {fileID: 186624454}
+  joinButton: {fileID: 487507219}
 --- !u!4 &545576280
 Transform:
   m_ObjectHideFlags: 0
