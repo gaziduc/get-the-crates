@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource shoot;
     private GuiManager gui;
 
+    private Transform feet;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         view = GetComponent<PhotonView>();
         direction = Vector3.right;
         gui = GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>();
+        feet = transform.GetChild(0);
     }
 
     private void Update()
@@ -93,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        RaycastHit2D raycastHit2D = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down , 0.1f, platformsLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(feet.position, Vector2.down, 0.1f, platformsLayerMask);
         return raycastHit2D.collider != null;
     }
 

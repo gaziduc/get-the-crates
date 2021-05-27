@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 
@@ -6,19 +7,12 @@ public class BulletMovement : MonoBehaviour
     public Vector3 direction;
     public int viewID;
     
-    private Rigidbody2D rb;
-
-    private void Start()
+    private void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
+        transform.Translate(direction * Time.deltaTime);
     }
 
-    private void FixedUpdate()
-    {
-        rb.MovePosition(transform.position + direction * Time.fixedDeltaTime);
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTrigger(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -29,11 +23,16 @@ public class BulletMovement : MonoBehaviour
                 {
                     player.view.RPC("HurtRPC", RpcTarget.All, player.view.ViewID);
                 }
-                
+
                 GameObject.Destroy(gameObject);
             }
         }
         else
             GameObject.Destroy(gameObject);
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        OnTrigger(other);
     }
 }
