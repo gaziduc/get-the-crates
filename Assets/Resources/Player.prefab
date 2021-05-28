@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   canMove: 1
-  bulletSpeed: 25
+  bulletSpeed: 30
   platformsLayerMask:
     serializedVersion: 2
     m_Bits: 8

@@ -10,6 +10,7 @@ public class OutlineAnimPixels : MonoBehaviour
     [SerializeField] private int direction;
     private Vector3[] panelCorners;
     private float speed = 100f;
+    private Vector2Int res;
     
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,8 @@ public class OutlineAnimPixels : MonoBehaviour
 
         panelCorners = new Vector3[4];
         panelRect.GetWorldCorners(panelCorners);
+
+        res = new Vector2Int(Screen.width, Screen.height);
     }
 
     private void CreateNewTexture()
@@ -54,14 +57,23 @@ public class OutlineAnimPixels : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If resolution changed, re-get panel corners
+        if (res.x != Screen.width || res.y != Screen.height)
+        {
+            panelRect.GetWorldCorners(panelCorners);
+            
+            res.x = Screen.width;
+            res.y = Screen.height;
+        }
+        
+        
         rect.Translate(Vector3.right * speed * direction * Time.deltaTime);
         
         Vector3[] cornersArray = new Vector3[4];
         rect.GetWorldCorners(cornersArray);
         
         
-        if (cornersArray[0].x <= panelCorners[0].x
-            || cornersArray[2].x >= panelCorners[2].x)
+        if (cornersArray[0].x <= panelCorners[0].x || cornersArray[2].x >= panelCorners[2].x)
         {
             direction = -direction;
         }
