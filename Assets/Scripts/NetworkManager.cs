@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private byte maxPlayersPerRoom = 2;
-    [SerializeField] private string gameVersion = "0.3";
     [SerializeField] private GameObject connectingPanel;
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject statusPanel;
@@ -31,7 +30,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.GameVersion = gameVersion;
+            PhotonNetwork.GameVersion = Application.version;
             PhotonNetwork.ConnectUsingSettings();
         }
     }

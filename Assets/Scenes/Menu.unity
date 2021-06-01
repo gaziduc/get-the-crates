@@ -3052,7 +3052,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayersPerRoom: 2
-  gameVersion: 0.1
   connectingPanel: {fileID: 947556244}
   menuPanel: {fileID: 1289233955}
   statusPanel: {fileID: 54930451}
@@ -5663,6 +5662,7 @@ GameObject:
   - component: {fileID: 1159083321}
   - component: {fileID: 1159083323}
   - component: {fileID: 1159083322}
+  - component: {fileID: 1159083324}
   m_Layer: 5
   m_Name: CreditsText
   m_TagString: Untagged
@@ -5722,7 +5722,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: David 'Gazi' Ghiassi - 2021 - v0.3
+  m_Text: 
 --- !u!222 &1159083323
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5731,6 +5731,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159083320}
   m_CullTransparentMesh: 1
+--- !u!114 &1159083324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159083320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba2c1486c873974e83230908a17a59f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1189064941
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,8 +14,6 @@ public class BulletMovement : MonoBehaviour
 
     void OnTrigger(Collider2D other)
     {
-        Debug.Log("OnTrigger: other = " + other);
-        
         if (other.CompareTag("Player"))
         {
             PlayerHealth player = other.GetComponent<PlayerHealth>();
