@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class NetworkManager : MonoBehaviourPunCallbacks
@@ -14,19 +16,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject statusPanel;
     [SerializeField] private GameObject nicknamePanel;
     [SerializeField] private InputField roomNameInputField;
-    [SerializeField] private Dropdown roomsDropdown;
+    [SerializeField] private GameObject content;
+    [SerializeField] private GameObject roomItemPrefab;
+    [SerializeField] private GameObject noRoomText;
     [SerializeField] private Text currentRoomText;
     [SerializeField] private Text[] playerListTexts;
     [SerializeField] private InputField nicknameInputField;
     [SerializeField] private Button startButton;
     [SerializeField] private Text statusText;
-    [SerializeField] private Button joinButton;
-    
-    private bool hasAvailableRooms;
+
+    private Dictionary<string, RoomInfo> cachedRoomList;
 
     // Start is called before the first frame update
     private void Start()
     {
+        cachedRoomList = new Dictionary<string, RoomInfo>();
+        
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.AutomaticallySyncScene = true;
@@ -69,25 +74,40 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        roomsDropdown.ClearOptions();
-
-        if (roomList.Count == 0)
+        foreach (var room in roomList)
         {
-            hasAvailableRooms = false;
-            roomsDropdown.options.Add(new Dropdown.OptionData("No room available"));
-            joinButton.interactable = false;
+            if (!room.IsOpen || !room.IsVisible || room.RemovedFromList)
+            {
+                if (cachedRoomList.ContainsKey(room.Name))
+                    cachedRoomList.Remove(room.Name);
+
+                continue;
+            }
+
+            if (cachedRoomList.ContainsKey(room.Name))
+                cachedRoomList[room.Name] = room;
+            else
+                cachedRoomList.Add(room.Name, room);
         }
-        else
-        {
-            hasAvailableRooms = true;
-            
-            foreach (var room in roomList)
-                roomsDropdown.options.Add(new Dropdown.OptionData(room.Name));
 
-            joinButton.interactable = true;
+        
+        for (int i = 0; i < content.transform.childCount; i++)
+        {
+            GameObject.Destroy(content.transform.GetChild(i).gameObject);
         }
         
-        roomsDropdown.RefreshShownValue();
+        foreach (var room in cachedRoomList)
+        {
+            GameObject roomItem = GameObject.Instantiate(roomItemPrefab, content.transform);
+            roomItem.transform.GetChild(0).GetComponent<Text>().text = room.Key + " <color=grey>(" + room.Value.PlayerCount + "/" + room.Value.MaxPlayers + ")</color>";
+            roomItem.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(room.Key); });
+        }
+        
+        if (cachedRoomList.Count != 0 && noRoomText.activeSelf)
+            noRoomText.SetActive(false);
+        else if (cachedRoomList.Count == 0 && !noRoomText.activeSelf)
+            noRoomText.SetActive(true);
+            
     }
 
     public void CreateRoom()
@@ -96,22 +116,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         roomOptions.IsOpen = true;
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = maxPlayersPerRoom;
-        PhotonNetwork.CreateRoom(roomNameInputField.text, roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(String.IsNullOrWhiteSpace(roomNameInputField.text) ? GetRandomString(): roomNameInputField.text, roomOptions, TypedLobby.Default);
 
         menuPanel.SetActive(false);
         connectingPanel.SetActive(true);
     }
 
-    public void JoinRoom()
+    public void JoinRoom(string roomName)
     {
-        if (hasAvailableRooms)
-        {
-            PhotonNetwork.JoinRoom(roomsDropdown.options[roomsDropdown.value].text);
-            
-            menuPanel.SetActive(false);
-            connectingPanel.SetActive(true);
-        }
-            
+        menuPanel.SetActive(false);
+        connectingPanel.SetActive(true);
+        
+        PhotonNetwork.JoinRoom(roomName);
     }
 
     private void UpdatePlayerList()
@@ -153,6 +169,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         menuPanel.SetActive(true);
     }
 
+    public void JoinRandom()
+    {
+        menuPanel.SetActive(false);
+        connectingPanel.SetActive(true);
+        
+        var roomOptions = new RoomOptions();
+        roomOptions.IsOpen = true;
+        roomOptions.IsVisible = true;
+        roomOptions.MaxPlayers = maxPlayersPerRoom;
+
+        PhotonNetwork.JoinOrCreateRoom(GetRandomString(), roomOptions, TypedLobby.Default);
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdatePlayerList();
@@ -173,7 +202,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+    
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel("Level");
+    }
+
+    private string GetRandomString()
+    {
+        const string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
+        string res = "";
+        
+        for (int i = 0; i < 6; i++)
+        {
+            res += glyphs[Random.Range(0, glyphs.Length)];
+        }
+
+        return res;
     }
 }
