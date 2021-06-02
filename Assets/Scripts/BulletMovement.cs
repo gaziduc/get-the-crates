@@ -5,11 +5,12 @@ using UnityEngine;
 public class BulletMovement : MonoBehaviour
 {
     public Vector3 direction;
+    [SerializeField] private float speed;
     public int viewID;
     
     private void Update()
     {
-        transform.Translate(direction * Time.deltaTime);
+        transform.Translate(direction * speed * Time.deltaTime);
     }
 
     void OnTrigger(Collider2D other)

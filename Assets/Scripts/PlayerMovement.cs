@@ -5,16 +5,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
     public bool canMove = true;
-    
-    [SerializeField] private float bulletSpeed;
 
     private PhotonView view;
     
     [SerializeField] private LayerMask platformsLayerMask;
-    [SerializeField] private GameObject bulletPrefab;
-    
+    [SerializeField] private GameObject weaponTextPrefab;
+
     private Rigidbody2D rb;
-    private BoxCollider2D boxCollider;
     private bool isGrounded;
     private Vector3 change;
     private bool jump;
@@ -26,16 +23,18 @@ public class PlayerMovement : MonoBehaviour
 
     private Transform feet;
 
+    private PlayerWeapon weapon;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
         sp = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         view = GetComponent<PhotonView>();
         direction = Vector3.right;
         gui = GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>();
         feet = transform.GetChild(0);
+        weapon = GetComponent<PlayerWeapon>();
     }
 
     private void Update()
@@ -73,9 +72,13 @@ public class PlayerMovement : MonoBehaviour
             if (IsGrounded() && Input.GetKeyDown(KeyCode.UpArrow))
                 jump = true;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
-                view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, direction.normalized.x, view.ViewID);
+                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(KeyCode.Space)))
+                {
+                    view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, weapon.weaponNum, direction.normalized.x, view.ViewID);
+                    weapon.SetReloadBeginning();
+                }
             }
         }
     }
@@ -101,12 +104,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [PunRPC]
-    void ShootBulletRPC(float posX, float posY, float bulletDirection, int viewID)
+    void ShootBulletRPC(float posX, float posY, int weaponNum, float bulletDirection, int viewID)
     {
-        GameObject bullet = GameObject.Instantiate(bulletPrefab,new Vector3(posX + bulletDirection * 0.2f, posY, 0), Quaternion.identity);
+        GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY, 0), Quaternion.identity);
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
         
-        bulletMovement.direction = new Vector3(bulletDirection * bulletSpeed, 0, 0);
+        bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
         bulletMovement.viewID = viewID;
         
         shoot.Play();
@@ -123,6 +126,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (view.IsMine && other.gameObject.CompareTag("Crate"))
         {
+            weapon.GetRandom();
+            
+            GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, transform.position + Vector3.up * 2.5f, Quaternion.identity);
+            GameObject.Destroy(weaponText, 1f);
+
+            weaponText.GetComponent<TextMesh>().text = weapon.GetName();
+            
+            
             view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID);
             
             // Transfert ownership...
