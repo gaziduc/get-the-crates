@@ -112,14 +112,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+        menuPanel.SetActive(false);
+        connectingPanel.SetActive(true);
+        
         var roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = maxPlayersPerRoom;
         PhotonNetwork.CreateRoom(String.IsNullOrWhiteSpace(roomNameInputField.text) ? GetRandomString(): roomNameInputField.text, roomOptions, TypedLobby.Default);
-
-        menuPanel.SetActive(false);
-        connectingPanel.SetActive(true);
     }
 
     public void JoinRoom(string roomName)
@@ -174,12 +174,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         menuPanel.SetActive(false);
         connectingPanel.SetActive(true);
         
-        var roomOptions = new RoomOptions();
-        roomOptions.IsOpen = true;
-        roomOptions.IsVisible = true;
-        roomOptions.MaxPlayers = maxPlayersPerRoom;
+        PhotonNetwork.JoinRandomRoom();
+    }
 
-        PhotonNetwork.JoinOrCreateRoom(GetRandomString(), roomOptions, TypedLobby.Default);
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        CreateRoom();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
