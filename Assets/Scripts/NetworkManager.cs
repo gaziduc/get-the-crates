@@ -172,7 +172,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
         chatView = temp.GetComponent<PhotonView>();
         
-        Debug.Log(chatView);
+        UpdatePlayerList();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
