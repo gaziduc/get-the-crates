@@ -16,13 +16,18 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Text looserText;
     public GameObject pausePanel;
     [SerializeField] private Button restartButton;
-
+    [SerializeField] private Button backToMenuButton;
+    
     private float timeRemaining = 60;
     
     void Start()
     {
         if (PhotonNetwork.IsMasterClient)
+        {
             restartButton.interactable = true;
+            backToMenuButton.interactable = true;
+        }
+            
         
         SetTimeText();
         scores = new int[] { 0, 0 };
@@ -89,7 +94,7 @@ public class GuiManager : MonoBehaviour
         view.RPC("PauseRPC", RpcTarget.All);
     }
 
-    public void ShowEnd()
+    private void ShowEnd()
     {
         endPanel.SetActive(true);
         
@@ -103,5 +108,11 @@ public class GuiManager : MonoBehaviour
             winnerText.text = "Winner: " + PhotonNetwork.PlayerList[1].NickName + " (" + scores[1] + ")";
             looserText.text = "Looser: " + PhotonNetwork.PlayerList[0].NickName + " (" + scores[0] + ")";
         }
+    }
+
+    public void GoBackToMenu()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel(0);
     }
 }

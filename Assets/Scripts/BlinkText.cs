@@ -48,6 +48,6 @@ public class BlinkText : MonoBehaviour
     public void DisableBlink()
     {
         isEnabled = false;
-        text.color = new Color(text.color.r, text.color.g, text.color.b, 255);
+        text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
     }
 }

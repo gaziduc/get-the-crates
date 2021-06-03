@@ -24,8 +24,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField nicknameInputField;
     [SerializeField] private Button startButton;
     [SerializeField] private Text statusText;
-
+    [SerializeField] private InputField chatInputField;
+    [SerializeField] private GameObject viewPrefab;
+    
+    
     private Dictionary<string, RoomInfo> cachedRoomList;
+    private PhotonView chatView;
 
     // Start is called before the first frame update
     private void Start()
@@ -37,6 +41,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = Application.version;
             PhotonNetwork.ConnectUsingSettings();
+        }
+        else
+        {
+            OnJoinedRoom();
         }
     }
 
@@ -143,7 +151,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         for (int i = PhotonNetwork.CurrentRoom.Players.Count; i < maxPlayersPerRoom; i++)
         {
-            playerListTexts[i].text = "P" + (i + 1) + ": Waiting for a player...";
+            playerListTexts[i].text = "P" + (i + 1) + ": Waiting for\na player...";
             
             if (i == 1)
                 playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
@@ -160,7 +168,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             startButton.interactable = true;
 
         currentRoomText.text = "Room name: " +  PhotonNetwork.CurrentRoom.Name;
-        UpdatePlayerList();
+
+        GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
+        chatView = temp.GetComponent<PhotonView>();
+        
+        Debug.Log(chatView);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -173,7 +185,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         menuPanel.SetActive(false);
         connectingPanel.SetActive(true);
-        
+
         PhotonNetwork.JoinRandomRoom();
     }
 
@@ -197,7 +209,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         statusPanel.SetActive(false);
         connectingPanel.SetActive(true);
         
+        chatView.GetComponent<Chat>().ClearMessages();
+        
         PhotonNetwork.LeaveRoom();
+        
+        Destroy(chatView.gameObject);
     }
 
     public void StartGame()
@@ -213,12 +229,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         const string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
         string res = "";
-        
+
         for (int i = 0; i < 6; i++)
         {
             res += glyphs[Random.Range(0, glyphs.Length)];
         }
 
         return res;
+    }
+
+    public void SendChatMessage()
+    {
+        if (!String.IsNullOrWhiteSpace(chatInputField.text))
+        {
+            chatView.RPC("SendMessageRPC", RpcTarget.All, PhotonNetwork.NickName + ": " + chatInputField.text);
+            chatInputField.text = "";
+        }
     }
 }
