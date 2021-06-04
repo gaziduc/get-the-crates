@@ -25,4 +25,10 @@ public class PlayerScore : MonoBehaviour
 
         crate.Play();
     }
+
+    [PunRPC]
+    void EndRPC()
+    {
+        gui.ShowEnd();
+    }
 }

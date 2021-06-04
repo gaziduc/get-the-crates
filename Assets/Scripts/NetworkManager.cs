@@ -26,7 +26,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text statusText;
     [SerializeField] private InputField chatInputField;
     [SerializeField] private GameObject viewPrefab;
-    
+    [SerializeField] private Text masterClientText;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -167,21 +167,34 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         statusPanel.SetActive(true);
 
         // If master client, then able to launch game
-        if (PhotonNetwork.IsMasterClient)
-            startButton.interactable = true;
-
+        startButton.interactable = PhotonNetwork.IsMasterClient;
+        
         currentRoomText.text = "Room name: " +  PhotonNetwork.CurrentRoom.Name;
 
         GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
         chatView = temp.GetComponent<PhotonView>();
         
+        SetMasterClientText(PhotonNetwork.MasterClient.NickName);
+        
         UpdatePlayerList();
+    }
+
+    private void SetMasterClientText(string masterClientName)
+    {
+        masterClientText.text = "Master Client: " + masterClientName;
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         connectingPanel.SetActive(false);
         menuPanel.SetActive(true);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        SetMasterClientText(newMasterClient.NickName);
+
+        startButton.interactable = newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber;
     }
 
     public void JoinRandom()

@@ -16,19 +16,17 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Text looserText;
     public GameObject pausePanel;
     [SerializeField] private Button restartButton;
+    [SerializeField] private Button backToMenuButtonEnd;
     [SerializeField] private Button backToMenuButton;
     
     private float timeRemaining = 60;
     
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            restartButton.interactable = true;
-            backToMenuButton.interactable = true;
-        }
-            
-        
+        backToMenuButton.interactable = PhotonNetwork.IsMasterClient;
+        restartButton.interactable = PhotonNetwork.IsMasterClient;
+        backToMenuButtonEnd.interactable = PhotonNetwork.IsMasterClient;
+
         SetTimeText();
         scores = new int[] { 0, 0 };
     }
@@ -75,11 +73,14 @@ public class GuiManager : MonoBehaviour
     {
         if (!endPanel.activeInHierarchy)
         {
-            timeRemaining -= Time.deltaTime;
-            SetTimeText();
+            if (!pausePanel.activeInHierarchy)
+            {
+                timeRemaining -= Time.deltaTime;
+                SetTimeText();
 
-            if (timeRemaining <= 0f)
-                ShowEnd();
+                if (timeRemaining <= 0f)
+                    ShowEnd();
+            }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -94,8 +95,14 @@ public class GuiManager : MonoBehaviour
         view.RPC("PauseRPC", RpcTarget.All);
     }
 
-    private void ShowEnd()
+    public void ShowEnd()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonView view = GameObject.FindWithTag("Player").GetComponent<PhotonView>();
+            view.RPC("EndRPC", RpcTarget.Others);
+        }
+        
         endPanel.SetActive(true);
         
         if (scores[0] > scores[1])
@@ -113,6 +120,11 @@ public class GuiManager : MonoBehaviour
     public void GoBackToMenu()
     {
         if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsVisible = true;
+            PhotonNetwork.CurrentRoom.IsOpen = true;
             PhotonNetwork.LoadLevel(0);
+        }
+            
     }
 }

@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
     void PauseRPC()
     {
         gui.pausePanel.SetActive(!gui.pausePanel.activeInHierarchy);
-        canMove = !canMove;
+        canMove = !gui.pausePanel.activeInHierarchy;
     }
     
     private void OnCollisionEnter2D(Collision2D other)
