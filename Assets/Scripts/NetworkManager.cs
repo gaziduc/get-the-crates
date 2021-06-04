@@ -74,10 +74,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SetNickname()
     {
-        PhotonNetwork.NickName = nicknameInputField.text;
-        PlayerPrefs.SetString("Nickname", PhotonNetwork.NickName);
-        nicknamePanel.SetActive(false);
-        menuPanel.SetActive(true);
+        if (!String.IsNullOrWhiteSpace(nicknameInputField.text))
+        {
+            PhotonNetwork.NickName = nicknameInputField.text;
+            PlayerPrefs.SetString("Nickname", PhotonNetwork.NickName);
+            nicknamePanel.SetActive(false);
+            menuPanel.SetActive(true);
+        }
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -242,8 +245,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (!String.IsNullOrWhiteSpace(chatInputField.text))
         {
-            chatView.RPC("SendMessageRPC", RpcTarget.All, PhotonNetwork.NickName + ": " + chatInputField.text);
+            chatView.RPC("SendMessageRPC", RpcTarget.All, "<color=cyan>["  + PhotonNetwork.NickName + "]</color> " + chatInputField.text);
             chatInputField.text = "";
         }
+        
+        chatInputField.Select();
     }
 }
