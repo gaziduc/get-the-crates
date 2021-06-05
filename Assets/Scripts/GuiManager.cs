@@ -18,6 +18,7 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Button restartButton;
     [SerializeField] private Button backToMenuButtonEnd;
     [SerializeField] private Button backToMenuButton;
+    [SerializeField] private AudioSource end;
     
     private float timeRemaining = 60;
     
@@ -97,6 +98,8 @@ public class GuiManager : MonoBehaviour
 
     public void ShowEnd()
     {
+        end.Play();
+
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonView view = GameObject.FindWithTag("Player").GetComponent<PhotonView>();
@@ -104,17 +107,27 @@ public class GuiManager : MonoBehaviour
         }
         
         endPanel.SetActive(true);
+
+        string winnerNickname = "";
+        string looserNickname = "";
         
         if (scores[0] > scores[1])
         {
-            winnerText.text = "Winner: " + PhotonNetwork.PlayerList[0].NickName + " (" + scores[0] + ")";
-            looserText.text = "Looser: " + PhotonNetwork.PlayerList[1].NickName + " (" + scores[1] + ")";
+            winnerNickname = PhotonNetwork.PlayerList[0].NickName + " (" + scores[0] + ")";
+
+            if (PhotonNetwork.PlayerList.Length > 1)
+                looserNickname = PhotonNetwork.PlayerList[1].NickName + " (" + scores[1] + ")";
+            else
+                looserNickname = "No looser";
         }
-        else 
+        else
         {
-            winnerText.text = "Winner: " + PhotonNetwork.PlayerList[1].NickName + " (" + scores[1] + ")";
-            looserText.text = "Looser: " + PhotonNetwork.PlayerList[0].NickName + " (" + scores[0] + ")";
+            winnerNickname = PhotonNetwork.PlayerList[1].NickName + " (" + scores[1] + ")";
+            looserNickname = PhotonNetwork.PlayerList[0].NickName + " (" + scores[0] + ")";
         }
+        
+        winnerText.text = "Winner: " + winnerNickname;
+        looserText.text = "Looser: " + looserNickname;
     }
 
     public void GoBackToMenu()
@@ -125,6 +138,5 @@ public class GuiManager : MonoBehaviour
             PhotonNetwork.CurrentRoom.IsOpen = true;
             PhotonNetwork.LoadLevel(0);
         }
-            
     }
 }

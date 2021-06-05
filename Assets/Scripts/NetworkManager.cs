@@ -27,6 +27,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField chatInputField;
     [SerializeField] private GameObject viewPrefab;
     [SerializeField] private Text masterClientText;
+    [SerializeField] private Text statsText;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -52,6 +53,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (statusText && statusText.gameObject.activeInHierarchy)
             statusText.text = Regex.Replace(PhotonNetwork.NetworkClientState.ToString(), "([A-Z])", " $1");
+
+        if (statsText && statsText.gameObject.activeInHierarchy)
+            statsText.text = "Connected: " + PhotonNetwork.CountOfPlayers + " Player(s)\nIn a room: " +
+                              PhotonNetwork.CountOfPlayersInRooms + " Player(s)";
     }
 
     public override void OnConnectedToMaster()

@@ -28,7 +28,7 @@ public class BulletMovement : MonoBehaviour
                 GameObject.Destroy(gameObject);
             }
         }
-        else
+        else if (!other.CompareTag("Crate"))
             GameObject.Destroy(gameObject);
     }
     
