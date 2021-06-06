@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class InstantiatePlayerOnStart : MonoBehaviour
 {
-    [SerializeField] private GameObject playerPrefabToInstantiate;
+    [SerializeField] private GameObject[] playerPrefabToInstantiate;
     [SerializeField] private GameObject cratePrefabToInstantiate;
     private GameObject player;
     
     // Start is called before the first frame update
     void Start()
     {
-        player = PhotonNetwork.Instantiate(playerPrefabToInstantiate.name, GetRespawnPosition(), Quaternion.identity);
+        player = PhotonNetwork.Instantiate(PhotonNetwork.IsMasterClient ? playerPrefabToInstantiate[0].name
+                                                                        : playerPrefabToInstantiate[1].name, GetRespawnPosition(), Quaternion.identity);
 
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.Instantiate(cratePrefabToInstantiate.name, GetCrateNewPosition(), Quaternion.identity);

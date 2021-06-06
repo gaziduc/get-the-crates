@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
+        sp.flipX = true;
         anim = GetComponent<Animator>();
         view = GetComponent<PhotonView>();
         direction = Vector3.right;
@@ -48,14 +49,14 @@ public class PlayerMovement : MonoBehaviour
             
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                sp.flipX = true;
+                sp.flipX = false;
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
-                sp.flipX = false;
+                sp.flipX = true;
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = moveSpeed;
@@ -106,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
     [PunRPC]
     void ShootBulletRPC(float posX, float posY, int weaponNum, float bulletDirection, int viewID)
     {
-        GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY, 0), Quaternion.identity);
+        GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
         
         bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
