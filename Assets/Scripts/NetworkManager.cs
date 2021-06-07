@@ -28,6 +28,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject viewPrefab;
     [SerializeField] private Text masterClientText;
     [SerializeField] private Text statsText;
+    [SerializeField] private AudioSource playerEnter;
+    [SerializeField] private AudioSource playerLeft;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -180,7 +182,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         chatView = temp.GetComponent<PhotonView>();
         
         SetMasterClientText(PhotonNetwork.MasterClient.NickName);
-        
+
         UpdatePlayerList();
     }
 
@@ -217,11 +219,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        playerEnter.Play();
+        chatView.GetComponent<Chat>().SendMessageRPC("<color=orange>"  + newPlayer.NickName + " joined the room.</color>");
         UpdatePlayerList();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        playerLeft.Play();
+        chatView.GetComponent<Chat>().SendMessageRPC("<color=orange>"  + otherPlayer.NickName + " left the room.</color>");
         UpdatePlayerList();
     }
     

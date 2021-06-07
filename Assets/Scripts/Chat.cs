@@ -27,7 +27,7 @@ public class Chat : MonoBehaviour
 
 
     [PunRPC]
-    void SendMessageRPC(string msg)
+    public void SendMessageRPC(string msg)
     {
         for (int i = 0; i < texts.Length - 1; i++)
             texts[i].text = texts[i + 1].text;
