@@ -21,9 +21,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource shoot;
     private GuiManager gui;
 
-    private Transform feet;
+    private Transform[] feet;
 
     private PlayerWeapon weapon;
+
+    private InstantiatePlayerOnStart instantiate;
 
     void Start()
     {
@@ -34,8 +36,11 @@ public class PlayerMovement : MonoBehaviour
         view = GetComponent<PhotonView>();
         direction = Vector3.right;
         gui = GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>();
-        feet = transform.GetChild(0);
+        feet = new Transform[2];
+        feet[0] = transform.GetChild(0).GetChild(0);
+        feet[1] = transform.GetChild(0).GetChild(1);
         weapon = GetComponent<PlayerWeapon>();
+        instantiate = GameObject.FindWithTag("PlayerManager").GetComponent<InstantiatePlayerOnStart>();
     }
 
     private void Update()
@@ -100,7 +105,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(feet.position, Vector2.down, 0.1f, platformsLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(feet[0].position, Vector2.down, 0.1f, platformsLayerMask);
+        if (raycastHit2D.collider != null)
+            return true;
+
+        raycastHit2D = Physics2D.Raycast(feet[1].position, Vector2.down, 0.1f, platformsLayerMask);
         return raycastHit2D.collider != null;
     }
 
@@ -141,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
             other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
             
             // ...to move position
-            other.transform.position = InstantiatePlayerOnStart.GetCrateNewPosition();
+            other.transform.position = instantiate.GetCrateNewPosition(other.transform.position);
             other.rigidbody.velocity = Vector2.zero;
         }
     }
