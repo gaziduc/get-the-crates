@@ -1743,7 +1743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefabToInstantiate:
   - {fileID: 6322902377588903146, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
-  - {fileID: 6322902377588903146, guid: 30f183af567a15547b8de013948427a5, type: 3}
+  - {fileID: 8741815974691743358, guid: 30f183af567a15547b8de013948427a5, type: 3}
   cratePrefabToInstantiate: {fileID: 614847060541941494, guid: 1f104fa6059847f4baadb029b2ba608b, type: 3}
 --- !u!114 &1042493650
 MonoBehaviour:
@@ -1767,15 +1767,15 @@ MonoBehaviour:
     serializedVersion: 2
     key0: {r: 1, g: 0, b: 0, a: 1}
     key1: {r: 1, g: 0.2688679, b: 0.2688679, a: 1}
-    key2: {r: 0.2783019, g: 1, b: 0.2783019, a: 0}
-    key3: {r: 0, g: 1, b: 0, a: 0}
+    key2: {r: 1, g: 0.83178073, b: 0.27843142, a: 0}
+    key3: {r: 0.2783019, g: 1, b: 0.2783019, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 22359
-    ctime2: 65535
+    ctime1: 17155
+    ctime2: 33346
     ctime3: 65535
     ctime4: 0
     ctime5: 0
@@ -1790,7 +1790,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 1
-    m_NumColorKeys: 3
+    m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   fill:
   - {fileID: 912525555}

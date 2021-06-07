@@ -8,6 +8,7 @@ TagManager:
   - PlayerManager
   - Crate
   - Chat
+  - HealthBar
   layers:
   - Default
   - TransparentFX

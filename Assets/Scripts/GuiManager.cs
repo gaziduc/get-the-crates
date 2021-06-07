@@ -6,7 +6,7 @@ public class GuiManager : MonoBehaviour
 {
     [SerializeField] private Text[] Nicknames;
     [SerializeField] private Slider[] Healths;
-    [SerializeField] private Gradient gradient;
+    public Gradient gradient;
     [SerializeField] private Image[] fill;
     private int[] scores;
     [SerializeField] private Text[] scoresTexts;
@@ -20,7 +20,7 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Button backToMenuButton;
     [SerializeField] private AudioSource end;
     
-    private float timeRemaining = 60;
+    private float timeRemaining = 60f;
     
     void Start()
     {
@@ -48,6 +48,7 @@ public class GuiManager : MonoBehaviour
     public void SetMaxHealth(int health, int playerNum)
     {
         Healths[playerNum].maxValue = health;
+
         SetHealthBar(health, playerNum);
     }
     

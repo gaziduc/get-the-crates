@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
     [HideInInspector] public PhotonView view;
     public int initialHealth;
     public int playerNum;
-    private int health;
+    public int health;
     private InstantiatePlayerOnStart playerManager;
     private GuiManager gui;
     
@@ -52,11 +52,15 @@ public class PlayerHealth : MonoBehaviour
         
         player.health--;
         gui.SetHealthBar(player.health, player.playerNum);
+
+        HealthBarAbovePlayer health = v.GetComponent<HealthBarAbovePlayer>();
+        health.SetHealthBar(player.health, gui.gradient);
         
         if (player.health <= 0)
         {
             StartCoroutine(Respawn(player, v));
             player.transform.localScale = Vector3.zero;
+            health.SetHealthBar(initialHealth, gui.gradient);
         }
     }
 }
