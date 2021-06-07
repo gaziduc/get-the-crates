@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Photon.Pun;
@@ -19,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject content;
     [SerializeField] private GameObject roomItemPrefab;
     [SerializeField] private GameObject noRoomText;
-    [SerializeField] private Text currentRoomText;
+    [SerializeField] private InputField currentRoomField;
     [SerializeField] private Text[] playerListTexts;
     [SerializeField] private InputField nicknameInputField;
     [SerializeField] private Button startButton;
@@ -30,6 +31,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text statsText;
     [SerializeField] private AudioSource playerEnter;
     [SerializeField] private AudioSource playerLeft;
+    [SerializeField] private Text copyButtonText;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -176,7 +178,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // If master client, then able to launch game
         startButton.interactable = PhotonNetwork.IsMasterClient;
         
-        currentRoomText.text = "Room name: " +  PhotonNetwork.CurrentRoom.Name;
+        currentRoomField.text = PhotonNetwork.CurrentRoom.Name;
 
         GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
         chatView = temp.GetComponent<PhotonView>();
@@ -274,5 +276,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         
         chatInputField.Select();
+    }
+
+    public void CopyToClipboard()
+    {
+        currentRoomField.text.CopyToClipboard();
+        copyButtonText.text = "Copied!";
+
+        StartCoroutine(CopyCoroutine());
+    }
+
+    private IEnumerator CopyCoroutine()
+    {
+        yield return new WaitForSeconds(2f);
+        copyButtonText.text = "Copy";
     }
 }
