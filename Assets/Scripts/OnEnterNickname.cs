@@ -19,7 +19,7 @@ public class OnEnterNickname : MonoBehaviour
     {
         if (inputField.isActiveAndEnabled && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
         {
-            net.SetNickname();
+            net.SetNickname(true);
         }
     }
 }

@@ -10,7 +10,8 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Image[] fill;
     private int[] scores;
     [SerializeField] private Text[] scoresTexts;
-    [SerializeField] private Text timeText;
+    [SerializeField] private Text secondsText;
+    [SerializeField] private Text tenthText;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private Text winnerText;
     [SerializeField] private Text looserText;
@@ -67,7 +68,8 @@ public class GuiManager : MonoBehaviour
 
     private void SetTimeText()
     {
-        timeText.text = ((int) timeRemaining).ToString();
+        secondsText.text = ((int) timeRemaining).ToString();
+        tenthText.text = "." + (int) (timeRemaining % 1 * 10);
     }
 
 
@@ -107,8 +109,6 @@ public class GuiManager : MonoBehaviour
             view.RPC("EndRPC", RpcTarget.Others);
         }
         
-        endPanel.SetActive(true);
-
         string winnerNickname = "";
         string looserNickname = "";
         
@@ -129,6 +129,8 @@ public class GuiManager : MonoBehaviour
         
         winnerText.text = "Winner: " + winnerNickname;
         looserText.text = "Looser: " + looserNickname;
+        
+        endPanel.SetActive(true);
     }
 
     public void GoBackToMenu()

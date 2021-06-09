@@ -32,6 +32,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private AudioSource playerEnter;
     [SerializeField] private AudioSource playerLeft;
     [SerializeField] private Text copyButtonText;
+    [SerializeField] private InputField nicknameOptionsField;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -77,18 +78,30 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else
         {
             PhotonNetwork.NickName = PlayerPrefs.GetString("Nickname");
+            nicknameOptionsField.text = PhotonNetwork.NickName;
             menuPanel.SetActive(true);
         }
     }
 
-    public void SetNickname()
+    public void SetNickname(bool isInDialog)
     {
-        if (!String.IsNullOrWhiteSpace(nicknameInputField.text))
+        string text = isInDialog ? nicknameInputField.text : nicknameOptionsField.text;
+        
+        if (!String.IsNullOrWhiteSpace(text))
         {
-            PhotonNetwork.NickName = nicknameInputField.text;
-            PlayerPrefs.SetString("Nickname", PhotonNetwork.NickName);
-            nicknamePanel.SetActive(false);
-            menuPanel.SetActive(true);
+            PhotonNetwork.NickName = text;
+            PlayerPrefs.SetString("Nickname", text);
+
+            if (isInDialog)
+            {
+                nicknameOptionsField.text = text;
+                nicknamePanel.SetActive(false);
+                menuPanel.SetActive(true);
+            }
+            else if (PhotonNetwork.InRoom)
+            {
+                UpdatePlayerList();
+            }
         }
     }
 

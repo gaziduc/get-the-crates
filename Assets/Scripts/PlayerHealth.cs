@@ -35,13 +35,17 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator Respawn(PlayerHealth player, PhotonView v)
     {
-        yield return new WaitForSeconds(3f);
-        player.transform.localScale = Vector3.one;
-        player.health = initialHealth;
-        gui.SetHealthBar(player.health, player.playerNum);
+        yield return new WaitForSeconds(1.5f);
         
         if (v.IsMine)
-            player.playerManager.Respawn();
+            player.playerManager.Respawn(); // Sets position
+        
+        yield return new WaitForSeconds(1.5f);
+        
+        player.health = initialHealth;
+        gui.SetHealthBar(player.health, player.playerNum);
+        player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        player.transform.localScale = Vector3.one;
     }
 
     [PunRPC]
@@ -58,9 +62,11 @@ public class PlayerHealth : MonoBehaviour
         
         if (player.health <= 0)
         {
-            StartCoroutine(Respawn(player, v));
             player.transform.localScale = Vector3.zero;
             health.SetHealthBar(initialHealth, gui.gradient);
+            player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            
+            StartCoroutine(Respawn(player, v));
         }
     }
 }

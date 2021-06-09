@@ -18,8 +18,7 @@ public class PlayerScore : MonoBehaviour
         PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
         PlayerScore player = v.GetComponent<PlayerScore>();
         PlayerHealth playerHealth = v.GetComponent<PlayerHealth>();
-        PlayerWeapon weapon = v.GetComponent<PlayerWeapon>();
-        
+
         player.score++;
         gui.SetScore(player.score, playerHealth.playerNum);
 
