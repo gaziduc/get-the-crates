@@ -118,7 +118,8 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
-        
+
+        bulletMovement.weaponDamage = weapon.damage[weaponNum];
         bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
         bulletMovement.viewID = viewID;
         

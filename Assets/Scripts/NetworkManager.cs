@@ -50,6 +50,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         else
         {
+            PhotonNetwork.NickName = PlayerPrefs.GetString("Nickname");
+            nicknameOptionsField.text = PhotonNetwork.NickName;
             OnJoinedRoom();
         }
     }
@@ -167,19 +169,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < PhotonNetwork.CurrentRoom.Players.Count; i++)
         {
-            var player = PhotonNetwork.PlayerList[i];
-            playerListTexts[i].text = "P" + (i + 1) + ": " + player.NickName;
+            if (playerListTexts[i].isActiveAndEnabled)
+            {
+                var player = PhotonNetwork.PlayerList[i];
+                playerListTexts[i].text = "P" + (i + 1) + ": " + player.NickName;
             
-            if (i == 1)
-                playerListTexts[i].GetComponent<BlinkText>().DisableBlink();
+                if (i == 1)
+                    playerListTexts[i].GetComponent<BlinkText>().DisableBlink();
+            }
         }
 
         for (int i = PhotonNetwork.CurrentRoom.Players.Count; i < maxPlayersPerRoom; i++)
         {
-            playerListTexts[i].text = "P" + (i + 1) + ": Waiting for\na player...";
+            if (playerListTexts[i].isActiveAndEnabled)
+            {
+                playerListTexts[i].text = "P" + (i + 1) + ": Waiting for\na player...";
             
-            if (i == 1)
-                playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
+                if (i == 1)
+                    playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
+            }
         }
     }
 

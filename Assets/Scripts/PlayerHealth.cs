@@ -49,12 +49,12 @@ public class PlayerHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void HurtRPC(int ViewID)
+    void HurtRPC(int weaponDamage, int ViewID)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
         PlayerHealth player = v.GetComponent<PlayerHealth>(); 
         
-        player.health--;
+        player.health -= weaponDamage;
         gui.SetHealthBar(player.health, player.playerNum);
 
         HealthBarAbovePlayer health = v.GetComponent<HealthBarAbovePlayer>();

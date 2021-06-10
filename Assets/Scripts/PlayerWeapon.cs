@@ -5,9 +5,10 @@ public class PlayerWeapon : MonoBehaviour
 {
     public int weaponNum;
     public GameObject[] weaponPrefabs;
-    private string[] weaponName = {"Gun", "Machine Gun"};
-    private float[] reloadTime = { 0.3f, 0.15f };
-    private bool[] automatic = { false, true };
+    private string[] weaponName = {"Gun", "Machine Gun", "Explosive Gun"};
+    private float[] reloadTime = { 0.3f, 0.15f, 1f };
+    private bool[] automatic = { false, true, false };
+    public int[] damage = { 1, 1, 4 };
 
     private float reload;
     public bool isReloaded;
@@ -25,7 +26,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public void GetRandom()
     {
-        weaponNum = Random.Range(0, 2);
+        weaponNum = Random.Range(0, weaponPrefabs.Length);
         reload = 0f;
         isReloaded = true;
     }
@@ -39,7 +40,6 @@ public class PlayerWeapon : MonoBehaviour
     {
         return weaponName[weaponNum];
     }
-    
 
     public void SetReloadBeginning()
     {

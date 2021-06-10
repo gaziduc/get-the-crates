@@ -7,6 +7,7 @@ public class BulletMovement : MonoBehaviour
     public Vector3 direction;
     [SerializeField] private float speed;
     public int viewID;
+    public int weaponDamage;
     
     private void Update()
     {
@@ -22,7 +23,7 @@ public class BulletMovement : MonoBehaviour
             {
                 if (player.view.IsMine)
                 {
-                    player.view.RPC("HurtRPC", RpcTarget.All, player.view.ViewID);
+                    player.view.RPC("HurtRPC", RpcTarget.All, weaponDamage, player.view.ViewID);
                 }
 
                 GameObject.Destroy(gameObject);
