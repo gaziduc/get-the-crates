@@ -22,14 +22,12 @@ public class BulletMovement : MonoBehaviour
             if (player.view.ViewID != viewID)
             {
                 if (player.view.IsMine)
-                {
                     player.view.RPC("HurtRPC", RpcTarget.All, weaponDamage, player.view.ViewID);
-                }
 
                 GameObject.Destroy(gameObject);
             }
         }
-        else if (!other.CompareTag("Crate"))
+        else if (other.CompareTag("Ground"))
             GameObject.Destroy(gameObject);
     }
     
