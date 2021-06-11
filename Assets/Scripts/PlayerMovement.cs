@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
-    public bool canMove = true;
+    public bool canMove = false;
 
     private PhotonView view;
     
@@ -20,11 +20,9 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     [SerializeField] private AudioSource shoot;
     private GuiManager gui;
-
+    
     private Transform[] feet;
-
     private PlayerWeapon weapon;
-
     private InstantiatePlayerOnStart instantiate;
 
     void Start()

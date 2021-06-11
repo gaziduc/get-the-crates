@@ -20,8 +20,13 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Button backToMenuButtonEnd;
     [SerializeField] private Button backToMenuButton;
     [SerializeField] private AudioSource end;
+    [SerializeField] private Text countdownText;
+    [SerializeField] private AudioSource countdownSound;
+    [SerializeField] private AudioSource countdownGoSound;
+    [SerializeField] private GameObject countdownEffect;
     
     private float timeRemaining = 60f;
+    private float countdownTime = 3f;
     
     void Start()
     {
@@ -31,6 +36,9 @@ public class GuiManager : MonoBehaviour
 
         SetTimeText();
         scores = new int[] { 0, 0 };
+        
+        countdownSound.Play();
+        GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
     }
 
     public void SetNicknameText(string nickname, int playerNum)
@@ -75,6 +83,33 @@ public class GuiManager : MonoBehaviour
 
     private void Update()
     {
+        if (countdownTime > 0f)
+        {
+            string lastText = countdownText.text;
+            countdownTime -= Time.deltaTime;
+
+            if (countdownTime <= 0f)
+            {
+                countdownText.text = "GO!";
+                GameObject.Destroy(countdownText.gameObject, 0.5f);
+                GameObject.FindWithTag("Player").GetComponent<PlayerMovement>().canMove = true;
+                countdownGoSound.Play();
+                GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
+                return;
+            }
+            
+            countdownText.text = ((int) countdownTime + 1).ToString();
+
+            if (!lastText.Equals(countdownText.text))
+            {
+                countdownSound.Play();
+                GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
+            }
+                
+            
+            return;
+        }
+        
         if (!endPanel.activeInHierarchy)
         {
             if (!pausePanel.activeInHierarchy)
