@@ -25,7 +25,7 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private AudioSource countdownGoSound;
     [SerializeField] private GameObject countdownEffect;
     
-    private float timeRemaining = 60f;
+    private float timeRemaining = 90f;
     private float countdownTime = 3f;
     
     void Start()

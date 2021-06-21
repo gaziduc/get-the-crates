@@ -46,6 +46,7 @@ public class PlayerHealth : MonoBehaviour
         gui.SetHealthBar(player.health, player.playerNum);
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         player.transform.localScale = Vector3.one;
+        player.GetComponent<PlayerMovement>().canMove = true;
     }
 
     [PunRPC]
@@ -63,6 +64,7 @@ public class PlayerHealth : MonoBehaviour
         if (player.health <= 0)
         {
             player.transform.localScale = Vector3.zero;
+            player.GetComponent<PlayerMovement>().canMove = false;
             health.SetHealthBar(initialHealth, gui.gradient);
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             

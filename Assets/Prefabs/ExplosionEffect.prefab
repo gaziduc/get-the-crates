@@ -9339,7 +9339,7 @@ GameObject:
   - component: {fileID: 2337961928746432413}
   - component: {fileID: -4630277374168170742}
   m_Layer: 0
-  m_Name: Explosion
+  m_Name: ExplosionEffect
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

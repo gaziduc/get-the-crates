@@ -88,7 +88,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplosiveGunBullet
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4818480657085507359, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
 --- !u!1 &7460265757956800949 stripped
 GameObject:

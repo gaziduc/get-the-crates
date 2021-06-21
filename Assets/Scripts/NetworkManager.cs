@@ -33,6 +33,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private AudioSource playerLeft;
     [SerializeField] private Text copyButtonText;
     [SerializeField] private InputField nicknameOptionsField;
+    [SerializeField] private InputField roomToJoinInputField;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -157,12 +158,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(String.IsNullOrWhiteSpace(roomNameInputField.text) ? GetRandomString(): roomNameInputField.text, roomOptions, TypedLobby.Default);
     }
 
-    public void JoinRoom(string roomName)
+    private void JoinRoom(string roomName)
     {
         menuPanel.SetActive(false);
         connectingPanel.SetActive(true);
         
         PhotonNetwork.JoinRoom(roomName);
+    }
+
+    public void JoinRoomWithName()
+    {
+        if (!String.IsNullOrWhiteSpace(roomToJoinInputField.text))
+        {
+            menuPanel.SetActive(false);
+            connectingPanel.SetActive(true);
+        
+            PhotonNetwork.JoinRoom(roomToJoinInputField.text);
+        }
     }
 
     private void UpdatePlayerList()
