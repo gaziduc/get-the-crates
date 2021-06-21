@@ -6,7 +6,7 @@ public class PlayerWeapon : MonoBehaviour
     public int weaponNum;
     public GameObject[] weaponPrefabs;
     private string[] weaponName = {"Gun", "Machine Gun", "Explosive Gun"};
-    private float[] reloadTime = { 0.3f, 0.15f, 1f };
+    public float[] reloadTime = { 0.3f, 0.15f, 1f };
     private bool[] automatic = { false, true, false };
     public int[] damage = { 1, 1, 4 };
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
@@ -111,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
         return raycastHit2D.collider != null;
     }
 
+   
+
     [PunRPC]
     void ShootBulletRPC(float posX, float posY, int weaponNum, float bulletDirection, int viewID)
     {
@@ -120,7 +123,11 @@ public class PlayerMovement : MonoBehaviour
         bulletMovement.weaponDamage = weapon.damage[weaponNum];
         bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
         bulletMovement.viewID = viewID;
-        
+
+        PhotonView playerShooting = PhotonNetwork.GetPhotonView(viewID);
+        ReloadBarAbovePlayer reloadBar = playerShooting.GetComponent<ReloadBarAbovePlayer>();
+        reloadBar.Shoot(weapon.reloadTime[weaponNum]);
+
         shoot.Play();
     }
     

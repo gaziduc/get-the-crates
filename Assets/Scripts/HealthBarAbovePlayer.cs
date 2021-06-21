@@ -24,10 +24,4 @@ public class HealthBarAbovePlayer : MonoBehaviour
         slider.value = health;
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
