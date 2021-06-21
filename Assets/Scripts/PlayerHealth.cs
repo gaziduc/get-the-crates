@@ -10,6 +10,8 @@ public class PlayerHealth : MonoBehaviour
     public int health;
     private InstantiatePlayerOnStart playerManager;
     private GuiManager gui;
+
+    [SerializeField] private GameObject deathEffect;
     
     private void Start()
     {
@@ -63,6 +65,8 @@ public class PlayerHealth : MonoBehaviour
         
         if (player.health <= 0)
         {
+            GameObject.Instantiate(deathEffect, transform.position, Quaternion.identity);
+            
             player.transform.localScale = Vector3.zero;
             player.GetComponent<PlayerMovement>().canMove = false;
             health.SetHealthBar(initialHealth, gui.gradient);

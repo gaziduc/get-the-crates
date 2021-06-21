@@ -757,6 +757,7 @@ MonoBehaviour:
   initialHealth: 4
   playerNum: 0
   health: 0
+  deathEffect: {fileID: 100004, guid: 7b7886b7173a4bd4cb2f45ca459f872c, type: 3}
 --- !u!95 &701898467339606837
 Animator:
   serializedVersion: 3
