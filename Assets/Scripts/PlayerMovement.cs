@@ -120,10 +120,22 @@ public class PlayerMovement : MonoBehaviour
         GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
 
+        Debug.Log(weaponNum);
+        
         bulletMovement.weaponDamage = weapon.damage[weaponNum];
         bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
         bulletMovement.viewID = viewID;
 
+        if (weaponNum == 3) // If Double Gun
+        {
+            GameObject oppositeBullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX - bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
+            BulletMovement oppositeBulletMovement = oppositeBullet.GetComponent<BulletMovement>();
+            
+            oppositeBulletMovement.weaponDamage = weapon.damage[weaponNum];
+            oppositeBulletMovement.direction = new Vector3(-bulletDirection, 0, 0);
+            oppositeBulletMovement.viewID = viewID;
+        }
+        
         PhotonView playerShooting = PhotonNetwork.GetPhotonView(viewID);
         ReloadBarAbovePlayer reloadBar = playerShooting.GetComponent<ReloadBarAbovePlayer>();
         reloadBar.Shoot(weapon.reloadTime[weaponNum]);

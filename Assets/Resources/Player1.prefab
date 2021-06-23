@@ -1000,11 +1000,13 @@ MonoBehaviour:
   - {fileID: 8318128261128195948, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
   - {fileID: 3382414830229541518, guid: 39739b8889a49ea45adbbe5e1a78fbd4, type: 3}
   - {fileID: 7460265757956800949, guid: 89a17ba9ae697c3428fdcad2b28f5fb2, type: 3}
+  - {fileID: 8318128261128195948, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
   reloadTime:
   - 0.3
   - 0.15
   - 1
-  damage: 010000000100000004000000
+  - 0.3
+  damage: 01000000010000000400000001000000
   isReloaded: 0
 --- !u!114 &1397088983648289268
 MonoBehaviour:
