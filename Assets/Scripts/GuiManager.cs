@@ -1,20 +1,16 @@
+using System;
+using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GuiManager : MonoBehaviour
 {
-    [SerializeField] private Text[] Nicknames;
-    [SerializeField] private Slider[] Healths;
-    public Gradient gradient;
-    [SerializeField] private Image[] fill;
-    private int[] scores;
-    [SerializeField] private Text[] scoresTexts;
     [SerializeField] private Text secondsText;
     [SerializeField] private Text tenthText;
     [SerializeField] private GameObject endPanel;
-    [SerializeField] private Text winnerText;
-    [SerializeField] private Text looserText;
     public GameObject pausePanel;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button backToMenuButtonEnd;
@@ -24,10 +20,14 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private AudioSource countdownSound;
     [SerializeField] private AudioSource countdownGoSound;
     [SerializeField] private GameObject countdownEffect;
+    [SerializeField] private Text scoreboardText;
+    [SerializeField] private Text scoresText;
     
-    private float timeRemaining = 90f;
+    private float timeRemaining = 9f;
     private float countdownTime = 3f;
-    
+
+    private bool ended = false;
+
     void Start()
     {
         backToMenuButton.interactable = PhotonNetwork.IsMasterClient;
@@ -35,44 +35,11 @@ public class GuiManager : MonoBehaviour
         backToMenuButtonEnd.interactable = PhotonNetwork.IsMasterClient;
 
         SetTimeText();
-        scores = new int[] { 0, 0 };
-        
+
         countdownSound.Play();
         GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
     }
-
-    public void SetNicknameText(string nickname, int playerNum)
-    {
-        Nicknames[playerNum].text = "<color=" + GetPlayerColor(playerNum) + ">P" + (playerNum + 1) + ": " + nickname + "</color>";
-    }
-
-    public string GetPlayerColor(int playerNum)
-    {
-        if (playerNum == 0)
-            return "cyan";
-        
-        return "red";
-    }
-
-    public void SetMaxHealth(int health, int playerNum)
-    {
-        Healths[playerNum].maxValue = health;
-
-        SetHealthBar(health, playerNum);
-    }
     
-    public void SetHealthBar(int health, int playerNum)
-    {
-        Healths[playerNum].value = health;
-        fill[playerNum].color = gradient.Evaluate(Healths[playerNum].normalizedValue);
-    }
-
-    public void SetScore(int score, int playerNum)
-    {
-        scores[playerNum] = score;
-        scoresTexts[playerNum].text = "Score: " + score;
-    }
-
 
     private void SetTimeText()
     {
@@ -117,8 +84,12 @@ public class GuiManager : MonoBehaviour
                 timeRemaining -= Time.deltaTime;
                 SetTimeText();
 
-                if (timeRemaining <= 0f)
-                    ShowEnd();
+                if (!ended && timeRemaining <= 0f)
+                {
+                    ended = true;
+                    End();
+                }
+                    
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -134,37 +105,27 @@ public class GuiManager : MonoBehaviour
         view.RPC("PauseRPC", RpcTarget.All);
     }
 
-    public void ShowEnd()
+    private void End()
     {
+        Player[] players = PhotonNetwork.PlayerList;
+        Array.Sort(players, (p1, p2) => p2.GetScore().CompareTo(p1.GetScore()));
+        
+        string nicknameText = "";
+        string scoreText = "";
+    
+        for (int i = 0; i < players.Length - 1; i++)
+        {
+            nicknameText += players[i].NickName + "\n";
+            scoreText += players[i].GetScore() + "\n";
+        }
+
+        nicknameText += players[players.Length - 1].NickName;
+        scoreText += players[players.Length - 1].GetScore();
+
+        scoreboardText.text = nicknameText;
+        scoresText.text = scoreText;
+        
         end.Play();
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonView view = GameObject.FindWithTag("Player").GetComponent<PhotonView>();
-            view.RPC("EndRPC", RpcTarget.Others);
-        }
-        
-        string winnerNickname = "";
-        string looserNickname = "";
-        
-        if (scores[0] > scores[1])
-        {
-            winnerNickname = PhotonNetwork.PlayerList[0].NickName + " (" + scores[0] + ")";
-
-            if (PhotonNetwork.PlayerList.Length > 1)
-                looserNickname = PhotonNetwork.PlayerList[1].NickName + " (" + scores[1] + ")";
-            else
-                looserNickname = "No looser";
-        }
-        else
-        {
-            winnerNickname = PhotonNetwork.PlayerList[1].NickName + " (" + scores[1] + ")";
-            looserNickname = PhotonNetwork.PlayerList[0].NickName + " (" + scores[0] + ")";
-        }
-        
-        winnerText.text = "Winner: " + winnerNickname;
-        looserText.text = "Looser: " + looserNickname;
-        
         endPanel.SetActive(true);
     }
 

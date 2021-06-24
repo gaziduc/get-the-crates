@@ -5,6 +5,7 @@ public class HealthBarAbovePlayer : MonoBehaviour
 {
     private Slider slider;
     private Image fill;
+    [SerializeField] private Gradient gradient;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,7 @@ public class HealthBarAbovePlayer : MonoBehaviour
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
     
-    public void SetHealthBar(int health, Gradient gradient)
+    public void SetHealthBar(int health)
     {
         slider.value = health;
         fill.color = gradient.Evaluate(slider.normalizedValue);

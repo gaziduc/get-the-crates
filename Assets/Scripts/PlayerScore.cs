@@ -1,33 +1,37 @@
+using System;
+using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
 {
-    public int score;
-    private GuiManager gui;
+    private PhotonView view;
     [SerializeField] private AudioSource crate;
 
-    private void Start()
+    void Start()
     {
-        gui = GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>();
+        PhotonNetwork.LocalPlayer.SetScore(0);
+        
+        view = GetComponent<PhotonView>();
+        if (view.IsMine)
+            view.RPC("SetNicknameRPC", RpcTarget.All, view.ViewID, PhotonNetwork.NickName);
     }
 
     [PunRPC]
-    void IncrementScoreRPC(int ViewID)
+    void SetNicknameRPC(int viewID, string nickname)
     {
-        PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
-        PlayerScore player = v.GetComponent<PlayerScore>();
-        PlayerHealth playerHealth = v.GetComponent<PlayerHealth>();
-
-        player.score++;
-        gui.SetScore(player.score, playerHealth.playerNum);
+        PhotonView v = PhotonNetwork.GetPhotonView(viewID);
+        v.transform.GetChild(1).GetComponent<TextMesh>().text = nickname;
+    }
+    
+    [PunRPC]
+    void IncrementScoreRPC(int viewID, int score)
+    {
+        PhotonView v = PhotonNetwork.GetPhotonView(viewID);
+        ScoreAbovePlayer hud = v.GetComponent<ScoreAbovePlayer>();
+        hud.SetScoreHud(score);
 
         crate.Play();
-    }
-
-    [PunRPC]
-    void EndRPC()
-    {
-        gui.ShowEnd();
     }
 }

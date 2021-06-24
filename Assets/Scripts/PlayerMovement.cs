@@ -1,5 +1,6 @@
 using System.Collections;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -120,8 +121,6 @@ public class PlayerMovement : MonoBehaviour
         GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
 
-        Debug.Log(weaponNum);
-        
         bulletMovement.weaponDamage = weapon.damage[weaponNum];
         bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
         bulletMovement.viewID = viewID;
@@ -154,6 +153,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (view.IsMine && other.gameObject.CompareTag("Crate"))
         {
+            view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1);
+            
+            PhotonNetwork.LocalPlayer.AddScore(1);
+            
             weapon.GetRandom();
             
             GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, transform.position + Vector3.up * 2.5f, Quaternion.identity);
@@ -161,8 +164,6 @@ public class PlayerMovement : MonoBehaviour
 
             weaponText.GetComponent<TextMesh>().text = weapon.GetName();
             
-            
-            view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID);
             
             // Transfert ownership...
             other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);

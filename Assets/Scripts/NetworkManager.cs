@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private byte maxPlayersPerRoom = 2;
+    private byte maxPlayersPerRoom = 4;
     [SerializeField] private GameObject connectingPanel;
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject statusPanel;
@@ -181,25 +181,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < PhotonNetwork.CurrentRoom.Players.Count; i++)
         {
-            if (playerListTexts[i].isActiveAndEnabled)
-            {
-                var player = PhotonNetwork.PlayerList[i];
-                playerListTexts[i].text = "P" + (i + 1) + ": " + player.NickName;
+            var player = PhotonNetwork.PlayerList[i];
+            playerListTexts[i].text = "P" + (i + 1) + ": " + player.NickName;
             
-                if (i == 1)
-                    playerListTexts[i].GetComponent<BlinkText>().DisableBlink();
-            }
+            if (i > 0)
+                playerListTexts[i].GetComponent<BlinkText>().DisableBlink();
         }
 
         for (int i = PhotonNetwork.CurrentRoom.Players.Count; i < maxPlayersPerRoom; i++)
         {
-            if (playerListTexts[i].isActiveAndEnabled)
-            {
-                playerListTexts[i].text = "P" + (i + 1) + ": Waiting for\na player...";
+            playerListTexts[i].text = "P" + (i + 1) + ": Waiting...";
             
-                if (i == 1)
-                    playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
-            }
+            if (i > 0)
+                playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
         }
     }
 

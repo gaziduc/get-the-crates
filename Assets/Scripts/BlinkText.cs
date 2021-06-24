@@ -48,6 +48,8 @@ public class BlinkText : MonoBehaviour
     public void DisableBlink()
     {
         isEnabled = false;
-        text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
+        // Don't use "text" directly due to a bug
+        Text tmpText = GetComponent<Text>();
+        tmpText.color = new Color(tmpText.color.r, tmpText.color.g, tmpText.color.b, 1f);
     }
 }
