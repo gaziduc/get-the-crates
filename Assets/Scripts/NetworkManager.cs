@@ -34,6 +34,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text copyButtonText;
     [SerializeField] private InputField nicknameOptionsField;
     [SerializeField] private InputField roomToJoinInputField;
+    [SerializeField] private Dropdown sizeDropdown;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -204,6 +205,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         // If master client, then able to launch game
         startButton.interactable = PhotonNetwork.IsMasterClient;
+        sizeDropdown.interactable = PhotonNetwork.IsMasterClient;
         
         currentRoomField.text = PhotonNetwork.CurrentRoom.Name;
 
@@ -231,6 +233,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetMasterClientText(newMasterClient.NickName);
 
         startButton.interactable = newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber;
+        sizeDropdown.interactable = newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber;
     }
 
     public void JoinRandom()
@@ -276,9 +279,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.CurrentRoom.IsOpen = false;
-    
+
         if (PhotonNetwork.IsMasterClient)
-            PhotonNetwork.LoadLevel("Level");
+        {
+            PlayerPrefs.SetString("LastLevelSize", sizeDropdown.options[sizeDropdown.value].text);
+            PlayerPrefs.Save();
+            
+            PhotonNetwork.LoadLevel(sizeDropdown.options[sizeDropdown.value].text);
+        }
+           
     }
 
     private string GetRandomString()

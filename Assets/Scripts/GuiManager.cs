@@ -23,7 +23,7 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Text scoreboardText;
     [SerializeField] private Text scoresText;
     
-    private float timeRemaining = 9f;
+    private float timeRemaining = 90f;
     private float countdownTime = 3f;
 
     private bool ended = false;

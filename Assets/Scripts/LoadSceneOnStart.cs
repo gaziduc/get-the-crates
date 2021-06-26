@@ -13,7 +13,7 @@ public class LoadSceneOnStart : MonoBehaviour
 
     private IEnumerator LoadLevelCoroutine()
     {
-        yield return new WaitForSeconds(1f);
-        PhotonNetwork.LoadLevel("Level");
+        yield return new WaitForSeconds(0.65f);
+        PhotonNetwork.LoadLevel(PlayerPrefs.GetString("LastLevelSize", "Small"));
     }
 }
