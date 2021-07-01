@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
 
 
@@ -113,7 +114,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         foreach (var room in roomList)
         {
-            if (!room.IsOpen || !room.IsVisible || room.RemovedFromList)
+            if (!room.IsVisible || room.RemovedFromList)
             {
                 if (cachedRoomList.ContainsKey(room.Name))
                     cachedRoomList.Remove(room.Name);
@@ -136,8 +137,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         foreach (var room in cachedRoomList)
         {
             GameObject roomItem = GameObject.Instantiate(roomItemPrefab, content.transform);
-            roomItem.transform.GetChild(0).GetComponent<Text>().text = room.Key + " <color=grey>(" + room.Value.PlayerCount + "/" + room.Value.MaxPlayers + ")</color>";
-            roomItem.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(room.Key); });
+            Text text = roomItem.transform.GetChild(0).GetComponent<Text>(); 
+            text.text = room.Key + " <color=grey>(" + room.Value.PlayerCount + "/" + room.Value.MaxPlayers + ")</color>";
+
+            if (!room.Value.IsOpen)
+            {
+                text.text += " <color=red>Playing</color>";
+                Destroy(roomItem.transform.GetChild(1).gameObject);
+            }
+            else
+                roomItem.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(room.Key); });
         }
         
         if (cachedRoomList.Count != 0 && noRoomText.activeSelf)
@@ -277,9 +286,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.CurrentRoom.IsOpen = false;
-
+        
         if (PhotonNetwork.IsMasterClient)
         {
             PlayerPrefs.SetString("LastLevelSize", sizeDropdown.options[sizeDropdown.value].text);

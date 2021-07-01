@@ -5788,7 +5788,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 3
+  m_Text: Waiting for others...
 --- !u!222 &614771894
 CanvasRenderer:
   m_ObjectHideFlags: 0

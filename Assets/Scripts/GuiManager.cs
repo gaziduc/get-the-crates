@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
@@ -26,6 +26,7 @@ public class GuiManager : MonoBehaviour
     private float timeRemaining = 90f;
     private float countdownTime = 3f;
 
+    private bool beginned = false;
     private bool ended = false;
 
     void Start()
@@ -33,11 +34,6 @@ public class GuiManager : MonoBehaviour
         backToMenuButton.interactable = PhotonNetwork.IsMasterClient;
         restartButton.interactable = PhotonNetwork.IsMasterClient;
         backToMenuButtonEnd.interactable = PhotonNetwork.IsMasterClient;
-
-        SetTimeText();
-
-        countdownSound.Play();
-        GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
     }
     
 
@@ -46,10 +42,17 @@ public class GuiManager : MonoBehaviour
         secondsText.text = ((int) timeRemaining).ToString();
         tenthText.text = "." + (int) (timeRemaining % 1 * 10);
     }
-
-
+    
     private void Update()
     {
+        if (!beginned)
+        {
+            if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length) // - 1 for the crate
+                beginned = true;
+            else
+                return;
+        }
+
         if (countdownTime > 0f)
         {
             string lastText = countdownText.text;
@@ -72,7 +75,6 @@ public class GuiManager : MonoBehaviour
                 countdownSound.Play();
                 GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
             }
-                
             
             return;
         }
