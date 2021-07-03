@@ -696,6 +696,7 @@ MonoBehaviour:
     m_Bits: 8
   weaponTextPrefab: {fileID: 1510917079228708310, guid: 1f0fd20434736e6438d92acb5bff0624, type: 3}
   shoot: {fileID: -4234696589078690405}
+  healthCratePrefab: {fileID: 5286197914741167117, guid: a5d32c49f45292843b0eb6604d5abfbd, type: 3}
 --- !u!50 &4216350108534511682
 Rigidbody2D:
   serializedVersion: 4
@@ -759,6 +760,7 @@ MonoBehaviour:
   initialHealth: 4
   health: 0
   deathEffect: {fileID: 100004, guid: 7b7886b7173a4bd4cb2f45ca459f872c, type: 3}
+  healthEffect: {fileID: 100004, guid: 9c1298636d9e1a0438ccc70056555539, type: 3}
 --- !u!95 &701898467339606837
 Animator:
   serializedVersion: 3

@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerWeapon weapon;
     private InstantiatePlayerOnStart instantiate;
 
+    [SerializeField] private GameObject healthCratePrefab;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -151,26 +153,42 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (view.IsMine && other.gameObject.CompareTag("Crate"))
+        if (view.IsMine && (other.gameObject.CompareTag("Crate") || other.gameObject.CompareTag("HealthCrate")))
         {
             view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1);
             
             PhotonNetwork.LocalPlayer.AddScore(1);
-            
-            weapon.GetRandom();
-            
+
+            if (other.gameObject.CompareTag("Crate"))
+                weapon.GetRandom();
+            else
+                view.RPC("HealRPC", RpcTarget.All, view.ViewID);
+
             GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, transform.position + Vector3.up * 2.5f, Quaternion.identity);
             GameObject.Destroy(weaponText, 1f);
 
-            weaponText.GetComponent<TextMesh>().text = weapon.GetName();
+            weaponText.GetComponent<TextMesh>().text = other.gameObject.CompareTag("Crate") ? weapon.GetName() : "Health";
+
+            if (other.gameObject.CompareTag("Crate"))
+            {
+                // Transfert ownership...
+                other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
             
+                // ...to move position
+                other.transform.position = instantiate.GetCrateNewPosition(other.transform.position);
+                other.rigidbody.velocity = Vector2.zero;
+            }
+            else
+            {
+                // ...to destroy
+                PhotonNetwork.Destroy(other.gameObject);
+            }
             
-            // Transfert ownership...
-            other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
-            
-            // ...to move position
-            other.transform.position = instantiate.GetCrateNewPosition(other.transform.position);
-            other.rigidbody.velocity = Vector2.zero;
+            // Create a health crate also
+            if (Random.Range(0, 3) == 0)
+            {
+                PhotonNetwork.Instantiate(healthCratePrefab.name, instantiate.GetCrateNewPosition(Vector3.zero), Quaternion.identity);
+            }
         }
     }
 }

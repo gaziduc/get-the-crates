@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     private InstantiatePlayerOnStart playerManager;
 
     [SerializeField] private GameObject deathEffect;
+    [SerializeField] private GameObject healthEffect;
 
     private void Start()
     {
@@ -54,5 +55,18 @@ public class PlayerHealth : MonoBehaviour
             
             StartCoroutine(Respawn(player, v));
         }
+    }
+
+    [PunRPC]
+    void HealRPC(int ViewID)
+    {
+        PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
+        PlayerHealth player = v.GetComponent<PlayerHealth>(); 
+        
+        player.health = initialHealth;
+        HealthBarAbovePlayer health = v.GetComponent<HealthBarAbovePlayer>();
+        health.SetHealthBar(player.health);
+        
+        GameObject.Instantiate(healthEffect, transform.position, Quaternion.identity);
     }
 }

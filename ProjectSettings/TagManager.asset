@@ -9,6 +9,7 @@ TagManager:
   - Crate
   - Chat
   - Ground
+  - HealthCrate
   layers:
   - Default
   - TransparentFX
