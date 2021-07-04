@@ -14,7 +14,7 @@ public class GoUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.up * Time.deltaTime);
+        transform.Translate(Vector3.up * Time.deltaTime * 0.5f);
         text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - Time.deltaTime);
     }
 }
