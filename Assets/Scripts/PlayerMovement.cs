@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private GameObject weaponTextPrefab;
+    [SerializeField] private GameObject[] weaponAnimPrefabs;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -150,26 +151,46 @@ public class PlayerMovement : MonoBehaviour
         gui.pausePanel.SetActive(!gui.pausePanel.activeInHierarchy);
         canMove = !gui.pausePanel.activeInHierarchy;
     }
+
+    [PunRPC]
+    void WeaponEffectRPC(int weaponNum, int viewId)
+    {
+        PhotonView v = PhotonNetwork.GetPhotonView(viewId);
+        Transform player = v.GetComponent<Transform>(); 
+        
+        // Text above
+        GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
+        weaponText.GetComponent<TextMesh>().text = weapon.weaponName[weaponNum];
+        
+        // Particles
+        GameObject.Instantiate(weaponAnimPrefabs[weaponNum], player.position + Vector3.up * 2.4f, Quaternion.identity);
+    }
+
+    
     
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (view.IsMine && (other.gameObject.CompareTag("Crate") || other.gameObject.CompareTag("HealthCrate")))
+        bool isWeaponCrate = other.gameObject.CompareTag("Crate");
+        bool isHealthCrate = other.gameObject.CompareTag("HealthCrate");
+        
+        
+        if (view.IsMine && (isWeaponCrate || isHealthCrate))
         {
-            view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1);
-            
+            // Add 1 to score
+            view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1, isWeaponCrate);
             PhotonNetwork.LocalPlayer.AddScore(1);
 
-            if (other.gameObject.CompareTag("Crate"))
+            // Handle
+            if (isWeaponCrate)
+            {
                 weapon.GetRandom();
+                view.RPC("WeaponEffectRPC", RpcTarget.All, weapon.weaponNum, view.ViewID);
+            }
             else
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);
+            
 
-            GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, transform.position + Vector3.up * 2.5f, Quaternion.identity);
-            GameObject.Destroy(weaponText, 1f);
-
-            weaponText.GetComponent<TextMesh>().text = other.gameObject.CompareTag("Crate") ? weapon.GetName() : "Health";
-
-            if (other.gameObject.CompareTag("Crate"))
+            if (isWeaponCrate)
             {
                 // Transfert ownership...
                 other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
@@ -179,13 +200,10 @@ public class PlayerMovement : MonoBehaviour
                 other.rigidbody.velocity = Vector2.zero;
             }
             else
-            {
-                // ...to destroy
                 PhotonNetwork.Destroy(other.gameObject);
-            }
-            
+
             // Create a health crate also
-            if (Random.Range(0, 3) == 0)
+            if (Random.Range(0, 4) == 0)
             {
                 PhotonNetwork.Instantiate(healthCratePrefab.name, instantiate.GetCrateNewPosition(Vector3.zero), Quaternion.identity);
             }

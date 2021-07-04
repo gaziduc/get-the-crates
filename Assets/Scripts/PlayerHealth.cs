@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private GameObject healthEffect;
+    [SerializeField] private GameObject weaponTextPrefab;
 
     private void Start()
     {
@@ -56,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(Respawn(player, v));
         }
     }
-
+    
     [PunRPC]
     void HealRPC(int ViewID)
     {
@@ -66,7 +67,13 @@ public class PlayerHealth : MonoBehaviour
         player.health = initialHealth;
         HealthBarAbovePlayer health = v.GetComponent<HealthBarAbovePlayer>();
         health.SetHealthBar(player.health);
+
+        Transform tf = v.GetComponent<Transform>();
         
-        GameObject.Instantiate(healthEffect, transform.position, Quaternion.identity);
+        // Text above
+        GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, tf.position + Vector3.up * 3f, Quaternion.identity);
+        weaponText.GetComponent<TextMesh>().text = "Health";
+        
+        GameObject.Instantiate(healthEffect, tf.position + Vector3.up * 2.4f, Quaternion.identity);
     }
 }

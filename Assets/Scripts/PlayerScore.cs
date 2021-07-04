@@ -26,12 +26,13 @@ public class PlayerScore : MonoBehaviour
     }
     
     [PunRPC]
-    void IncrementScoreRPC(int viewID, int score)
+    void IncrementScoreRPC(int viewID, int score, bool playSound)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(viewID);
         ScoreAbovePlayer hud = v.GetComponent<ScoreAbovePlayer>();
         hud.SetScoreHud(score);
 
-        crate.Play();
+        if (playSound)
+            crate.Play();
     }
 }

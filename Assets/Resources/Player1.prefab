@@ -695,6 +695,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   weaponTextPrefab: {fileID: 1510917079228708310, guid: 1f0fd20434736e6438d92acb5bff0624, type: 3}
+  weaponAnimPrefabs:
+  - {fileID: 100000, guid: 89cb22f904a3a804582e7c18d814027b, type: 3}
+  - {fileID: 6819241078371777612, guid: e7584ff994867c54b9b27ccce02ff939, type: 3}
+  - {fileID: 5338068877930998878, guid: f4aff85f3bbef50408fa3ca0eeb21633, type: 3}
+  - {fileID: 6042755399562616698, guid: 5b0adb0c2ffe3b54498ba2072ce79396, type: 3}
   shoot: {fileID: -4234696589078690405}
   healthCratePrefab: {fileID: 5286197914741167117, guid: a5d32c49f45292843b0eb6604d5abfbd, type: 3}
 --- !u!50 &4216350108534511682
@@ -761,6 +766,7 @@ MonoBehaviour:
   health: 0
   deathEffect: {fileID: 100004, guid: 7b7886b7173a4bd4cb2f45ca459f872c, type: 3}
   healthEffect: {fileID: 100004, guid: 9c1298636d9e1a0438ccc70056555539, type: 3}
+  weaponTextPrefab: {fileID: 1510917079228708310, guid: 1f0fd20434736e6438d92acb5bff0624, type: 3}
 --- !u!95 &701898467339606837
 Animator:
   serializedVersion: 3
@@ -1003,6 +1009,11 @@ MonoBehaviour:
   - {fileID: 3382414830229541518, guid: 39739b8889a49ea45adbbe5e1a78fbd4, type: 3}
   - {fileID: 7460265757956800949, guid: 89a17ba9ae697c3428fdcad2b28f5fb2, type: 3}
   - {fileID: 8318128261128195948, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
+  weaponName:
+  - Gun
+  - Machine Gun
+  - Explosive Gun
+  - Double Gun
   reloadTime:
   - 0.3
   - 0.15
