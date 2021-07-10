@@ -28,8 +28,6 @@ public class PlayerMovement : MonoBehaviour
     private PlayerWeapon weapon;
     private InstantiatePlayerOnStart instantiate;
 
-    [SerializeField] private GameObject healthCratePrefab;
-    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -190,23 +188,22 @@ public class PlayerMovement : MonoBehaviour
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);
             
 
-            if (isWeaponCrate)
-            {
-                // Transfert ownership...
-                other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
+            // Transfer ownership...
+            other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
             
-                // ...to move position
-                other.transform.position = instantiate.GetCrateNewPosition(other.transform.position);
-                other.rigidbody.velocity = Vector2.zero;
+            // ...to move position
+            if (Random.Range(0, 5) > 0) // 5 out of 6
+            {
+                GameObject.FindWithTag("HealthCrate").transform.position = instantiate.GetCrateInvisiblePosition();
+                GameObject.FindWithTag("Crate").transform.position = instantiate.GetCrateNewPosition(other.transform.position);
             }
             else
-                PhotonNetwork.Destroy(other.gameObject);
-
-            // Create a health crate also
-            if (Random.Range(0, 4) == 0)
             {
-                PhotonNetwork.Instantiate(healthCratePrefab.name, instantiate.GetCrateNewPosition(Vector3.zero), Quaternion.identity);
+                GameObject.FindWithTag("HealthCrate").transform.position = instantiate.GetCrateNewPosition(other.transform.position);
+                GameObject.FindWithTag("Crate").transform.position = instantiate.GetCrateInvisiblePosition();
             }
+            
+            other.rigidbody.velocity = Vector2.zero;
         }
     }
 }

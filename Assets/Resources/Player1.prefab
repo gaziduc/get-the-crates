@@ -701,7 +701,6 @@ MonoBehaviour:
   - {fileID: 5338068877930998878, guid: f4aff85f3bbef50408fa3ca0eeb21633, type: 3}
   - {fileID: 6042755399562616698, guid: 5b0adb0c2ffe3b54498ba2072ce79396, type: 3}
   shoot: {fileID: -4234696589078690405}
-  healthCratePrefab: {fileID: 5286197914741167117, guid: a5d32c49f45292843b0eb6604d5abfbd, type: 3}
 --- !u!50 &4216350108534511682
 Rigidbody2D:
   serializedVersion: 4

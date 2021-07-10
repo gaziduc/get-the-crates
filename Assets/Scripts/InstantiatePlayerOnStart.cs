@@ -1,5 +1,7 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class InstantiatePlayerOnStart : MonoBehaviour
 {
@@ -12,8 +14,16 @@ public class InstantiatePlayerOnStart : MonoBehaviour
     
     [SerializeField] private Transform cratePositionsParent;
     private Vector3[] cratePosition;
-
+    [SerializeField] private GameObject healthCratePrefab;
+    [SerializeField] private Transform invisiblePosition;
+    
+    
     private Vector3 lastPosition;
+
+    private float healthCrateDelay = 15f;
+    private bool decreaseHealthCrateDelay = true;
+
+    private GameObject healthCrate;
     
     // Start is called before the first frame update
     void Start()
@@ -28,9 +38,15 @@ public class InstantiatePlayerOnStart : MonoBehaviour
 
         player = PhotonNetwork.Instantiate(PhotonNetwork.IsMasterClient ? playerPrefabToInstantiate[0].name
                                                                         : playerPrefabToInstantiate[1].name, GetRespawnPosition(), Quaternion.identity);
-        
+
         if (PhotonNetwork.IsMasterClient)
+        {
+            // Crate
             PhotonNetwork.Instantiate(cratePrefabToInstantiate.name, GetCrateNewPosition(Vector3.zero), Quaternion.identity);
+            
+            // Health Crate
+            healthCrate = PhotonNetwork.Instantiate(healthCratePrefab.name, GetCrateInvisiblePosition(), Quaternion.identity);
+        }
     }
 
     public void Respawn()
@@ -53,6 +69,12 @@ public class InstantiatePlayerOnStart : MonoBehaviour
 
         return newPos;
     }
+
+    public Vector3 GetCrateInvisiblePosition()
+    {
+        return invisiblePosition.position;
+    }
+
 
     public void RestartGame()
     {

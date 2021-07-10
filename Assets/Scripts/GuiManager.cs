@@ -47,7 +47,7 @@ public class GuiManager : MonoBehaviour
     {
         if (!beginned)
         {
-            if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length) // - 1 for the crate
+            if (FindObjectsOfType<PhotonView>().Length - 2 == PhotonNetwork.PlayerList.Length) // - 2 for the crates
                 beginned = true;
             else
                 return;
