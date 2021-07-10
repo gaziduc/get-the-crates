@@ -14,17 +14,10 @@ public class InstantiatePlayerOnStart : MonoBehaviour
     
     [SerializeField] private Transform cratePositionsParent;
     private Vector3[] cratePosition;
-    [SerializeField] private GameObject healthCratePrefab;
-    [SerializeField] private Transform invisiblePosition;
-    
-    
-    private Vector3 lastPosition;
 
-    private float healthCrateDelay = 15f;
-    private bool decreaseHealthCrateDelay = true;
 
-    private GameObject healthCrate;
-    
+    private Vector3 lastPositiom;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,9 +36,6 @@ public class InstantiatePlayerOnStart : MonoBehaviour
         {
             // Crate
             PhotonNetwork.Instantiate(cratePrefabToInstantiate.name, GetCrateNewPosition(Vector3.zero), Quaternion.identity);
-            
-            // Health Crate
-            healthCrate = PhotonNetwork.Instantiate(healthCratePrefab.name, GetCrateInvisiblePosition(), Quaternion.identity);
         }
     }
 
@@ -69,12 +59,6 @@ public class InstantiatePlayerOnStart : MonoBehaviour
 
         return newPos;
     }
-
-    public Vector3 GetCrateInvisiblePosition()
-    {
-        return invisiblePosition.position;
-    }
-
 
     public void RestartGame()
     {

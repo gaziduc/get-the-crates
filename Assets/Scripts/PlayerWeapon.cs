@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -45,5 +46,11 @@ public class PlayerWeapon : MonoBehaviour
     {
         isReloaded = false;
         reload = 0f;
+    }
+
+    [PunRPC]
+    void SetSpriteCrateRPC(int spriteNum)
+    {
+        GameObject.FindWithTag("Crate").GetComponent<Crate>().SetSprite(spriteNum);
     }
 }

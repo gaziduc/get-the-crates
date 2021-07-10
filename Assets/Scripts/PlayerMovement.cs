@@ -168,16 +168,16 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D other)
     {
-        bool isWeaponCrate = other.gameObject.CompareTag("Crate");
-        bool isHealthCrate = other.gameObject.CompareTag("HealthCrate");
-        
-        
-        if (view.IsMine && (isWeaponCrate || isHealthCrate))
+        if (view.IsMine && other.gameObject.CompareTag("Crate"))
         {
+            Crate crate = other.gameObject.GetComponent<Crate>();
+            bool isWeaponCrate = crate.spriteNum == 0;
+            
             // Add 1 to score
             view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1, isWeaponCrate);
             PhotonNetwork.LocalPlayer.AddScore(1);
 
+            
             // Handle
             if (isWeaponCrate)
             {
@@ -187,21 +187,13 @@ public class PlayerMovement : MonoBehaviour
             else
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);
             
+            view.RPC("SetSpriteCrateRPC", RpcTarget.All, Random.Range(0, 8) == 0 ? 1 : 0);
 
             // Transfer ownership...
             other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
             
             // ...to move position
-            if (Random.Range(0, 5) > 0) // 5 out of 6
-            {
-                GameObject.FindWithTag("HealthCrate").transform.position = instantiate.GetCrateInvisiblePosition();
-                GameObject.FindWithTag("Crate").transform.position = instantiate.GetCrateNewPosition(other.transform.position);
-            }
-            else
-            {
-                GameObject.FindWithTag("HealthCrate").transform.position = instantiate.GetCrateNewPosition(other.transform.position);
-                GameObject.FindWithTag("Crate").transform.position = instantiate.GetCrateInvisiblePosition();
-            }
+            other.transform.position = instantiate.GetCrateNewPosition(other.transform.position);
             
             other.rigidbody.velocity = Vector2.zero;
         }
