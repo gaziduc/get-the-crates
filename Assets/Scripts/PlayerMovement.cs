@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (jump)
             {
-                rb.AddForce(Vector2.up * 800);
+                rb.velocity = Vector2.up * 17;
                 jump = false;
             }
         }
