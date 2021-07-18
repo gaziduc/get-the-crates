@@ -1098,8 +1098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a147a0bf0f07bca43a2e52e59140843d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallMultiplier: 2
-  lowJumpMultiplier: 1.7
 --- !u!1 &6779910575864476521
 GameObject:
   m_ObjectHideFlags: 0

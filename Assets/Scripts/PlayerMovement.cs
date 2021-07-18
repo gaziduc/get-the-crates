@@ -28,8 +28,18 @@ public class PlayerMovement : MonoBehaviour
     private PlayerWeapon weapon;
     private InstantiatePlayerOnStart instantiate;
 
+    private KeyCode[] controls;
+    
+    
     void Start()
     {
+        controls = new KeyCode[(int) Options.Controls.NumControls];
+
+        for (int i = 0; i < (int) Options.Controls.NumControls; i++)
+        {
+            controls[i] = (KeyCode) PlayerPrefs.GetInt(((Options.Controls) i).ToString(), (int) System.Enum.Parse(typeof(KeyCode), Options.instance.defaultControls[i]));
+        }
+        
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
         sp.flipX = true;
@@ -53,14 +63,14 @@ public class PlayerMovement : MonoBehaviour
             if (!canMove)
                 return;
             
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(controls[(int) Options.Controls.Left]) || Input.GetAxisRaw("Horizontal") < 0f)
             {
                 sp.flipX = false;
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || Input.GetAxisRaw("Horizontal") > 0f)
             {
                 sp.flipX = true;
                 if (!anim.GetBool("IsRunning"))
@@ -76,12 +86,12 @@ public class PlayerMovement : MonoBehaviour
             if (!change.Equals(Vector3.zero))
                 direction = change;
 
-            if (IsGrounded() && Input.GetKeyDown(KeyCode.UpArrow))
+            if (IsGrounded() && Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || Input.GetKeyDown(KeyCode.Joystick1Button0))
                 jump = true;
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || Input.GetKey(KeyCode.Joystick1Button5))
             {
-                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(KeyCode.Space)))
+                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) || Input.GetKeyDown(KeyCode.Joystick1Button5)))
                 {
                     view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, weapon.weaponNum, direction.normalized.x, view.ViewID);
                     weapon.SetReloadBeginning();
