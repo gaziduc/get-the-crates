@@ -9,6 +9,11 @@ TagManager:
   - Crate
   - Chat
   - Ground
+  - FxTemporaire
+  - HealthBarP1
+  - HealthBarP2
+  - LevelDropdown
+  - WinConditionDropdown
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,6 @@ public class GuiManager : MonoBehaviour
     [SerializeField] private Text tenthText;
     [SerializeField] private GameObject endPanel;
     public GameObject pausePanel;
-    [SerializeField] private Button restartButton;
     [SerializeField] private Button backToMenuButtonEnd;
     [SerializeField] private Button backToMenuButton;
     [SerializeField] private AudioSource end;
@@ -32,7 +31,6 @@ public class GuiManager : MonoBehaviour
     void Start()
     {
         backToMenuButton.interactable = PhotonNetwork.IsMasterClient;
-        restartButton.interactable = PhotonNetwork.IsMasterClient;
         backToMenuButtonEnd.interactable = PhotonNetwork.IsMasterClient;
     }
     

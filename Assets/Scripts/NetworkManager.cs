@@ -36,6 +36,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField nicknameOptionsField;
     [SerializeField] private InputField roomToJoinInputField;
     [SerializeField] private Dropdown sizeDropdown;
+    [SerializeField] private Dropdown winConditionDropdown;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -220,6 +221,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // If master client, then able to launch game
         startButton.interactable = PhotonNetwork.IsMasterClient;
         sizeDropdown.interactable = PhotonNetwork.IsMasterClient;
+        winConditionDropdown.interactable = PhotonNetwork.IsMasterClient;
+
+        sizeDropdown.value = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("level") ? (int) PhotonNetwork.CurrentRoom.CustomProperties["level"] : 0;
+        winConditionDropdown.value = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("win") ? (int) PhotonNetwork.CurrentRoom.CustomProperties["win"] : 0;
         
         currentRoomField.text = PhotonNetwork.CurrentRoom.Name;
 
@@ -228,6 +233,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         SetMasterClientText(PhotonNetwork.MasterClient.NickName);
 
+        SetProperties();
+        
         UpdatePlayerList();
     }
 
@@ -246,8 +253,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         SetMasterClientText(newMasterClient.NickName);
 
-        startButton.interactable = newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber;
-        sizeDropdown.interactable = newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber;
+        bool amIMaster = newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber;
+        
+        startButton.interactable = amIMaster;
+        sizeDropdown.interactable = amIMaster;
+        winConditionDropdown.interactable = amIMaster;
     }
 
     public void JoinRandom()
@@ -266,14 +276,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         playerEnter.Play();
-        chatView.GetComponent<Chat>().SendMessageRPC("<color=orange>"  + newPlayer.NickName + " joined the room.</color>");
+        chatView.GetComponent<Chat>().SendMessageRPC("<color=cyan>"  + newPlayer.NickName + "</color> <color=orange>joined the room.</color>");
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            chatView.RPC("SetLevelDropdownStateRPC", RpcTarget.Others, sizeDropdown.value);
+            chatView.RPC("SetWinConditionStateRPC", RpcTarget.Others, winConditionDropdown.value);
+        }
+        
         UpdatePlayerList();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         playerLeft.Play();
-        chatView.GetComponent<Chat>().SendMessageRPC("<color=orange>"  + otherPlayer.NickName + " left the room.</color>");
+        chatView.GetComponent<Chat>().SendMessageRPC("<color=cyan>"  + otherPlayer.NickName + "</color> <color=orange>left the room.</color>");
         UpdatePlayerList();
     }
     
@@ -295,9 +312,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         if (PhotonNetwork.IsMasterClient)
         {
-            PlayerPrefs.SetString("LastLevelSize", sizeDropdown.options[sizeDropdown.value].text);
-            PlayerPrefs.Save();
-            
             PhotonNetwork.LoadLevel(sizeDropdown.options[sizeDropdown.value].text);
         }
            
@@ -318,13 +332,51 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SendChatMessage()
     {
-        if (!String.IsNullOrWhiteSpace(chatInputField.text))
+        string text = Regex.Replace(chatInputField.text, "<.*?>", string.Empty);
+        
+        if (!String.IsNullOrWhiteSpace(text))
         {
-            chatView.RPC("SendMessageRPC", RpcTarget.All, "<color=cyan>["  + PhotonNetwork.NickName + "]</color> " + chatInputField.text);
+            chatView.RPC("SendMessageRPC", RpcTarget.All, "<color=cyan>["  + PhotonNetwork.NickName + "]</color> " + text);
             chatInputField.text = "";
         }
         
         chatInputField.Select();
+    }
+
+    public void SendLevelSize()
+    {
+        if (sizeDropdown.interactable)
+        {
+            SetProperties();
+
+            if (chatView)
+            {
+                chatView.RPC("SendMessageRPC", RpcTarget.All, "<color=lime>Master Client <color=cyan>" + PhotonNetwork.MasterClient.NickName + "</color> set level size to <color=orange>" + sizeDropdown.options[sizeDropdown.value].text + "</color></color>");
+                chatView.RPC("SetLevelDropdownStateRPC", RpcTarget.Others, sizeDropdown.value);
+            }
+        }
+    }
+
+    public void SendWinCondition()
+    {
+        if (winConditionDropdown.interactable)
+        {
+            SetProperties();
+
+            if (chatView)
+            {
+                chatView.RPC("SendMessageRPC", RpcTarget.All, "<color=lime>Master Client <color=cyan>" + PhotonNetwork.MasterClient.NickName + "</color> set win condition to <color=orange>" + winConditionDropdown.options[winConditionDropdown.value].text + "</color></color>");
+                chatView.RPC("SetWinConditionStateRPC", RpcTarget.Others, winConditionDropdown.value);
+            }
+        }
+    }
+
+    private void SetProperties()
+    {
+        Hashtable hashtable = new Hashtable();
+        hashtable.Add("level", sizeDropdown.value);
+        hashtable.Add("win", winConditionDropdown.value);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
     }
 
     public void CopyToClipboard()

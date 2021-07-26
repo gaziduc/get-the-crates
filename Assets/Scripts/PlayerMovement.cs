@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
             if (!change.Equals(Vector3.zero))
                 direction = change;
 
-            if (IsGrounded() && Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || Input.GetKeyDown(KeyCode.Joystick1Button0))
+            if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || Input.GetKeyDown(KeyCode.Joystick1Button0)))
                 jump = true;
 
             if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || Input.GetKey(KeyCode.Joystick1Button5))
@@ -183,10 +183,12 @@ public class PlayerMovement : MonoBehaviour
             Crate crate = other.gameObject.GetComponent<Crate>();
             bool isWeaponCrate = crate.spriteNum == 0;
             
-            // Add 1 to score
-            view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1, isWeaponCrate);
-            PhotonNetwork.LocalPlayer.AddScore(1);
-
+            // Add 1 to score in it is Get Most Crates mode
+            if (LevelManager.instance.winCondition == LevelManager.WinCondition.GetMostCrates)
+            {
+                view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1, isWeaponCrate);
+                PhotonNetwork.LocalPlayer.AddScore(1);
+            }
             
             // Handle
             if (isWeaponCrate)

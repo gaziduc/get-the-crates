@@ -1,5 +1,7 @@
 using System.Collections;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -36,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void HurtRPC(int weaponDamage, int ViewID)
+    void HurtRPC(int weaponDamage, int ViewID, int ShooterID)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
         PlayerHealth player = v.GetComponent<PlayerHealth>(); 
@@ -53,6 +55,15 @@ public class PlayerHealth : MonoBehaviour
             player.GetComponent<PlayerMovement>().canMove = false;
             health.SetHealthBar(initialHealth);
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+
+            if (LevelManager.instance.winCondition == LevelManager.WinCondition.KillMostPlayers)
+            {
+                PhotonView shooterView = PhotonNetwork.GetPhotonView(ShooterID);
+                PlayerScore shooterScore = shooterView.GetComponent<PlayerScore>();
+                shooterScore.IncrementScoreRPC(ShooterID, shooterView.Owner.GetScore() + 1, true);
+                shooterView.Owner.AddScore(1);
+            }
             
             StartCoroutine(Respawn(player, v));
         }

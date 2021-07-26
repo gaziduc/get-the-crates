@@ -26,7 +26,7 @@ public class PlayerScore : MonoBehaviour
     }
     
     [PunRPC]
-    void IncrementScoreRPC(int viewID, int score, bool playSound)
+    public void IncrementScoreRPC(int viewID, int score, bool playSound)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(viewID);
         ScoreAbovePlayer hud = v.GetComponent<ScoreAbovePlayer>();

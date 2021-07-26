@@ -22,7 +22,7 @@ public class BulletMovement : MonoBehaviour
             if (player.view.ViewID != viewID)
             {
                 if (player.view.IsMine)
-                    player.view.RPC("HurtRPC", RpcTarget.All, weaponDamage, player.view.ViewID);
+                    player.view.RPC("HurtRPC", RpcTarget.All, weaponDamage, player.view.ViewID, viewID);
 
                 GameObject.Destroy(gameObject);
             }

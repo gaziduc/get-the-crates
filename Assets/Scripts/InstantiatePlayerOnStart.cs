@@ -1,4 +1,3 @@
-using System;
 using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -58,10 +57,5 @@ public class InstantiatePlayerOnStart : MonoBehaviour
         } while (Vector3.Distance(newPos, lastPos) < 2);
 
         return newPos;
-    }
-
-    public void RestartGame()
-    {
-        PhotonNetwork.LoadLevel("Empty");
     }
 }
