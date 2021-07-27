@@ -9,7 +9,6 @@ public class PlayerHealth : MonoBehaviour
     [HideInInspector] public PhotonView view;
     public int initialHealth;
     public int health;
-    private InstantiatePlayerOnStart playerManager;
 
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private GameObject healthEffect;
@@ -19,7 +18,6 @@ public class PlayerHealth : MonoBehaviour
     {
         health = initialHealth;
         view = GetComponent<PhotonView>();
-        playerManager = GameObject.FindWithTag("PlayerManager").GetComponent<InstantiatePlayerOnStart>();
     }
 
     private IEnumerator Respawn(PlayerHealth player, PhotonView v)
@@ -27,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         
         if (v.IsMine)
-            player.playerManager.Respawn(); // Sets position
+            player.transform.position = SpawnManager.instance.GetRespawnPos();
         
         yield return new WaitForSeconds(1.5f);
         

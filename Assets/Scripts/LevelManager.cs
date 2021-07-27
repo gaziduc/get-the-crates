@@ -12,6 +12,10 @@ public class LevelManager : MonoBehaviour
     }
 
     public WinCondition winCondition;
+
+    [SerializeField] private GameObject spawnManager;
+
+    public bool gameStarted = false;
     
     // Start is called before the first frame update
     void Start()
@@ -19,5 +23,7 @@ public class LevelManager : MonoBehaviour
         instance = this;
 
         winCondition = (WinCondition) ((int) PhotonNetwork.CurrentRoom.CustomProperties["win"]);
+        
+        PhotonNetwork.Instantiate(spawnManager.name, Vector3.zero, Quaternion.identity);
     }
 }

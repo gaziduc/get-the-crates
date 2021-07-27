@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
-    public bool canMove = false;
+    public bool canMove = true;
 
     private PhotonView view;
     
@@ -22,11 +22,9 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sp;
     private Animator anim;
     [SerializeField] private AudioSource shoot;
-    private GuiManager gui;
-    
+
     private Transform[] feet;
     private PlayerWeapon weapon;
-    private InstantiatePlayerOnStart instantiate;
 
     private KeyCode[] controls;
     
@@ -46,12 +44,10 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         view = GetComponent<PhotonView>();
         direction = Vector3.right;
-        gui = GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>();
         feet = new Transform[2];
         feet[0] = transform.GetChild(0).GetChild(0);
         feet[1] = transform.GetChild(0).GetChild(1);
         weapon = GetComponent<PlayerWeapon>();
-        instantiate = GameObject.FindWithTag("PlayerManager").GetComponent<InstantiatePlayerOnStart>();
     }
 
     private void Update()
@@ -59,8 +55,8 @@ public class PlayerMovement : MonoBehaviour
         if (view.IsMine)
         {
             change = Vector3.zero;
-            
-            if (!canMove)
+
+            if (!canMove || !LevelManager.instance.gameStarted)
                 return;
             
             if (Input.GetKey(controls[(int) Options.Controls.Left]) || Input.GetAxisRaw("Horizontal") < 0f)
@@ -152,13 +148,6 @@ public class PlayerMovement : MonoBehaviour
 
         shoot.Play();
     }
-    
-    [PunRPC]
-    void PauseRPC()
-    {
-        gui.pausePanel.SetActive(!gui.pausePanel.activeInHierarchy);
-        canMove = !gui.pausePanel.activeInHierarchy;
-    }
 
     [PunRPC]
     void WeaponEffectRPC(int weaponNum, int viewId)
@@ -174,8 +163,7 @@ public class PlayerMovement : MonoBehaviour
         GameObject.Instantiate(weaponAnimPrefabs[weaponNum], player.position + Vector3.up * 2.4f, Quaternion.identity);
     }
 
-    
-    
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (view.IsMine && other.gameObject.CompareTag("Crate"))
@@ -205,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
             other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
             
             // ...to move position
-            other.transform.position = instantiate.GetCrateNewPosition(other.transform.position);
+            other.transform.position = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
             
             other.rigidbody.velocity = Vector2.zero;
         }

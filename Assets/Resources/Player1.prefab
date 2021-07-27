@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
-  canMove: 0
+  canMove: 1
   platformsLayerMask:
     serializedVersion: 2
     m_Bits: 8

@@ -45,7 +45,7 @@ public class GuiManager : MonoBehaviour
     {
         if (!beginned)
         {
-            if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length) // - 1 for the crate
+            if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length * 2) // - 1 for the crate
                 beginned = true;
             else
                 return;
@@ -60,7 +60,9 @@ public class GuiManager : MonoBehaviour
             {
                 countdownText.text = "GO!";
                 GameObject.Destroy(countdownText.gameObject, 0.5f);
-                GameObject.FindWithTag("Player").GetComponent<PlayerMovement>().canMove = true;
+
+                LevelManager.instance.gameStarted = true;
+                
                 countdownGoSound.Play();
                 GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
                 return;
@@ -79,19 +81,15 @@ public class GuiManager : MonoBehaviour
         
         if (!endPanel.activeInHierarchy)
         {
-            if (!pausePanel.activeInHierarchy)
+            timeRemaining -= Time.deltaTime;
+            SetTimeText();
+
+            if (!ended && timeRemaining <= 0f)
             {
-                timeRemaining -= Time.deltaTime;
-                SetTimeText();
-
-                if (!ended && timeRemaining <= 0f)
-                {
-                    ended = true;
-                    End();
-                }
-                    
+                ended = true;
+                End();
             }
-
+            
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
@@ -101,8 +99,7 @@ public class GuiManager : MonoBehaviour
 
     public void Pause()
     {
-        PhotonView view = GameObject.FindWithTag("Player").GetComponent<PhotonView>();
-        view.RPC("PauseRPC", RpcTarget.All);
+        pausePanel.SetActive(!pausePanel.activeInHierarchy);
     }
 
     private void End()
@@ -133,6 +130,8 @@ public class GuiManager : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            PhotonNetwork.DestroyAll();
+            
             PhotonNetwork.CurrentRoom.IsVisible = true;
             PhotonNetwork.CurrentRoom.IsOpen = true;
             PhotonNetwork.LoadLevel(0);

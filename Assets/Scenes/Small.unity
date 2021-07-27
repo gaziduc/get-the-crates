@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 238280765}
   m_Layer: 0
   m_Name: SpawnPoints
-  m_TagString: Untagged
+  m_TagString: PlayerSpawnParent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1694,7 +1694,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1042493648}
-  - component: {fileID: 1042493649}
   - component: {fileID: 1042493650}
   - component: {fileID: 1042493652}
   - component: {fileID: 1042493651}
@@ -1722,24 +1721,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1042493649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042493647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61393f4a923944845aa8c57317bf0bd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefabToInstantiate:
-  - {fileID: 6322902377588903146, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
-  - {fileID: 8741815974691743358, guid: 30f183af567a15547b8de013948427a5, type: 3}
-  cratePrefabToInstantiate: {fileID: 614847060541941494, guid: 1f104fa6059847f4baadb029b2ba608b, type: 3}
-  spawnPositionsParent: {fileID: 238280765}
-  cratePositionsParent: {fileID: 2087197803}
 --- !u!114 &1042493650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2078,6 +2059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winCondition: 0
+  spawnManager: {fileID: 8365411541005778793, guid: 7af5e8453808a084ea630fd2d182855c, type: 3}
 --- !u!1 &1095377081
 GameObject:
   m_ObjectHideFlags: 0
@@ -5849,7 +5831,7 @@ GameObject:
   - component: {fileID: 2087197803}
   m_Layer: 0
   m_Name: CratePoints
-  m_TagString: Untagged
+  m_TagString: CrateSpawnParent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

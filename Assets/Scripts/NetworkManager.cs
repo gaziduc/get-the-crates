@@ -45,14 +45,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         cachedRoomList = new Dictionary<string, RoomInfo>();
-
-        
         
         if (!PhotonNetwork.IsConnected)
         {
-            // Actualize more often
-            PhotonNetwork.SerializationRate = PhotonNetwork.SendRate;
-            
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = Application.version;
             PhotonNetwork.ConnectUsingSettings();
