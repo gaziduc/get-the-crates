@@ -37,6 +37,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField roomToJoinInputField;
     [SerializeField] private Dropdown sizeDropdown;
     [SerializeField] private Dropdown winConditionDropdown;
+    [SerializeField] private GameObject disconnectedPanel;
     
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -52,9 +53,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = Application.version;
-            PhotonNetwork.ConnectUsingSettings();
             
-            ActivateUIElement(connectingPanel);
+            Connect();
         }
         else
         {
@@ -62,6 +62,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             nicknameOptionsField.text = PhotonNetwork.NickName;
             OnJoinedRoom();
         }
+    }
+
+    private void Connect()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+            
+        ActivateUIElement(connectingPanel);
     }
 
     private void Update()
@@ -189,14 +196,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void OnCompleteCreateRoom()
     {
         menuPanel.SetActive(false);
+        
         if (!connectingPanel.activeInHierarchy)
             ActivateUIElement(connectingPanel);
+        
+        statusPanel.SetActive(true);
+        statusPanel.transform.localScale = Vector3.zero;
         
         var roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = maxPlayersPerRoom;
         PhotonNetwork.CreateRoom(String.IsNullOrWhiteSpace(roomNameInputField.text) ? GetRandomString(): roomNameInputField.text, roomOptions, TypedLobby.Default);
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnCreateRoomFailed);
+    }
+
+    private void OnCompleteOnCreateRoomFailed()
+    {
+        connectingPanel.SetActive(false);
+        ActivateUIElement(menuPanel);
     }
 
     private void JoinRoom(string roomName)
@@ -208,6 +230,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         menuPanel.SetActive(false);
         ActivateUIElement(connectingPanel);
+        
+        statusPanel.SetActive(true);
+        statusPanel.transform.localScale = Vector3.zero;
         
         PhotonNetwork.JoinRoom((string) roomName);
     }
@@ -224,6 +249,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         menuPanel.SetActive(false);
         ActivateUIElement(connectingPanel);
+        
+        statusPanel.SetActive(true);
+        statusPanel.transform.localScale = Vector3.zero;
+
         PhotonNetwork.JoinRoom(roomToJoinInputField.text);
     }
 
@@ -267,7 +296,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         winConditionDropdown.value = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("win") ? (int) PhotonNetwork.CurrentRoom.CustomProperties["win"] : 0;
         
         currentRoomField.text = PhotonNetwork.CurrentRoom.Name;
-
+        
         GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
         chatView = temp.GetComponent<PhotonView>();
         
@@ -314,6 +343,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         menuPanel.SetActive(false);
         ActivateUIElement(connectingPanel);
+        
+        statusPanel.SetActive(true);
+        statusPanel.transform.localScale = Vector3.zero;
 
         PhotonNetwork.JoinRandomRoom();
     }
@@ -369,7 +401,28 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel(sizeDropdown.options[sizeDropdown.value].text);
         }
-           
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        menuPanel.SetActive(false);
+        connectingPanel.SetActive(false);
+        statusPanel.SetActive(false);
+
+        ActivateUIElement(disconnectedPanel);
+
+        disconnectedPanel.transform.GetChild(1).GetComponent<Text>().text = cause.ToString();
+    }
+
+    public void TryReconnect()
+    {
+        LeanTween.scale(disconnectedPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteTryReconnect);
+    }
+
+    private void OnCompleteTryReconnect()
+    {
+        disconnectedPanel.SetActive(false);
+        Connect();
     }
 
     private string GetRandomString()

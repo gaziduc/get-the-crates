@@ -7,11 +7,13 @@ public class Chat : MonoBehaviour
     private Text[] texts;
     private Dropdown levelDropdown;
     private Dropdown winConditionDropdown;
-    
+
     private void Start()
     {
         GameObject chat = GameObject.FindWithTag("Chat");
 
+        Debug.Log(chat);
+    
         texts = new Text[chat.transform.childCount];
 
         for (int i = 0; i < texts.Length; i++)
@@ -48,6 +50,7 @@ public class Chat : MonoBehaviour
     [PunRPC]
     public void SetWinConditionStateRPC(int value)
     {
+        
         winConditionDropdown.value = value;
     }
 }
