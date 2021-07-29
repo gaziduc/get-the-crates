@@ -13,6 +13,9 @@ TagManager:
   - WinConditionDropdown
   - PlayerSpawnParent
   - CrateSpawnParent
+  - HealthBarP1
+  - FxTemporaire
+  - HealthBarP2
   layers:
   - Default
   - TransparentFX

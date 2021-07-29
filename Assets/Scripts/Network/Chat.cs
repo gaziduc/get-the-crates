@@ -8,11 +8,11 @@ public class Chat : MonoBehaviour
     private Dropdown levelDropdown;
     private Dropdown winConditionDropdown;
 
+    [SerializeField] private AudioSource chatSound;
+
     private void Start()
     {
         GameObject chat = GameObject.FindWithTag("Chat");
-
-        Debug.Log(chat);
     
         texts = new Text[chat.transform.childCount];
 
@@ -39,18 +39,23 @@ public class Chat : MonoBehaviour
             texts[i].text = texts[i + 1].text;
 
         texts[texts.Length - 1].text = msg;
+        
+        chatSound.Play();
     }
 
     [PunRPC]
     public void SetLevelDropdownStateRPC(int value)
     {
         levelDropdown.value = value;
+        
+        chatSound.Play();
     }
     
     [PunRPC]
     public void SetWinConditionStateRPC(int value)
     {
-        
         winConditionDropdown.value = value;
+        
+        chatSound.Play();
     }
 }

@@ -38,7 +38,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Dropdown sizeDropdown;
     [SerializeField] private Dropdown winConditionDropdown;
     [SerializeField] private GameObject disconnectedPanel;
-    
+    [SerializeField] private AudioSource selectSound;
+    [SerializeField] private AudioSource backSound;
+
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
 
@@ -128,6 +130,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 nicknameOptionsField.text = text;
                 
                 LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteNickname);
+                
+                selectSound.Play();
             }
             else if (PhotonNetwork.InRoom)
             {
@@ -190,6 +194,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+        selectSound.Play();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteCreateRoom);
     }
 
@@ -223,6 +228,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void JoinRoom(string roomName)
     {
+        selectSound.Play();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinRoom, roomName);
     }
 
@@ -241,6 +247,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (!String.IsNullOrWhiteSpace(roomToJoinInputField.text))
         {
+            selectSound.Play();
             LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinRoomWithName);
         }
     }
@@ -336,6 +343,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinRandom()
     {
+        selectSound.Play();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinRandom);
     }
     
@@ -352,7 +360,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        CreateRoom();
+        // Create room
+        LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteCreateRoom);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -378,6 +387,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     
     public void LeaveGame()
     {
+        backSound.Play();
+        
         LeanTween.scale(statusPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLeaveGame);
     }
 
@@ -395,10 +406,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        PhotonNetwork.CurrentRoom.IsOpen = false;
-        
         if (PhotonNetwork.IsMasterClient)
         {
+            selectSound.Play();
+            
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel(sizeDropdown.options[sizeDropdown.value].text);
         }
     }
@@ -416,6 +428,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void TryReconnect()
     {
+        selectSound.Play();
         LeanTween.scale(disconnectedPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteTryReconnect);
     }
 
