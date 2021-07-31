@@ -31,6 +31,9 @@ public class PlayerMovement : MonoBehaviour
     
     void Start()
     {
+        float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
+        shoot.volume = sfxVolume;
+        
         controls = new KeyCode[(int) Options.Controls.NumControls];
 
         for (int i = 0; i < (int) Options.Controls.NumControls; i++)

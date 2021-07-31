@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Voice.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -40,6 +41,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject disconnectedPanel;
     [SerializeField] private AudioSource selectSound;
     [SerializeField] private AudioSource backSound;
+    [SerializeField] private Text voiceButtonText;
 
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -285,8 +287,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        voiceButtonText.fontSize = 22;
+        voiceButtonText.text = "Enable voice chat   ";
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnJoinedRoom);
-       
     }
 
     private void OnCompleteOnJoinedRoom()
@@ -306,6 +309,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
         chatView = temp.GetComponent<PhotonView>();
+        ApplyVoiceVolume(PlayerPrefs.GetFloat("VoiceVolume", 0.8f));
         
         SetMasterClientText(PhotonNetwork.MasterClient.NickName);
 
@@ -490,6 +494,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 chatView.RPC("SetWinConditionStateRPC", RpcTarget.Others, winConditionDropdown.value);
             }
         }
+    }
+
+    public void ToggleVoiceChat()
+    {
+        #if UNITY_WEBGL
+            voiceButtonText.fontSize = 14;
+            voiceButtonText.text = "Not supported. Please download   \nthe game to get voice chat.   ";
+        #else
+            Recorder recorder = chatView.GetComponent<Recorder>();
+
+            recorder.TransmitEnabled = !recorder.TransmitEnabled;
+
+            if (recorder.TransmitEnabled)
+                voiceButtonText.text = "Disable voice chat   ";
+            else
+                voiceButtonText.text = "Enable voice chat   ";
+            
+            chatView.RPC("SetVoiceStatus", RpcTarget.All, recorder.TransmitEnabled, chatView.OwnerActorNr);
+        #endif
+    }
+
+    public void ApplyVoiceVolume(float volume)
+    {
+        if (chatView)
+            chatView.GetComponent<AudioSource>().volume = volume;
     }
 
     private void SetProperties()

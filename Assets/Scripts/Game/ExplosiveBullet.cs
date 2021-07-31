@@ -6,6 +6,7 @@ public class ExplosiveBullet : MonoBehaviour
     
     private void OnDestroy()
     {
-        GameObject.Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        GameObject go = GameObject.Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        go.GetComponent<AudioSource>().volume = LevelManager.instance.sfxVolume;
     }
 }

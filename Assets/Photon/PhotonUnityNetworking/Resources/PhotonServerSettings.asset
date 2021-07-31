@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: b6f76105-b23a-44f6-8fc1-7a41699c5133
+    AppIdFusion: 
     AppIdChat: 
-    AppIdVoice: 
+    AppIdVoice: 54440bd6-2a2f-4858-a98e-5ed0d974b513
     AppVersion: 
     UseNameServer: 1
     FixedRegion: eu
@@ -32,7 +33,26 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
+  RpcList:
+  - CantHearYou
+  - ClickRpc
+  - DestroyRpc
+  - DestroySpaceship
+  - Fire
+  - HeresWhy
+  - RespawnSpaceship
+  - ChangeColour
+  - HealRPC
+  - HurtRPC
+  - IncrementScoreRPC
+  - InstantiatePlayerRPC
+  - SendMessageRPC
+  - SetLevelDropdownStateRPC
+  - SetNicknameRPC
+  - SetWinConditionStateRPC
+  - ShootBulletRPC
+  - WeaponEffectRPC
+  - SetVoiceStatus
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

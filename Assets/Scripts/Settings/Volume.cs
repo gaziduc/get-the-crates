@@ -1,23 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Volume : MonoBehaviour
 {
-    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private Slider sfxVolumeSlider;
+    [SerializeField] private Slider voiceVolumeSlider;
+
+    [SerializeField] private AudioSource music;
+    [SerializeField] private AudioSource[] sfx;
     
+    [SerializeField] private NetworkManager net;
+
     // Start is called before the first frame update
     void Start()
     {
-        AudioListener.volume = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
-        volumeSlider.value = AudioListener.volume;
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
+        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
+        voiceVolumeSlider.value = PlayerPrefs.GetFloat("VoiceVolume", 0.85f);
+        
+        
+        ApplyVolume();
     }
 
-    public void SetMasterVolume()
+    private void ApplyVolume()
     {
-        AudioListener.volume = volumeSlider.value;
-        PlayerPrefs.SetFloat("MasterVolume", AudioListener.volume);
+        music.volume = musicVolumeSlider.value;
+        foreach (var sound in sfx)
+            sound.volume = sfxVolumeSlider.value;
+        
+        net.ApplyVoiceVolume(voiceVolumeSlider.value);
+    }
+
+    public void SetMusicVolume()
+    {
+        PlayerPrefs.SetFloat("MusicVolume", musicVolumeSlider.value);
         PlayerPrefs.Save();
+        
+        ApplyVolume();
+    }
+
+    public void SetSfxVolume()
+    {
+        PlayerPrefs.SetFloat("SfxVolume", sfxVolumeSlider.value);
+        PlayerPrefs.Save();
+        
+        ApplyVolume();
+    }
+    
+    public void SetVoiceVolume()
+    {
+        PlayerPrefs.SetFloat("VoiceVolume", voiceVolumeSlider.value);
+        PlayerPrefs.Save();
+        
+        ApplyVolume();
     }
 }

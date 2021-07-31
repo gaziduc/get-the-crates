@@ -83,6 +83,7 @@ public class PlayerHealth : MonoBehaviour
         GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, tf.position + Vector3.up * 3f, Quaternion.identity);
         weaponText.GetComponent<TextMesh>().text = "Health";
         
-        GameObject.Instantiate(healthEffect, tf.position + Vector3.up * 2.4f, Quaternion.identity);
+        GameObject go = GameObject.Instantiate(healthEffect, tf.position + Vector3.up * 2.4f, Quaternion.identity);
+        go.GetComponent<AudioSource>().volume = LevelManager.instance.sfxVolume;
     }
 }

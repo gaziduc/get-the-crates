@@ -16,6 +16,8 @@ TagManager:
   - HealthBarP1
   - FxTemporaire
   - HealthBarP2
+  - AudioSources
+  - PlayerList
   layers:
   - Default
   - TransparentFX

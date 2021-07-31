@@ -11,6 +11,9 @@ public class PlayerScore : MonoBehaviour
 
     void Start()
     {
+        float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
+        crate.volume = sfxVolume;
+        
         PhotonNetwork.LocalPlayer.SetScore(0);
         
         view = GetComponent<PhotonView>();
