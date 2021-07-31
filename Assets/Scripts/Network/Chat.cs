@@ -35,7 +35,7 @@ public class Chat : MonoBehaviour
         
         GameObject playerList = GameObject.FindWithTag("PlayerList");
 
-        voiceImages = new Image[4];
+        voiceImages = new Image[playerList.transform.childCount];
 
         for (int i = 0; i < playerList.transform.childCount; i++)
         {
@@ -82,7 +82,7 @@ public class Chat : MonoBehaviour
     }
 
     [PunRPC]
-    public void SetVoiceStatus(bool isSpeaking, int actorNum)
+    public void SetVoiceStatusRPC(bool isSpeaking, int actorNum)
     {
         Player player = PhotonNetwork.LocalPlayer.Get(actorNum);
 
@@ -94,5 +94,11 @@ public class Chat : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void ResetVoiceStatusForRemainingPlayers()
+    {
+        for (int i = PhotonNetwork.PlayerList.Length; i < voiceImages.Length; i++)
+            voiceImages[i].enabled = false;
     }
 }

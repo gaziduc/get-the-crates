@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5373353426961143586}
   - component: {fileID: 5125293063603235701}
   - component: {fileID: 2569615152319389478}
-  - component: {fileID: 1262190901376814886}
+  - component: {fileID: 5482473777007005639}
   m_Layer: 0
   m_Name: ChatPhotonView
   m_TagString: Untagged
@@ -205,7 +205,7 @@ MonoBehaviour:
     MinDelaySoft: 200
     MaxDelaySoft: 400
     MaxDelayHard: 1000
---- !u!114 &1262190901376814886
+--- !u!114 &5482473777007005639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

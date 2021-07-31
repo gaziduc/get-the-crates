@@ -283,11 +283,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             if (i > 0)
                 playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
         }
+        
+        if (chatView) // Do not remove, check because SetNickname can call this method before chatView is gotten
+            chatView.GetComponent<Chat>().ResetVoiceStatusForRemainingPlayers();
     }
 
     public override void OnJoinedRoom()
     {
         voiceButtonText.fontSize = 22;
+        voiceButtonText.color = Color.black;
         voiceButtonText.text = "Enable voice chat   ";
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnJoinedRoom);
     }
@@ -380,6 +384,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         
         UpdatePlayerList();
+        
+        chatView.RPC("SetVoiceStatusRPC", RpcTarget.All, chatView.GetComponent<Recorder>().TransmitEnabled, chatView.OwnerActorNr);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -387,6 +393,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         playerLeft.Play();
         chatView.GetComponent<Chat>().SendMessageRPC("<color=cyan>"  + otherPlayer.NickName + "</color> <color=orange>left the room.</color>");
         UpdatePlayerList();
+        
+        chatView.RPC("SetVoiceStatusRPC", RpcTarget.All, chatView.GetComponent<Recorder>().TransmitEnabled, chatView.OwnerActorNr);
     }
     
     public void LeaveGame()
@@ -499,7 +507,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void ToggleVoiceChat()
     {
         #if UNITY_WEBGL
-            voiceButtonText.fontSize = 14;
+            voiceButtonText.fontSize = 13;
+            voiceButtonText.color = Color.red;
             voiceButtonText.text = "Not supported. Please download   \nthe game to get voice chat.   ";
         #else
             Recorder recorder = chatView.GetComponent<Recorder>();
@@ -511,7 +520,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             else
                 voiceButtonText.text = "Enable voice chat   ";
             
-            chatView.RPC("SetVoiceStatus", RpcTarget.All, recorder.TransmitEnabled, chatView.OwnerActorNr);
+            chatView.RPC("SetVoiceStatusRPC", RpcTarget.All, recorder.TransmitEnabled, chatView.OwnerActorNr);
         #endif
     }
 
