@@ -18,6 +18,8 @@ TagManager:
   - HealthBarP2
   - AudioSources
   - PlayerList
+  - ChatView
+  - NetworkManager
   layers:
   - Default
   - TransparentFX

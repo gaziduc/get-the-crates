@@ -1,4 +1,5 @@
 using System;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
@@ -28,6 +29,8 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     private bool beginned = false;
     private bool ended = false;
+    
+    private PhotonView chatView;
 
     void Start()
     {
@@ -40,14 +43,38 @@ public class GuiManager : MonoBehaviourPunCallbacks
             infoTexts[i] = infoPanel.transform.GetChild(i).GetComponent<Text>();
             infoTexts[i].text = "";
         }
-    }
+    
+        #if UNITY_WEBGL
+            AddMessage("<color=lime>Please download the game to get voice chat.</color>");
+        #else
+            AddMessage("<color=lime>Press <color=cyan>Ctrl</color> to enable/disable voice chat.</color>");
+        #endif
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+        GameObject[] chatViews = GameObject.FindGameObjectsWithTag("ChatView");
+
+        foreach (GameObject v in chatViews)
+        {
+            if (v.GetComponent<PhotonView>().IsMine)
+            {
+                chatView = v.GetComponent<PhotonView>();
+                break;
+            }
+        }
+        
+    }
+    
+    
+    public void AddMessage(string message)
     {
         for (int i = 0; i < infoTexts.Length - 1; i++)
             infoTexts[i].text = infoTexts[i + 1].text;
 
-        infoTexts[infoTexts.Length - 1].text = "<color=cyan>" + otherPlayer.NickName + " <color=red>left the room.</color></color>";
+        infoTexts[infoTexts.Length - 1].text = message; 
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        AddMessage("<color=cyan>" + otherPlayer.NickName + " <color=red>left the room.</color></color>");
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -69,7 +96,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
     {
         if (!beginned)
         {
-            if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length * 2) // - 1 for the crate
+            if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length * 3) // - 1 for the crate
                 beginned = true;
             else
                 return;
@@ -154,11 +181,14 @@ public class GuiManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.DestroyAll();
-            
             PhotonNetwork.CurrentRoom.IsVisible = true;
             PhotonNetwork.CurrentRoom.IsOpen = true;
             PhotonNetwork.LoadLevel(0);
         }
+    }
+    
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        chatView.GetComponent<Chat>().SetVoiceStatus();
     }
 }

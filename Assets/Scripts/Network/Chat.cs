@@ -1,104 +1,182 @@
-using System;
+using System.Collections;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Voice.PUN;
+using Photon.Voice.Unity;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Chat : MonoBehaviour
 {
-    private Text[] texts;
-    private Dropdown levelDropdown;
-    private Dropdown winConditionDropdown; 
-    private AudioSource chatSound;
     private PhotonView view;
-    private PhotonVoiceView voiceView;
-    private Image[] voiceImages;
-    
+    private bool changedScene = false;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
-        voiceView = GetComponent<PhotonVoiceView>();
         
-        chatSound = GameObject.FindWithTag("AudioSources").transform.GetChild(1).GetChild(4).GetComponent<AudioSource>();
-
-        GameObject chat = GameObject.FindWithTag("Chat");
-    
-        texts = new Text[chat.transform.childCount];
-
-        for (int i = 0; i < texts.Length; i++)
-            texts[i] = chat.transform.GetChild(i).GetComponent<Text>();
-
-        levelDropdown = GameObject.FindWithTag("LevelDropdown").GetComponent<Dropdown>();
-        winConditionDropdown = GameObject.FindWithTag("WinConditionDropdown").GetComponent<Dropdown>();
+        SetVoiceCustomProps(false);
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += SceneLoaded;
         
-        GameObject playerList = GameObject.FindWithTag("PlayerList");
+        ResetVoiceStatusForRemainingPlayers();
+    }
 
-        voiceImages = new Image[playerList.transform.childCount];
+    private void SceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (view.IsMine)
+            changedScene = true;
+    }
 
-        for (int i = 0; i < playerList.transform.childCount; i++)
+    private IEnumerator WaitForPlayerList()
+    {
+        GameObject playerList = null;
+        
+        do
+        { 
+            playerList = GameObject.FindWithTag("PlayerList");
+            yield return null;
+        } while (playerList == null);
+       
+
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
-            voiceImages[i] = playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>();
-            voiceImages[i].enabled = false;
+            bool isVoiceEnabled = false;
+            
+            if (PhotonNetwork.PlayerList[i].CustomProperties.ContainsKey("voice"))
+                isVoiceEnabled = (bool) PhotonNetwork.PlayerList[i].CustomProperties["voice"];
+
+            playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = isVoiceEnabled;
+            SetNickname(i, isVoiceEnabled, PhotonNetwork.PlayerList[i]);
+        }
+
+        for (int i = PhotonNetwork.PlayerList.Length; i < playerList.transform.childCount; i++)
+        {
+            playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = false;
+            SetNickname(i, false, null);
         }
     }
     
 
     public void ClearMessages()
     {
-        foreach (Text t in texts)
-        {
-            t.text = "";
-        }
+        GameObject chat = GameObject.FindWithTag("Chat");
+        
+        for (int i = 0; i < chat.transform.childCount; i++)
+            chat.transform.GetChild(i).GetComponent<Text>().text = "";
     }
 
 
     [PunRPC]
     public void SendMessageRPC(string msg)
     {
-        for (int i = 0; i < texts.Length - 1; i++)
-            texts[i].text = texts[i + 1].text;
-
-        texts[texts.Length - 1].text = msg;
+        GameObject chat = GameObject.FindWithTag("Chat");
         
-        chatSound.Play();
+        for (int i = 0; i < chat.transform.childCount - 1; i++)
+            chat.transform.GetChild(i).GetComponent<Text>().text = chat.transform.GetChild(i + 1).GetComponent<Text>().text;
+
+        chat.transform.GetChild(chat.transform.childCount - 1).GetComponent<Text>().text = msg;
+        
+        GameObject.FindWithTag("AudioSources").transform.GetChild(1).GetChild(4).GetComponent<AudioSource>().Play();
     }
 
     [PunRPC]
     public void SetLevelDropdownStateRPC(int value)
     {
-        levelDropdown.value = value;
-        
-        chatSound.Play();
+        GameObject.FindWithTag("LevelDropdown").GetComponent<Dropdown>().value = value;
+        GameObject.FindWithTag("AudioSources").transform.GetChild(1).GetChild(4).GetComponent<AudioSource>().Play();
     }
     
     [PunRPC]
     public void SetWinConditionStateRPC(int value)
     {
-        winConditionDropdown.value = value;
-        
-        chatSound.Play();
+        GameObject.FindWithTag("WinConditionDropdown").GetComponent<Dropdown>().value = value;
+        GameObject.FindWithTag("AudioSources").transform.GetChild(1).GetChild(4).GetComponent<AudioSource>().Play();
+    }
+    
+    public void SetVoiceStatus()
+    {
+        StartCoroutine(WaitForPlayerList());
     }
 
-    [PunRPC]
-    public void SetVoiceStatusRPC(bool isSpeaking, int actorNum)
+    private void SetNickname(int i, bool isSpeaking, Player player)
     {
-        Player player = PhotonNetwork.LocalPlayer.Get(actorNum);
-
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            if (PhotonNetwork.PlayerList[i].ActorNumber == player.ActorNumber)
-            {
-                voiceImages[i].enabled = isSpeaking;
-                break;
-            }
+            GameObject playerList = GameObject.FindWithTag("PlayerList");
+            
+            Text text = playerList.transform.GetChild(i).GetChild(1).GetComponent<Text>();
+            text.enabled = isSpeaking;
+            if (text.enabled)
+                text.text = player.NickName;
         }
     }
+    
 
     public void ResetVoiceStatusForRemainingPlayers()
     {
-        for (int i = PhotonNetwork.PlayerList.Length; i < voiceImages.Length; i++)
-            voiceImages[i].enabled = false;
+        StartCoroutine(ResetCoroutine());
+    }
+
+    private IEnumerator ResetCoroutine()
+    {
+        GameObject playerList = null;
+        
+        do
+        { 
+            playerList = GameObject.FindWithTag("PlayerList");
+            yield return null;
+        } while (playerList == null);
+
+        for (int i = PhotonNetwork.PlayerList.Length; i < playerList.transform.childCount; i++)
+        {
+            playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = false;
+            SetNickname(i, false, null);
+        }
+    }
+
+
+    private void Update()
+    {
+        if (view.IsMine)
+        {
+            if (changedScene)
+            {
+                changedScene = false;
+                StartCoroutine(WaitForPlayerList());
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+                    ToggleVoiceChat();
+            }
+        }
+    }
+    
+    public void ToggleVoiceChat()
+    {
+        #if UNITY_WEBGL
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+                GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().AddMessage("<color=lime>Please download the game to get voice chat.</color>");
+            else
+                SendMessageRPC("<color=lime>Please download the game to get voice chat.</color>");
+        #else
+            Recorder recorder = GetComponent<Recorder>();
+            recorder.TransmitEnabled = !recorder.TransmitEnabled;
+            
+            SetVoiceCustomProps(recorder.TransmitEnabled);
+        #endif
+    }
+
+    private void SetVoiceCustomProps(bool isSpeaking)
+    {
+        if (view.IsMine)
+        {
+            // Set custom player properties
+            Hashtable props = new Hashtable();
+            props.Add("voice", isSpeaking);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
     }
 }

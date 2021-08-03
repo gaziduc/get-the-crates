@@ -12,7 +12,7 @@ PluginImporter:
   validateReferences: 1
   platformData:
   - first:
-      '': Any
+      : Any
     second:
       enabled: 0
       settings:
@@ -24,32 +24,33 @@ PluginImporter:
         Exclude Win: 0
         Exclude Win64: 0
         Exclude WindowsStoreApps: 1
+        Exclude iOS: 1
   - first:
-      '': Linux
+      : Linux
     second:
       enabled: 0
       settings:
         CPU: None
   - first:
-      '': LinuxUniversal
+      : LinuxUniversal
     second:
       enabled: 1
       settings:
         CPU: x86_64
   - first:
-      '': OSXIntel
+      : OSXIntel
     second:
       enabled: 0
       settings:
         CPU: None
   - first:
-      '': OSXIntel64
+      : OSXIntel64
     second:
       enabled: 1
       settings:
         CPU: None
   - first:
-      '': WP8
+      : WP8
     second:
       enabled: 0
       settings:
@@ -114,6 +115,8 @@ PluginImporter:
     second:
       enabled: 0
       settings:
+        AddToEmbeddedBinaries: false
+        CPU: AnyCPU
         CompileFlags: 
         FrameworkDependencies: 
   userData: 

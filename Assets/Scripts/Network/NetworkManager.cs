@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Voice.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -41,7 +40,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject disconnectedPanel;
     [SerializeField] private AudioSource selectSound;
     [SerializeField] private AudioSource backSound;
-    [SerializeField] private Text voiceButtonText;
 
     private Dictionary<string, RoomInfo> cachedRoomList;
     private PhotonView chatView;
@@ -290,9 +288,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        voiceButtonText.fontSize = 22;
-        voiceButtonText.color = Color.black;
-        voiceButtonText.text = "Enable voice chat   ";
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnJoinedRoom);
     }
 
@@ -310,9 +305,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         winConditionDropdown.value = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("win") ? (int) PhotonNetwork.CurrentRoom.CustomProperties["win"] : 0;
         
         currentRoomField.text = PhotonNetwork.CurrentRoom.Name;
+
+        PhotonView[] views = GameObject.FindObjectsOfType<PhotonView>();
+
+        foreach (PhotonView v in views)
+        {
+            if (v.IsMine)
+            {
+                chatView = v;
+                break;
+            }
+        }
         
-        GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
-        chatView = temp.GetComponent<PhotonView>();
+        if (chatView == null)
+        {
+            GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);
+            chatView = temp.GetComponent<PhotonView>();
+        }
+
+
         ApplyVoiceVolume(PlayerPrefs.GetFloat("VoiceVolume", 0.8f));
         
         SetMasterClientText(PhotonNetwork.MasterClient.NickName);
@@ -385,7 +396,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         UpdatePlayerList();
         
-        chatView.RPC("SetVoiceStatusRPC", RpcTarget.All, chatView.GetComponent<Recorder>().TransmitEnabled, chatView.OwnerActorNr);
+        // Debug.LogError(PhotonNetwork.PlayerList[0].CustomProperties.ToString());
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -394,7 +405,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         chatView.GetComponent<Chat>().SendMessageRPC("<color=cyan>"  + otherPlayer.NickName + "</color> <color=orange>left the room.</color>");
         UpdatePlayerList();
         
-        chatView.RPC("SetVoiceStatusRPC", RpcTarget.All, chatView.GetComponent<Recorder>().TransmitEnabled, chatView.OwnerActorNr);
+        chatView.GetComponent<Chat>().SetVoiceStatus();
     }
     
     public void LeaveGame()
@@ -406,14 +417,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void OnCompleteLeaveGame()
     {
+        chatView.GetComponent<Chat>().ClearMessages();
+        
         statusPanel.SetActive(false);
         ActivateUIElement(connectingPanel);
         
-        chatView.GetComponent<Chat>().ClearMessages();
-        
+        PhotonNetwork.Destroy(chatView);
         PhotonNetwork.LeaveRoom();
-        
-        Destroy(chatView.gameObject);
     }
 
     public void StartGame()
@@ -504,24 +514,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void ToggleVoiceChat()
+    public void ToggleVoice()
     {
-        #if UNITY_WEBGL
-            voiceButtonText.fontSize = 13;
-            voiceButtonText.color = Color.red;
-            voiceButtonText.text = "Not supported. Please download   \nthe game to get voice chat.   ";
-        #else
-            Recorder recorder = chatView.GetComponent<Recorder>();
-
-            recorder.TransmitEnabled = !recorder.TransmitEnabled;
-
-            if (recorder.TransmitEnabled)
-                voiceButtonText.text = "Disable voice chat   ";
-            else
-                voiceButtonText.text = "Enable voice chat   ";
-            
-            chatView.RPC("SetVoiceStatusRPC", RpcTarget.All, recorder.TransmitEnabled, chatView.OwnerActorNr);
-        #endif
+        chatView.GetComponent<Chat>().ToggleVoiceChat();
     }
 
     public void ApplyVoiceVolume(float volume)
@@ -550,5 +545,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(2f);
         copyButtonText.text = "Copy";
+    }
+
+    private IEnumerator WaitForChatView()
+    {
+        while (chatView == null)
+            yield return null;
+        
+        chatView.GetComponent<Chat>().SetVoiceStatus();
+    }
+
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        StartCoroutine(WaitForChatView());
     }
 }
