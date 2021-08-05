@@ -49,7 +49,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
         #if UNITY_WEBGL
             AddMessage("<color=lime>Please download the game to get voice chat.</color>");
         #else
-            AddMessage("<color=lime>Press <color=cyan>Ctrl</color> to enable/disable voice chat.</color>");
+            AddMessage("<color=lime>Press <color=cyan>Tab</color> to enable/disable voice chat.</color>");
         #endif
 
         GameObject[] chatViews = GameObject.FindGameObjectsWithTag("ChatView");

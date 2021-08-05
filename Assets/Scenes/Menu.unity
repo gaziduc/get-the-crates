@@ -23865,7 +23865,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Toggle voice chat   <color=grey>Ctrl</color>    '
+  m_Text: 'Toggle voice chat   <color=grey>Tab</color>    '
 --- !u!222 &2060566571
 CanvasRenderer:
   m_ObjectHideFlags: 0

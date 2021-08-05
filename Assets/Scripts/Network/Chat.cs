@@ -148,7 +148,7 @@ public class Chat : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+                if (Input.GetKeyDown(KeyCode.Tab))
                     ToggleVoiceChat();
             }
         }
