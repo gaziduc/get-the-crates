@@ -389,6 +389,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 Text text = friendItem.transform.GetChild(0).GetComponent<Text>();
                 text.text = cachedFriendList[friend.UserId] + " <color=green>Online</color>" + (friend.IsInRoom ? " in room: " + friend.Room : " in lobby");
 
+                friendItem.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(delegate { RemoveFriend(friend.UserId); });
+                
                 if (friend.IsInRoom)
                 {
                     if (cachedRoomList.ContainsKey(friend.Room) && cachedRoomList[friend.Room].IsOpen)
@@ -415,12 +417,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 GameObject friendItem = GameObject.Instantiate(friendItemPrefab, friendsContent.transform);
                 Text text = friendItem.transform.GetChild(0).GetComponent<Text>();
                 text.text = cachedFriendList[friend.UserId] + " <color=grey>Offline</color>";
+                
+                friendItem.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(delegate { RemoveFriend(friend.UserId); });
+                
                 Destroy(friendItem.transform.GetChild(1).gameObject);
             }
         }
-        
-        
     }
+
+    public void RemoveFriend(string friendId)
+    {
+        Tooltip.instance.HideTooltip();
+        
+        RemoveFriendRequest request = new RemoveFriendRequest();
+        request.FriendPlayFabId = friendId;
+        
+        PlayFabClientAPI.RemoveFriend(request, OnRemovedFriend, OnFriendListError);
+    }
+
+    private void OnRemovedFriend(RemoveFriendResult result)
+    {
+        PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError);
+    }
+    
 
     public void CreateRoom()
     {
