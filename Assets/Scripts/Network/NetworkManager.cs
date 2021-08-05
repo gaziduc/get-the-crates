@@ -179,16 +179,44 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.AuthValues = customAuth;
 
-        PhotonNetwork.NickName = username;
-        nicknameText.text = username;
+        if (!username.Contains("@")) // if not email
+        {
+            PhotonNetwork.NickName = username;
+            nicknameText.text = username;
+            
+            SavePrefs(username, password);
+            Connect();
+        }
+        else
+        {
+            GetAccountInfoRequest request = new GetAccountInfoRequest();
+            request.Email = username;
+            request.PlayFabId = playerIdCache;
+            PlayFabClientAPI.GetAccountInfo(request, OnGetAccountInfo, OnGetAccountInfoError);
+        }
+    }
+
+    private void OnGetAccountInfo(GetAccountInfoResult result)
+    {
+        PhotonNetwork.NickName = result.AccountInfo.Username;
+        nicknameText.text = result.AccountInfo.Username;
         
-        PlayerPrefs.SetString("Nickname", username);
+        SavePrefs(username, password);
+        Connect();
+    }
+
+    private void OnGetAccountInfoError(PlayFabError error)
+    {
+        Debug.LogError(error.ToString());
+    }
+
+    private void SavePrefs(string usernamePrefs, string passwordPrefs)
+    {
+        PlayerPrefs.SetString("Nickname", usernamePrefs);
         if (PlayerPrefs.GetInt("SavePassword", 1) == 1)
-            PlayerPrefs.SetString("Password", password);
+            PlayerPrefs.SetString("Password", passwordPrefs);
         else
             PlayerPrefs.SetString("Password", "");
-        
-        Connect();
     }
 
 

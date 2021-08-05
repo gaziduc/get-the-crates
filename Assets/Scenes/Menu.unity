@@ -2821,7 +2821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce8f5b313cdbf84f8c55eb899816db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToShow: Click here if you have forgotten your login credentials.
+  textToShow: Click here if you have forgotten your password.
 --- !u!1 &216425878
 GameObject:
   m_ObjectHideFlags: 0
