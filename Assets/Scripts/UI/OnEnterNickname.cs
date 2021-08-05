@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class OnEnterNickname : MonoBehaviour
 {
-    private InputField inputField;
+    /*private InputField inputField;
     [SerializeField] private NetworkManager net;
     
     // Start is called before the first frame update
@@ -19,5 +19,5 @@ public class OnEnterNickname : MonoBehaviour
         {
             net.SetNickname(true);
         }
-    }
+    }*/
 }

@@ -16,7 +16,21 @@ public class Options : MonoBehaviour
     
     public void ToggleOptions()
     {
-        optionsPanel.SetActive(!optionsPanel.activeSelf);
+        if (optionsPanel.activeInHierarchy)
+        {
+            LeanTween.scale(optionsPanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(DeactivateOptionsPanel);
+        }
+        else
+        {
+            optionsPanel.SetActive(true);
+            optionsPanel.transform.localScale = Vector3.zero;
+            LeanTween.scale(optionsPanel, Vector3.one, 0.2f).setEaseOutBack();
+        }
+    }
+
+    void DeactivateOptionsPanel()
+    {
+        optionsPanel.SetActive(false);
     }
 
 
