@@ -1,10 +1,11 @@
 using System;
-using ExitGames.Client.Photon;
+using System.Collections;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GuiManager : MonoBehaviourPunCallbacks
 {
@@ -22,6 +23,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text scoreboardText;
     [SerializeField] private Text scoresText;
     [SerializeField] private GameObject infoPanel;
+    [SerializeField] private GameObject backToRoomButton;
     private Text[] infoTexts;
     
     private float timeRemaining = 90f;
@@ -150,7 +152,19 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     public void Pause()
     {
-        pausePanel.SetActive(!pausePanel.activeInHierarchy);
+        if (pausePanel.activeInHierarchy)
+            LeanTween.scale(pausePanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(OnCompleteResume);
+        else
+        {
+            pausePanel.SetActive(true);
+            pausePanel.transform.localScale = Vector3.zero;
+            LeanTween.scale(pausePanel, Vector3.one, 0.2f).setEaseOutBack();
+        }
+    }
+
+    private void OnCompleteResume()
+    {
+        pausePanel.SetActive(false);
     }
 
     private void End()
@@ -174,9 +188,23 @@ public class GuiManager : MonoBehaviourPunCallbacks
         scoresText.text = scoreText;
         
         end.Play();
+        
         endPanel.SetActive(true);
+        endPanel.transform.localScale = Vector3.zero;
+        backToRoomButton.SetActive(false);
+        LeanTween.scale(endPanel, Vector3.one, 0.2f).setEaseOutBack();
+
+        StartCoroutine(ShowButton());
     }
 
+    private IEnumerator ShowButton()
+    {
+        yield return new WaitForSeconds(2f);
+        backToRoomButton.SetActive(true);
+        backToRoomButton.transform.localScale = Vector3.zero;
+        LeanTween.scale(backToRoomButton, Vector3.one, 0.2f).setEaseOutBack();
+    }
+    
     public void GoBackToMenu()
     {
         if (PhotonNetwork.IsMasterClient)

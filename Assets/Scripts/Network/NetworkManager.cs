@@ -54,6 +54,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject noFriendText;
     [SerializeField] private InputField friendNameField;
     [SerializeField] private GameObject friendErrorGameobject;
+    [SerializeField] private GameObject joinRoomFailedErrorPanel;
     
     private string playerIdCache = "";
     private string username = "";
@@ -222,7 +223,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             lastFriendsUpdateTime = Time.time;
 
-            if (cachedFriendList.Count > 0)
+            if (cachedFriendList != null && cachedFriendList.Count > 0)
             {
                 string[] friendsToFind = new string[cachedFriendList.Count];
 
@@ -240,8 +241,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError);
-        
         PhotonNetwork.JoinLobby();
     }
     
@@ -284,11 +283,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void AddFriend()
     {
-        AddFriendRequest request = new AddFriendRequest();
-        request.FriendUsername = friendNameField.text;
-        friendNameField.text = "";
+        if (!String.IsNullOrWhiteSpace(friendNameField.text))
+        {
+            AddFriendRequest request = new AddFriendRequest();
+            request.FriendUsername = friendNameField.text;
+            friendNameField.text = "";
         
-        PlayFabClientAPI.AddFriend(request, OnAddedFriend, OnFriendListError);
+            PlayFabClientAPI.AddFriend(request, OnAddedFriend, OnFriendListError);
+        }
     }
 
     void OnAddedFriend(AddFriendResult result)
@@ -303,6 +305,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
+        PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError);
+        
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinedLobby);
     }
 
@@ -386,9 +390,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 text.text = cachedFriendList[friend.UserId] + " <color=green>Online</color>" + (friend.IsInRoom ? " in room: " + friend.Room : " in lobby");
 
                 if (friend.IsInRoom)
-                    friendItem.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(friend.Room); });
+                {
+                    if (cachedRoomList.ContainsKey(friend.Room) && cachedRoomList[friend.Room].IsOpen)
+                    {
+                        friendItem.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { JoinRoom(friend.Room); });
+                    }
+                    else
+                    {
+                        Destroy(friendItem.transform.GetChild(1).gameObject);
+                        text.text += " <color=red>Playing</color>";
+                    }
+                }
                 else
+                {
                     Destroy(friendItem.transform.GetChild(1).gameObject);
+                }
             }
         }
         
@@ -555,12 +571,27 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
+        joinRoomFailedErrorPanel.SetActive(true);
+        joinRoomFailedErrorPanel.transform.GetChild(1).GetComponent<Text>().text = message;
+        joinRoomFailedErrorPanel.SetActive(false);
+        
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnJoinRoomFailed);
     }
 
     private void OnCompleteOnJoinRoomFailed()
     {
         connectingPanel.SetActive(false);
+        
+        ActivateUIElement(joinRoomFailedErrorPanel);
+    }
+
+    public void ReturnToMenu()
+    {
+        LeanTween.scale(joinRoomFailedErrorPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteReturnToMenu);
+    }
+
+    private void OnCompleteReturnToMenu()
+    {
         ActivateUIElement(menuPanel);
     }
 
