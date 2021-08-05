@@ -55,6 +55,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField friendNameField;
     [SerializeField] private GameObject friendErrorGameobject;
     [SerializeField] private GameObject joinRoomFailedErrorPanel;
+    [SerializeField] private InputField recoverEmailField;
+    [SerializeField] private GameObject forgotInfoPanel;
+    [SerializeField] private GameObject forgotInfoAfterPanel;
     
     private string playerIdCache = "";
     private string username = "";
@@ -103,15 +106,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void OnCompleteLogin()
     {
         ActivateUIElement(connectingPanel);
-        
-        LoginWithPlayFabRequest request = new LoginWithPlayFabRequest();
-        request.Username = loginUser.text;
-        request.Password = loginPass.text;
 
-        username = loginUser.text;
-        password = loginPass.text;
+        if (loginUser.text.Contains("@")) // if email
+        {
+            LoginWithEmailAddressRequest request = new LoginWithEmailAddressRequest();
+            request.Email = loginUser.text;
+            request.Password = loginPass.text;
+
+            username = loginUser.text;
+            password = loginPass.text;
+            
+            PlayFabClientAPI.LoginWithEmailAddress(request, RequestToken, PlayFabError);
+        }
+        else
+        {
+            LoginWithPlayFabRequest request = new LoginWithPlayFabRequest();
+            request.Username = loginUser.text;
+            request.Password = loginPass.text;
+
+            username = loginUser.text;
+            password = loginPass.text;
         
-        PlayFabClientAPI.LoginWithPlayFab(request, RequestToken, PlayFabError);
+            PlayFabClientAPI.LoginWithPlayFab(request, RequestToken, PlayFabError);
+        }
     }
 
     public void Register()
@@ -824,5 +841,50 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         StartCoroutine(WaitForChatView());
+    }
+
+    public void OnGoingToForgotten()
+    {
+        selectSound.Play();
+        LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnGoingToForgotten);
+    }
+
+    private void OnCompleteOnGoingToForgotten()
+    {
+        ActivateUIElement(forgotInfoPanel);
+    }
+
+    public void OnForgottenClick()
+    {
+        SendAccountRecoveryEmailRequest request = new SendAccountRecoveryEmailRequest();
+        request.Email = recoverEmailField.text;
+        request.TitleId = PlayFabSettings.TitleId;
+        PlayFabClientAPI.SendAccountRecoveryEmail(request, OnForgottenResult, OnFriendListError);
+    }
+
+    private void OnForgottenResult(SendAccountRecoveryEmailResult result)
+    {
+        LeanTween.scale(forgotInfoPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnForgottenResult);
+    }
+
+    private void OnCompleteOnForgottenResult()
+    {
+        ActivateUIElement(forgotInfoAfterPanel);
+    }
+
+    public void CancelForgotten()
+    {
+        LeanTween.scale(forgotInfoPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteEscapeAfterForgotPanel);
+    }
+
+
+    public void EscapeAfterForgotPanel()
+    {
+        LeanTween.scale(forgotInfoAfterPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteEscapeAfterForgotPanel);
+    }
+
+    private void OnCompleteEscapeAfterForgotPanel()
+    {
+        ActivateUIElement(nicknamePanel);
     }
 }
