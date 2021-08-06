@@ -194,6 +194,19 @@ public class GuiManager : MonoBehaviourPunCallbacks
         backToRoomButton.SetActive(false);
         LeanTween.scale(endPanel, Vector3.one, 0.2f).setEaseOutBack();
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Set room custom properties for lobby
+            Hashtable props = PhotonNetwork.CurrentRoom.CustomProperties;
+            if (props.ContainsKey("winner"))
+                props["winner"] = players[0].NickName;
+            else
+                props.Add("winner", players[0].NickName);
+            
+            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+        }
+        
+        
         StartCoroutine(ShowButton());
     }
 

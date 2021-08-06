@@ -399,6 +399,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Text text = roomItem.transform.GetChild(0).GetComponent<Text>(); 
             text.text = room.Key + " <color=grey>(" + room.Value.PlayerCount + "/" + room.Value.MaxPlayers + ")</color>";
 
+            if (room.Value.CustomProperties.ContainsKey("winner"))
+                roomItem.transform.GetChild(2).GetComponent<Text>().text = "<color=grey>Last winner:</color> " + (string) room.Value.CustomProperties["winner"];
+            else
+                roomItem.transform.GetChild(2).GetComponent<Text>().text = "<color=grey>Last winner: No winner</color>";
+            
             if (!room.Value.IsOpen)
             {
                 text.text += " <color=red>Playing</color>";
@@ -507,6 +512,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = maxPlayersPerRoom;
         roomOptions.PublishUserId = true; // for friends
+        roomOptions.CustomRoomPropertiesForLobby = new string[1] {"winner"};
         PhotonNetwork.CreateRoom(String.IsNullOrWhiteSpace(roomNameInputField.text) ? GetRandomString(): roomNameInputField.text, roomOptions, TypedLobby.Default);
     }
 
@@ -705,8 +711,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         
         UpdatePlayerList();
-        
-        // Debug.LogError(PhotonNetwork.PlayerList[0].CustomProperties.ToString());
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
