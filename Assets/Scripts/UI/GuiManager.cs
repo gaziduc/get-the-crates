@@ -10,7 +10,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class GuiManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Text secondsText;
-    [SerializeField] private Text tenthText;
     [SerializeField] private GameObject endPanel;
     public GameObject pausePanel;
     [SerializeField] private Button backToMenuButtonEnd;
@@ -27,7 +26,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
     private Text[] infoTexts;
     
     private float timeRemaining = 90f;
+    private int timeLast = 0;
     private float countdownTime = 3f;
+    private int countdownLast = 0;
 
     private bool beginned = false;
     private bool ended = false;
@@ -90,8 +91,21 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     private void SetTimeText()
     {
-        secondsText.text = ((int) timeRemaining).ToString();
-        tenthText.text = "." + (int) (timeRemaining % 1 * 10);
+        int timeNow = (int) timeRemaining + 1;
+        
+        if (timeNow != timeLast)
+        {
+            NewTextAnim(secondsText, timeNow.ToString());            
+
+            timeLast = timeNow;
+        }
+    }
+
+    private void NewTextAnim(Text text, string newText)
+    {
+        text.transform.localScale = Vector3.zero;
+        text.text = newText;
+        LeanTween.scale(text.gameObject, Vector3.one, 0.2f).setEaseOutBack();
     }
     
     private void Update()
@@ -106,12 +120,12 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
         if (countdownTime > 0f)
         {
-            string lastText = countdownText.text;
+            //string lastText = countdownText.text;
             countdownTime -= Time.deltaTime;
 
             if (countdownTime <= 0f)
             {
-                countdownText.text = "GO!";
+                NewTextAnim(countdownText, "GO!");
                 GameObject.Destroy(countdownText.gameObject, 0.5f);
 
                 LevelManager.instance.gameStarted = true;
@@ -120,13 +134,17 @@ public class GuiManager : MonoBehaviourPunCallbacks
                 GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
                 return;
             }
-            
-            countdownText.text = ((int) countdownTime + 1).ToString();
 
-            if (!lastText.Equals(countdownText.text))
+
+            int countdownNow = (int) countdownTime + 1;
+            if (countdownNow != countdownLast)
             {
+                NewTextAnim(countdownText, ((int) countdownTime + 1).ToString());
+                
                 countdownSound.Play();
                 GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
+
+                countdownLast = countdownNow;
             }
             
             return;
@@ -169,6 +187,8 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     private void End()
     {
+        NewTextAnim(secondsText, "0");          
+        
         Player[] players = PhotonNetwork.PlayerList;
         Array.Sort(players, (p1, p2) => p2.GetScore().CompareTo(p1.GetScore()));
         

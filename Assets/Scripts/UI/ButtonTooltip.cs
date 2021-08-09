@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private string textToShow;
+    [TextArea] [SerializeField] private string textToShow;
     
     public void OnPointerEnter(PointerEventData eventData)
     {
