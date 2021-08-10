@@ -308,6 +308,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
             PhotonNetwork.FindFriends(friendsToFind); 
         }
+        else
+        {
+            List<FriendInfo> list = new List<FriendInfo>();
+            OnFriendListUpdate(list);
+        }
     }
 
     void OnFriendListError(PlayFabError error)
