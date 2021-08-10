@@ -23,6 +23,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text scoresText;
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private GameObject backToRoomButton;
+    [SerializeField] private Animator transitionEnd;
+    [SerializeField] private Animator transitionStart;
+    
     private Text[] infoTexts;
     
     private float timeRemaining = 90f;
@@ -37,6 +40,8 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        transitionEnd.SetTrigger("End");
+        
         backToMenuButton.interactable = PhotonNetwork.IsMasterClient;
         backToMenuButtonEnd.interactable = PhotonNetwork.IsMasterClient;
 
@@ -242,10 +247,18 @@ public class GuiManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.CurrentRoom.IsVisible = true;
-            PhotonNetwork.CurrentRoom.IsOpen = true;
-            PhotonNetwork.LoadLevel(0);
+            StartCoroutine(BackCoroutine());
         }
+    }
+
+    private IEnumerator BackCoroutine()
+    {
+        transitionStart.SetTrigger("Start");
+        yield return new WaitForSeconds(1f);
+        
+        PhotonNetwork.CurrentRoom.IsVisible = true;
+        PhotonNetwork.CurrentRoom.IsOpen = true;
+        PhotonNetwork.LoadLevel(0);
     }
     
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)

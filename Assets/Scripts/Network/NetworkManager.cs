@@ -58,6 +58,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField recoverEmailField;
     [SerializeField] private GameObject forgotInfoPanel;
     [SerializeField] private GameObject forgotInfoAfterPanel;
+    [SerializeField] private Animator transitionStart;
+    [SerializeField] private Animator transitionEnd;
     
     private string playerIdCache = "";
     private string username = "";
@@ -73,6 +75,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     private void Start()
     {
+        transitionEnd.SetTrigger("End");
+        
         cachedRoomList = new Dictionary<string, RoomInfo>();
 
         if (!PhotonNetwork.IsConnected)
@@ -745,10 +749,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             selectSound.Play();
-            
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel(sizeDropdown.options[sizeDropdown.value].text);
+
+
+            StartCoroutine(StartLevel());
         }
+    }
+
+    private IEnumerator StartLevel()
+    {
+        chatView.RPC("StartTransitionRPC", RpcTarget.All);
+        yield return new WaitForSeconds(1.5f);
+        PhotonNetwork.LoadLevel(sizeDropdown.options[sizeDropdown.value].text);
     }
 
     public override void OnDisconnected(DisconnectCause cause)

@@ -94,6 +94,12 @@ public class Chat : MonoBehaviour
         GameObject.FindWithTag("WinConditionDropdown").GetComponent<Dropdown>().value = value;
         GameObject.FindWithTag("AudioSources").transform.GetChild(1).GetChild(4).GetComponent<AudioSource>().Play();
     }
+
+    [PunRPC]
+    void StartTransitionRPC()
+    {
+        GameObject.FindWithTag("TransitionImageStart").GetComponent<Animator>().SetTrigger("Start");
+    }
     
     public void SetVoiceStatus()
     {

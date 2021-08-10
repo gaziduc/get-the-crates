@@ -54,6 +54,7 @@ MonoBehaviour:
   - WeaponEffectRPC
   - SetVoiceStatus
   - SetVoiceStatusRPC
+  - StartTransitionRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
