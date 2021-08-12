@@ -103,7 +103,7 @@ public class SpawnManager : MonoBehaviour
                 instantiated = true;
             }
             
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
     }
 }

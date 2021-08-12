@@ -58,8 +58,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField recoverEmailField;
     [SerializeField] private GameObject forgotInfoPanel;
     [SerializeField] private GameObject forgotInfoAfterPanel;
-    [SerializeField] private Animator transitionStart;
-    [SerializeField] private Animator transitionEnd;
+    [SerializeField] private GameObject transitionPanel;
     
     private string playerIdCache = "";
     private string username = "";
@@ -72,11 +71,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private float UIAnimDelay = 0.2f;
     private float lastFriendsUpdateTime = 0f;
 
+    private void Awake()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            LeanTween.scale(transitionPanel, Vector3.zero, 0.4f).setEaseOutCubic();
+        }
+        else
+        {
+            transitionPanel.transform.localScale = Vector3.zero;
+        }
+    }
+
+
     // Start is called before the first frame update
     private void Start()
     {
-        transitionEnd.SetTrigger("End");
-        
         cachedRoomList = new Dictionary<string, RoomInfo>();
 
         if (!PhotonNetwork.IsConnected)
@@ -364,7 +374,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinedLobby);
     }
 
-    private void ActivateUIElement(GameObject objectToActivate)
+    public void ActivateUIElement(GameObject objectToActivate)
     {
         objectToActivate.SetActive(true);
         objectToActivate.transform.localScale = Vector3.zero;
@@ -755,8 +765,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             selectSound.Play();
             PhotonNetwork.CurrentRoom.IsOpen = false;
-
-
+            
             StartCoroutine(StartLevel());
         }
     }
@@ -764,7 +773,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private IEnumerator StartLevel()
     {
         chatView.RPC("StartTransitionRPC", RpcTarget.All);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         PhotonNetwork.LoadLevel(sizeDropdown.options[sizeDropdown.value].text);
     }
 

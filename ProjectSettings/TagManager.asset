@@ -13,14 +13,11 @@ TagManager:
   - WinConditionDropdown
   - PlayerSpawnParent
   - CrateSpawnParent
-  - HealthBarP1
-  - FxTemporaire
-  - HealthBarP2
   - AudioSources
   - PlayerList
   - ChatView
   - NetworkManager
-  - TransitionImageStart
+  - TransitionPanel
   layers:
   - Default
   - TransparentFX

@@ -23,8 +23,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text scoresText;
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private GameObject backToRoomButton;
-    [SerializeField] private Animator transitionEnd;
-    [SerializeField] private Animator transitionStart;
+    [SerializeField] private GameObject transitionPanel;
     
     private Text[] infoTexts;
     
@@ -40,7 +39,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        transitionEnd.SetTrigger("End");
+        LeanTween.scale(transitionPanel, Vector3.zero, 0.4f).setEaseOutCubic();
         
         backToMenuButton.interactable = PhotonNetwork.IsMasterClient;
         backToMenuButtonEnd.interactable = PhotonNetwork.IsMasterClient;
@@ -221,12 +220,21 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+            string winner = players[0].NickName;
+            for (int i = 1; i < players.Length; i++)
+            {
+                if (players[i].GetScore() == players[0].GetScore())
+                    winner += ", " + players[i].NickName;
+                else
+                    break;
+            }
+            
             // Set room custom properties for lobby
             Hashtable props = PhotonNetwork.CurrentRoom.CustomProperties;
             if (props.ContainsKey("winner"))
-                props["winner"] = players[0].NickName;
+                props["winner"] =  winner;
             else
-                props.Add("winner", players[0].NickName);
+                props.Add("winner",  winner);
             
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);
         }
@@ -253,8 +261,8 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     private IEnumerator BackCoroutine()
     {
-        transitionStart.SetTrigger("Start");
-        yield return new WaitForSeconds(1f);
+        chatView.RPC("StartTransitionRPC", RpcTarget.All);
+        yield return new WaitForSeconds(0.5f);
         
         PhotonNetwork.CurrentRoom.IsVisible = true;
         PhotonNetwork.CurrentRoom.IsOpen = true;

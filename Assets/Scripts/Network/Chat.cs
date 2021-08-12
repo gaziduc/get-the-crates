@@ -98,9 +98,9 @@ public class Chat : MonoBehaviour
     [PunRPC]
     void StartTransitionRPC()
     {
-        GameObject.FindWithTag("TransitionImageStart").GetComponent<Animator>().SetTrigger("Start");
+        LeanTween.scale(GameObject.FindWithTag("TransitionPanel"), new Vector3(2.2f, 2.2f,2.2f), 0.4f).setEaseInCubic();
     }
-    
+
     public void SetVoiceStatus()
     {
         StartCoroutine(WaitForPlayerList());
