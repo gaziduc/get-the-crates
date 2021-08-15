@@ -2,6 +2,8 @@ using System.Collections;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,18 +29,20 @@ public class PlayerMovement : MonoBehaviour
     private PlayerWeapon weapon;
 
     private KeyCode[] controls;
-    
-    
+    private string[] gamepadControls;
+
     void Start()
     {
         float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
         shoot.volume = sfxVolume;
         
         controls = new KeyCode[(int) Options.Controls.NumControls];
+        gamepadControls = new string[(int) Options.Controls.NumControls];
 
         for (int i = 0; i < (int) Options.Controls.NumControls; i++)
         {
             controls[i] = (KeyCode) PlayerPrefs.GetInt(((Options.Controls) i).ToString(), (int) System.Enum.Parse(typeof(KeyCode), Options.instance.defaultControls[i]));
+            gamepadControls[i] = PlayerPrefs.GetString(((Options.Controls) i).ToString() + "Controller", Options.instance.defaultControlsGamepad[i]);
         }
         
         rb = GetComponent<Rigidbody2D>();
@@ -62,14 +66,14 @@ public class PlayerMovement : MonoBehaviour
             if (!canMove || !LevelManager.instance.gameStarted)
                 return;
             
-            if (Input.GetKey(controls[(int) Options.Controls.Left]) || Input.GetAxisRaw("Horizontal") < 0f)
+            if (Input.GetKey(controls[(int) Options.Controls.Left]) || Gamepad.current[gamepadControls[(int) Options.Controls.Left]].IsPressed())
             {
                 sp.flipX = false;
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
             }
-            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || Input.GetAxisRaw("Horizontal") > 0f)
+            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || Gamepad.current[gamepadControls[(int) Options.Controls.Right]].IsPressed())
             {
                 sp.flipX = true;
                 if (!anim.GetBool("IsRunning"))
@@ -85,12 +89,17 @@ public class PlayerMovement : MonoBehaviour
             if (!change.Equals(Vector3.zero))
                 direction = change;
 
-            if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || Input.GetKeyDown(KeyCode.Joystick1Button0)))
+
+            var jumpControl = Gamepad.current[gamepadControls[(int) Options.Controls.Jump]];
+            
+            if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || (jumpControl is ButtonControl && ((ButtonControl) jumpControl).wasPressedThisFrame)))
                 jump = true;
 
-            if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || Input.GetKey(KeyCode.Joystick1Button5))
+            var shootControl = Gamepad.current[gamepadControls[(int) Options.Controls.Shoot]];
+
+            if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || shootControl.IsPressed())
             {
-                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) || Input.GetKeyDown(KeyCode.Joystick1Button5)))
+                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) || (shootControl is ButtonControl && ((ButtonControl) shootControl).wasPressedThisFrame)))
                 {
                     view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, weapon.weaponNum, direction.normalized.x, view.ViewID);
                     weapon.SetReloadBeginning();

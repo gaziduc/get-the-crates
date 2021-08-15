@@ -1,16 +1,21 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.LowLevel;
 
 public class Options : MonoBehaviour
 {
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject controlsPanel;
     [SerializeField] private Text[] keyTexts;
+    [SerializeField] private Text[] gamepadTexts;
 
     public static Options instance;
     
     private bool getKey = false;
+    private bool isController = false;
     private int controlNum;
     private string action = "";
     
@@ -43,7 +48,8 @@ public class Options : MonoBehaviour
         NumControls = 4,
     }
     
-    public string[] defaultControls = { "Space", "UpArrow", "LeftArrow", "RightArrow" };
+    [HideInInspector] public string[] defaultControls = { "Space", "UpArrow", "LeftArrow", "RightArrow" };
+    public string[] defaultControlsGamepad = { "rightTrigger", "buttonSouth", "leftStick/left", "leftStick/right" };
 
     public void ShowControlsPanel(int controlNum)
     {
@@ -51,7 +57,23 @@ public class Options : MonoBehaviour
         this.action = ((Controls) controlNum).ToString();
         
         controlsPanel.SetActive(true);
+        controlsPanel.transform.GetChild(0).GetComponent<Text>().text = "Press new keyboard key for:";
         controlsPanel.transform.GetChild(1).GetComponent<Text>().text = this.action;
+        controlsPanel.transform.GetChild(2).GetComponent<Text>().text = "(Escape to cancel)";
+        isController = false;
+        getKey = true;
+    }
+
+    public void ShowControlsPanelController(int controlNum)
+    {
+        this.controlNum = controlNum;
+        this.action = ((Controls) controlNum).ToString();
+        
+        controlsPanel.SetActive(true);
+        controlsPanel.transform.GetChild(0).GetComponent<Text>().text = "Press new gamepad button for:";
+        controlsPanel.transform.GetChild(1).GetComponent<Text>().text = this.action;
+        controlsPanel.transform.GetChild(2).GetComponent<Text>().text = "(Escape / Start to cancel)";
+        isController = true;
         getKey = true;
     }
 
@@ -62,6 +84,7 @@ public class Options : MonoBehaviour
         for (int i = 0; i < (int) Controls.NumControls; i++)
         {
             keyTexts[i].text = ((KeyCode) PlayerPrefs.GetInt(((Controls) i).ToString(), (int) Enum.Parse(typeof(KeyCode), defaultControls[i]))).ToString();
+            gamepadTexts[i].text = PlayerPrefs.GetString(((Controls) i).ToString() + "Controller", defaultControlsGamepad[i]);
         }
     }
 
@@ -69,9 +92,7 @@ public class Options : MonoBehaviour
     {
         if (getKey)
         {
-            int[] values = (int[]) Enum.GetValues(typeof(KeyCode));
-            
-            for (int i = 0; i < values.Length; i++)
+            if (isController)
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
@@ -80,16 +101,65 @@ public class Options : MonoBehaviour
                     return;
                 }
                 
-                if (Input.GetKeyDown((KeyCode) values[i]))
+                var gamepad = Gamepad.current;
+                if (gamepad != null)
                 {
-                    PlayerPrefs.SetInt(action, values[i]);
-                    PlayerPrefs.Save();
+                    if (gamepad.startButton.wasPressedThisFrame)
+                    {
+                        getKey = false;
+                        controlsPanel.SetActive(false);
+                        return;
+                    }
+                    
+                    for (int i = 0; i < gamepad.allControls.Count; i++)
+                    {
+                        var c = gamepad.allControls[i];
+                        if (c is ButtonControl && ((ButtonControl) c).wasPressedThisFrame)
+                        {
+                            string newGamepadKey = c.path;
+                            newGamepadKey = newGamepadKey.Substring(1);
+                            newGamepadKey = newGamepadKey.Substring(newGamepadKey.IndexOf('/') + 1);
+                            
+                            PlayerPrefs.SetString(action + "Controller", newGamepadKey);
+                            PlayerPrefs.Save();
 
-                    keyTexts[this.controlNum].text = ((KeyCode) values[i]).ToString();
+                            gamepadTexts[controlNum].text = newGamepadKey;
 
+                            getKey = false;
+                            controlsPanel.SetActive(false);
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
                     getKey = false;
                     controlsPanel.SetActive(false);
                     return;
+                }
+                
+                int[] values = (int[]) Enum.GetValues(typeof(KeyCode));
+                
+
+                foreach (int val in values)
+                {
+                    if (val >= (int) KeyCode.Mouse0) // Just keyboard, not mouse/gamepad
+                        break;
+                    
+                    if (Input.GetKeyDown((KeyCode) val))
+                    {
+                        PlayerPrefs.SetInt(action, val);
+                        PlayerPrefs.Save();
+                        
+                        keyTexts[controlNum].text = ((KeyCode) val).ToString();
+
+                        getKey = false;
+                        controlsPanel.SetActive(false);
+                        return;
+                    }
                 }
             }
         }
@@ -101,9 +171,11 @@ public class Options : MonoBehaviour
         {
             string tempAction = ((Controls) i).ToString();
             PlayerPrefs.DeleteKey(tempAction);
+            PlayerPrefs.DeleteKey(tempAction + "Controller");
             PlayerPrefs.Save();
 
             keyTexts[i].text = defaultControls[i];
+            gamepadTexts[i].text = defaultControlsGamepad[i];
         }
     }
 }
