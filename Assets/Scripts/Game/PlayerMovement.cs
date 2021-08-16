@@ -4,6 +4,7 @@ using Photon.Pun.UtilityScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private GameObject weaponTextPrefab;
     [SerializeField] private GameObject[] weaponAnimPrefabs;
-
+    [SerializeField] private Sprite[] weaponSprites;
+    
     private Rigidbody2D rb;
     private bool isGrounded;
     private Vector3 change;
@@ -167,6 +169,10 @@ public class PlayerMovement : MonoBehaviour
     void WeaponEffectRPC(int weaponNum, int viewId)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(viewId);
+        
+        // Set weapon image
+        v.transform.GetChild(2).GetChild(2).GetComponent<Image>().sprite = weaponSprites[weaponNum];
+        
         Transform player = v.GetComponent<Transform>(); 
         
         // Text above

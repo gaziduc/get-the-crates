@@ -26,7 +26,17 @@ public class PlayerWeapon : MonoBehaviour
 
     public void GetRandom()
     {
+        int lastWeaponNum = weaponNum;
         weaponNum = Random.Range(0, weaponPrefabs.Length);
+
+        // Handle if weapon did not change
+        if (weaponNum == lastWeaponNum)
+        {
+            weaponNum++;
+            if (weaponNum >= weaponPrefabs.Length)
+                weaponNum = 0;
+        }
+        
         reload = 0f;
         isReloaded = true;
     }
