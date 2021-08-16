@@ -65,15 +65,17 @@ public class PlayerMovement : MonoBehaviour
 
             if (!canMove || !LevelManager.instance.gameStarted)
                 return;
+
+            var gamepad = Gamepad.current;
             
-            if (Input.GetKey(controls[(int) Options.Controls.Left]) || Gamepad.current[gamepadControls[(int) Options.Controls.Left]].IsPressed())
+            if (Input.GetKey(controls[(int) Options.Controls.Left]) || (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Left]].IsPressed()))
             {
                 sp.flipX = false;
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
             }
-            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || Gamepad.current[gamepadControls[(int) Options.Controls.Right]].IsPressed())
+            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Right]].IsPressed()))
             {
                 sp.flipX = true;
                 if (!anim.GetBool("IsRunning"))
@@ -90,16 +92,16 @@ public class PlayerMovement : MonoBehaviour
                 direction = change;
 
 
-            var jumpControl = Gamepad.current[gamepadControls[(int) Options.Controls.Jump]];
+            var jumpControl = gamepad != null ? Gamepad.current[gamepadControls[(int) Options.Controls.Jump]] : null;
             
-            if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || (jumpControl is ButtonControl && ((ButtonControl) jumpControl).wasPressedThisFrame)))
+            if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || (gamepad != null && jumpControl is ButtonControl && ((ButtonControl) jumpControl).wasPressedThisFrame)))
                 jump = true;
 
-            var shootControl = Gamepad.current[gamepadControls[(int) Options.Controls.Shoot]];
+            var shootControl = gamepad != null ? Gamepad.current[gamepadControls[(int) Options.Controls.Shoot]] : null;
 
-            if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || shootControl.IsPressed())
+            if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || (gamepad != null && shootControl.IsPressed()))
             {
-                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) || (shootControl is ButtonControl && ((ButtonControl) shootControl).wasPressedThisFrame)))
+                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) || (gamepad != null && shootControl is ButtonControl && ((ButtonControl) shootControl).wasPressedThisFrame)))
                 {
                     view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, weapon.weaponNum, direction.normalized.x, view.ViewID);
                     weapon.SetReloadBeginning();

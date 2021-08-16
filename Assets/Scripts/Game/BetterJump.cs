@@ -27,7 +27,7 @@ public class BetterJump : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (rb.velocity.y > 0 && !Input.GetKey(upKey) && !Gamepad.current[upKeyGamepad].IsPressed())
+        else if (rb.velocity.y > 0 && !Input.GetKey(upKey) && (Gamepad.current == null || !Gamepad.current[upKeyGamepad].IsPressed()))
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
