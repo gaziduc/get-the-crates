@@ -8,6 +8,7 @@ public class BulletMovement : MonoBehaviour
     [SerializeField] private float speed;
     public int viewID;
     public int weaponDamage;
+    public int weaponNum;
     
     private void Update()
     {
@@ -19,12 +20,13 @@ public class BulletMovement : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerHealth player = other.GetComponent<PlayerHealth>();
-            if (player.view.ViewID != viewID)
+            if (player.view.ViewID != viewID) // if collider is not the shooter
             {
                 if (player.view.IsMine)
-                    player.view.RPC("HurtRPC", RpcTarget.All, weaponDamage, player.view.ViewID, viewID);
+                    player.view.RPC("HurtRPC", RpcTarget.All, weaponDamage, player.view.ViewID, viewID, weaponNum);
 
-                GameObject.Destroy(gameObject);
+                if (weaponNum != 4) // if not disk gun
+                    GameObject.Destroy(gameObject);
             }
         }
         else if (other.CompareTag("Ground"))

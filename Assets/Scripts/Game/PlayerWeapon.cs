@@ -5,10 +5,10 @@ public class PlayerWeapon : MonoBehaviour
 {
     public int weaponNum;
     public GameObject[] weaponPrefabs;
-    public string[] weaponName = { "Gun", "Machine Gun", "Explosive Gun", "Double Gun" };
-    public float[] reloadTime = { 0.25f, 0.15f, 1f, 0.25f };
-    private bool[] automatic = {false, true, false, false};
-    public int[] damage = { 1, 1, 4, 1 };
+    public string[] weaponName = { "Gun", "Machine Gun", "Explosive Gun", "Double Gun", "Disk Gun" };
+    public float[] reloadTime = { 0.25f, 0.15f, 1f, 0.25f, 1.3f };
+    private bool[] automatic = {false, true, false, false, false};
+    public int[] damage = { 1, 1, 4, 1, 4 };
 
     private float reload;
     public bool isReloaded;

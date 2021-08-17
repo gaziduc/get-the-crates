@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private GameObject weaponTextPrefab;
-    [SerializeField] private GameObject[] weaponAnimPrefabs;
     [SerializeField] private Sprite[] weaponSprites;
     
     private Rigidbody2D rb;
@@ -144,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
         GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
 
+        bulletMovement.weaponNum = weaponNum;
         bulletMovement.weaponDamage = weapon.damage[weaponNum];
         bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
         bulletMovement.viewID = viewID;
@@ -152,7 +152,8 @@ public class PlayerMovement : MonoBehaviour
         {
             GameObject oppositeBullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX - bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
             BulletMovement oppositeBulletMovement = oppositeBullet.GetComponent<BulletMovement>();
-            
+
+            oppositeBulletMovement.weaponNum = weaponNum;
             oppositeBulletMovement.weaponDamage = weapon.damage[weaponNum];
             oppositeBulletMovement.direction = new Vector3(-bulletDirection, 0, 0);
             oppositeBulletMovement.viewID = viewID;
@@ -178,9 +179,6 @@ public class PlayerMovement : MonoBehaviour
         // Text above
         GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
         weaponText.GetComponent<TextMesh>().text = weapon.weaponName[weaponNum];
-        
-        // Particles
-        GameObject.Instantiate(weaponAnimPrefabs[weaponNum], player.position + Vector3.up * 2.4f, Quaternion.identity);
     }
 
 

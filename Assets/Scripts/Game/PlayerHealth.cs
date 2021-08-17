@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public int health;
 
     [SerializeField] private GameObject deathEffect;
+    [SerializeField] private GameObject deathByDiskEffect;
     [SerializeField] private GameObject healthEffect;
     [SerializeField] private GameObject weaponTextPrefab;
 
@@ -36,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void HurtRPC(int weaponDamage, int ViewID, int ShooterID)
+    void HurtRPC(int weaponDamage, int ViewID, int ShooterID, int weaponNum)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
         PlayerHealth player = v.GetComponent<PlayerHealth>(); 
@@ -47,7 +48,7 @@ public class PlayerHealth : MonoBehaviour
         
         if (player.health <= 0)
         {
-            GameObject.Instantiate(deathEffect, transform.position, Quaternion.identity);
+            GameObject.Instantiate(weaponNum != 4 ? deathEffect : deathByDiskEffect, transform.position, Quaternion.identity);
             
             player.transform.localScale = Vector3.zero;
             player.GetComponent<PlayerMovement>().canMove = false;
