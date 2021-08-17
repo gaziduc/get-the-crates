@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Voice.Unity;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -644,7 +645,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
 
 
-        ApplyVoiceVolume(PlayerPrefs.GetFloat("VoiceVolume", 0.8f));
+        ApplyVoiceVolume(PlayerPrefs.GetInt("MuteVoiceChat", 0) == 1);
         
         SetMasterClientText(PhotonNetwork.MasterClient.NickName);
 
@@ -859,10 +860,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         chatView.GetComponent<Chat>().ToggleVoiceChat();
     }
 
-    public void ApplyVoiceVolume(float volume)
+    public void ApplyVoiceVolume(bool muted)
     {
-        if (chatView)
-            chatView.GetComponent<AudioSource>().volume = volume;
+        Speaker[] speakers = GameObject.FindObjectsOfType<Speaker>();
+        foreach (var speaker in speakers)
+        {
+            speaker.enabled = !muted;
+        }
     }
 
     private void SetProperties()

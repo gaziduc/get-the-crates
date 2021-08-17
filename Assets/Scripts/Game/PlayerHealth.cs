@@ -48,7 +48,10 @@ public class PlayerHealth : MonoBehaviour
         
         if (player.health <= 0)
         {
-            GameObject.Instantiate(weaponNum != 4 ? deathEffect : deathByDiskEffect, transform.position, Quaternion.identity);
+            GameObject go = GameObject.Instantiate(weaponNum != 4 ? deathEffect : deathByDiskEffect, transform.position, Quaternion.identity);
+            AudioSource audio = go.GetComponent<AudioSource>();
+            if (audio)
+                audio.volume = LevelManager.instance.sfxVolume;
             
             player.transform.localScale = Vector3.zero;
             player.GetComponent<PlayerMovement>().canMove = false;

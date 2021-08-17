@@ -5,7 +5,7 @@ public class Volume : MonoBehaviour
 {
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
-    [SerializeField] private Slider voiceVolumeSlider;
+    [SerializeField] private Toggle muteVoiceChat;
 
     [SerializeField] private AudioSource music;
     [SerializeField] private AudioSource[] sfx;
@@ -17,7 +17,7 @@ public class Volume : MonoBehaviour
     {
         musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
         sfxVolumeSlider.value = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
-        voiceVolumeSlider.value = PlayerPrefs.GetFloat("VoiceVolume", 0.85f);
+        muteVoiceChat.isOn = PlayerPrefs.GetInt("MuteVoiceChat", 0) == 1;
         
         
         ApplyVolume();
@@ -29,7 +29,7 @@ public class Volume : MonoBehaviour
         foreach (var sound in sfx)
             sound.volume = sfxVolumeSlider.value;
         
-        net.ApplyVoiceVolume(voiceVolumeSlider.value);
+        net.ApplyVoiceVolume(muteVoiceChat.isOn);
     }
 
     public void SetMusicVolume()
@@ -46,11 +46,13 @@ public class Volume : MonoBehaviour
         PlayerPrefs.Save();
         
         ApplyVolume();
+        
+        sfx[4].Play();
     }
     
     public void SetVoiceVolume()
     {
-        PlayerPrefs.SetFloat("VoiceVolume", voiceVolumeSlider.value);
+        PlayerPrefs.SetInt("MuteVoiceChat", muteVoiceChat.isOn ? 1 : 0);
         PlayerPrefs.Save();
         
         ApplyVolume();
