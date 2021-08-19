@@ -115,11 +115,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (view.IsMine)
         {
-            transform.Translate(change * Time.fixedDeltaTime);
-
+            rb.velocity = new Vector2(change.x * Time.fixedDeltaTime, rb.velocity.y);
+            
             if (jump)
             {
-                rb.velocity = Vector2.up * 17;
+                rb.velocity += Vector2.up * 17.5f;
                 jump = false;
             }
         }
@@ -173,6 +173,9 @@ public class PlayerMovement : MonoBehaviour
         
         // Set weapon image
         v.transform.GetChild(2).GetChild(2).GetComponent<Image>().sprite = weaponSprites[weaponNum];
+        
+        ReloadBarAbovePlayer reloadBar = v.GetComponent<ReloadBarAbovePlayer>();
+        reloadBar.SetToReloaded();
         
         Transform player = v.GetComponent<Transform>(); 
         

@@ -4,6 +4,7 @@ using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -25,6 +26,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private GameObject backToRoomButton;
     [SerializeField] private GameObject transitionPanel;
+    
+    // default selected buttons (for keyboard and gamepad)
+    [SerializeField] private GameObject pauseDefault;
     
     private Text[] infoTexts;
     
@@ -182,6 +186,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
             pausePanel.SetActive(true);
             pausePanel.transform.localScale = Vector3.zero;
             LeanTween.scale(pausePanel, Vector3.one, 0.2f).setEaseOutBack();
+            
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(pauseDefault);
         }
     }
 

@@ -8,6 +8,7 @@ using Photon.Voice.Unity;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using FriendInfo = Photon.Realtime.FriendInfo;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -61,6 +62,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject forgotInfoAfterPanel;
     [SerializeField] private GameObject transitionPanel;
     
+
     private string playerIdCache = "";
     private string username = "";
     private string password = "";
@@ -947,6 +949,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void OnCompleteEscapeAfterForgotPanel()
     {
+        forgotInfoPanel.SetActive(false);
         ActivateUIElement(nicknamePanel);
     }
 }

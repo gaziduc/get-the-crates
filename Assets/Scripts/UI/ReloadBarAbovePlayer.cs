@@ -30,4 +30,10 @@ public class ReloadBarAbovePlayer : MonoBehaviour
         slider.maxValue = reloadTime;
         isReloading = true;
     }
+
+    public void SetToReloaded()
+    {
+        slider.value = slider.maxValue;
+        isReloading = false;
+    }
 }
