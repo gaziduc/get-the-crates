@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class SynchronizeCrate : MonoBehaviour, IPunObservable
 {
-    private Rigidbody2D rigidbody;
+    private Transform transform;
     private Vector2 networkPosition;
     private int spriteNum;
     private Crate crate;
     
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        transform = GetComponent<Transform>();
         crate = GetComponent<Crate>();
     }
 
@@ -18,12 +18,12 @@ public class SynchronizeCrate : MonoBehaviour, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(rigidbody.position);
+            stream.SendNext(transform.position);
             stream.SendNext(crate.spriteNum);
         }
         else
         {
-            rigidbody.position = (Vector2) stream.ReceiveNext();
+            transform.position = (Vector3) stream.ReceiveNext();
             
             int lastSpriteNum = spriteNum;
             spriteNum = (int) stream.ReceiveNext();

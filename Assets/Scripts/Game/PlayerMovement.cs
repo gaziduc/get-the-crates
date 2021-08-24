@@ -1,10 +1,10 @@
-using System.Collections;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,11 +12,11 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     private PhotonView view;
-    
+
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private GameObject weaponTextPrefab;
     [SerializeField] private Sprite[] weaponSprites;
-    
+
     private Rigidbody2D rb;
     private bool isGrounded;
     private Vector3 change;
@@ -36,16 +36,18 @@ public class PlayerMovement : MonoBehaviour
     {
         float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
         shoot.volume = sfxVolume;
-        
+
         controls = new KeyCode[(int) Options.Controls.NumControls];
         gamepadControls = new string[(int) Options.Controls.NumControls];
 
         for (int i = 0; i < (int) Options.Controls.NumControls; i++)
         {
-            controls[i] = (KeyCode) PlayerPrefs.GetInt(((Options.Controls) i).ToString(), (int) System.Enum.Parse(typeof(KeyCode), Options.instance.defaultControls[i]));
-            gamepadControls[i] = PlayerPrefs.GetString(((Options.Controls) i).ToString() + "Controller", Options.instance.defaultControlsGamepad[i]);
+            controls[i] = (KeyCode) PlayerPrefs.GetInt(((Options.Controls) i).ToString(),
+                (int) System.Enum.Parse(typeof(KeyCode), Options.instance.defaultControls[i]));
+            gamepadControls[i] = PlayerPrefs.GetString(((Options.Controls) i).ToString() + "Controller",
+                Options.instance.defaultControlsGamepad[i]);
         }
-        
+
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
         sp.flipX = true;
@@ -68,15 +70,20 @@ public class PlayerMovement : MonoBehaviour
                 return;
 
             var gamepad = Gamepad.current;
-            
-            if (Input.GetKey(controls[(int) Options.Controls.Left]) || (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Left]].IsPressed()))
+
+            if (Input.GetKey(controls[(int) Options.Controls.Left]) ||
+                (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Left]].IsPressed()))
             {
                 sp.flipX = false;
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
             }
-            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Right]].IsPressed()))
+            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || (gamepad != null &&
+                                                                              gamepad[
+                                                                                      gamepadControls[
+                                                                                          (int) Options.Controls.Right]]
+                                                                                  .IsPressed()))
             {
                 sp.flipX = true;
                 if (!anim.GetBool("IsRunning"))
@@ -88,23 +95,28 @@ public class PlayerMovement : MonoBehaviour
                 if (anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", false);
             }
-            
+
             if (!change.Equals(Vector3.zero))
                 direction = change;
 
 
             var jumpControl = gamepad != null ? Gamepad.current[gamepadControls[(int) Options.Controls.Jump]] : null;
-            
-            if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || (gamepad != null && jumpControl is ButtonControl && ((ButtonControl) jumpControl).wasPressedThisFrame)))
+
+            if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || (gamepad != null &&
+                jumpControl is ButtonControl && ((ButtonControl) jumpControl).wasPressedThisFrame)))
                 jump = true;
 
             var shootControl = gamepad != null ? Gamepad.current[gamepadControls[(int) Options.Controls.Shoot]] : null;
 
             if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || (gamepad != null && shootControl.IsPressed()))
             {
-                if (weapon.isReloaded && (weapon.IsAutomatic() || Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) || (gamepad != null && shootControl is ButtonControl && ((ButtonControl) shootControl).wasPressedThisFrame)))
+                if (weapon.isReloaded && (weapon.IsAutomatic() ||
+                                          Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) ||
+                                          (gamepad != null && shootControl is ButtonControl &&
+                                           ((ButtonControl) shootControl).wasPressedThisFrame)))
                 {
-                    view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y, weapon.weaponNum, direction.normalized.x, view.ViewID);
+                    view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y,
+                        weapon.weaponNum, direction.normalized.x, view.ViewID);
                     weapon.SetReloadBeginning();
                 }
             }
@@ -116,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         if (view.IsMine)
         {
             rb.velocity = new Vector2(change.x * Time.fixedDeltaTime, rb.velocity.y);
-            
+
             if (jump)
             {
                 rb.velocity += Vector2.up * 17.5f;
@@ -135,12 +147,13 @@ public class PlayerMovement : MonoBehaviour
         return raycastHit2D.collider != null;
     }
 
-   
+
 
     [PunRPC]
     void ShootBulletRPC(float posX, float posY, int weaponNum, float bulletDirection, int viewID)
     {
-        GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
+        GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],
+            new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
 
         bulletMovement.weaponNum = weaponNum;
@@ -150,7 +163,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (weaponNum == 3) // If Double Gun
         {
-            GameObject oppositeBullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],new Vector3(posX - bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
+            GameObject oppositeBullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],
+                new Vector3(posX - bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
             BulletMovement oppositeBulletMovement = oppositeBullet.GetComponent<BulletMovement>();
 
             oppositeBulletMovement.weaponNum = weaponNum;
@@ -158,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
             oppositeBulletMovement.direction = new Vector3(-bulletDirection, 0, 0);
             oppositeBulletMovement.viewID = viewID;
         }
-        
+
         PhotonView playerShooting = PhotonNetwork.GetPhotonView(viewID);
         ReloadBarAbovePlayer reloadBar = playerShooting.GetComponent<ReloadBarAbovePlayer>();
         reloadBar.Shoot(weapon.reloadTime[weaponNum]);
@@ -170,35 +184,36 @@ public class PlayerMovement : MonoBehaviour
     void WeaponEffectRPC(int weaponNum, int viewId)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(viewId);
-        
+
         // Set weapon image
         v.transform.GetChild(2).GetChild(2).GetComponent<Image>().sprite = weaponSprites[weaponNum];
-        
+
         ReloadBarAbovePlayer reloadBar = v.GetComponent<ReloadBarAbovePlayer>();
         reloadBar.SetToReloaded();
-        
-        Transform player = v.GetComponent<Transform>(); 
-        
+
+        Transform player = v.GetComponent<Transform>();
+
         // Text above
-        GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
+        GameObject weaponText =
+            GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
         weaponText.GetComponent<TextMesh>().text = weapon.weaponName[weaponNum];
     }
 
-
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (view.IsMine && other.gameObject.CompareTag("Crate"))
+        if (view.IsMine && other.CompareTag("Crate"))
         {
-            Crate crate = other.gameObject.GetComponent<Crate>();
+            Crate crate = other.GetComponent<Crate>();
             bool isWeaponCrate = crate.spriteNum == 0;
-            
+
             // Add 1 to score if it is Get Most Crates mode
             if (LevelManager.instance.winCondition == LevelManager.WinCondition.GetMostCrates)
             {
-                view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1, isWeaponCrate);
+                view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1,
+                    isWeaponCrate);
                 PhotonNetwork.LocalPlayer.AddScore(1);
             }
-            
+
             // Handle
             if (isWeaponCrate)
             {
@@ -209,12 +224,11 @@ public class PlayerMovement : MonoBehaviour
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);
 
             // Transfer ownership...
-            other.gameObject.GetComponent<PhotonView>().TransferOwnership(view.Owner);
-            
+            other.GetComponent<PhotonView>().TransferOwnership(view.Owner);
+
             // ...to move position
             other.transform.position = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
-            other.gameObject.GetComponent<Crate>().SetSprite(Random.Range(0, 8) == 0 ? 1 : 0);
-            other.rigidbody.velocity = Vector2.zero;
+            crate.SetSprite(Random.Range(0, 8) == 0 ? 1 : 0);
         }
     }
 }
