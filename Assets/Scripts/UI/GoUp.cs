@@ -7,7 +7,7 @@ public class GoUp : MonoBehaviour
     private void Start()
     {
         text = GetComponent<TextMesh>();
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 1.5f);
     }
 
 
@@ -15,6 +15,6 @@ public class GoUp : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.up * Time.deltaTime * 0.5f);
-        text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - Time.deltaTime);
+        text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - Time.deltaTime * 0.5f);
     }
 }
