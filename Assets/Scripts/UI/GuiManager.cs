@@ -199,6 +199,10 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     private void End()
     {
+        // disable pause menu if enabled
+        if (pausePanel.activeInHierarchy)
+            Pause();
+        
         NewTextAnim(secondsText, "0");          
         
         Player[] players = PhotonNetwork.PlayerList;
@@ -269,7 +273,20 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     private IEnumerator BackCoroutine()
     {
+        // Start transition
         chatView.RPC("StartTransitionRPC", RpcTarget.All);
+        
+        // Destroy some network object
+        PhotonNetwork.Destroy(GameObject.FindWithTag("Crate"));
+        
+        SpawnManager[] spawnManagers = GameObject.FindObjectsOfType<SpawnManager>();
+        foreach (var s in spawnManagers)
+            PhotonNetwork.Destroy(s.gameObject);
+
+        PlayerMovement[] players = GameObject.FindObjectsOfType<PlayerMovement>();
+        foreach (var p in players)
+            PhotonNetwork.Destroy(p.gameObject);
+
         yield return new WaitForSeconds(0.5f);
         
         PhotonNetwork.CurrentRoom.IsVisible = true;

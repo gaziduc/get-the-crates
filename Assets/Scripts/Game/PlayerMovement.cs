@@ -181,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [PunRPC]
-    void WeaponEffectRPC(int weaponNum, int viewId)
+    void WeaponEffectRPC(int weaponNum, int viewId, bool showText)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(viewId);
 
@@ -194,9 +194,11 @@ public class PlayerMovement : MonoBehaviour
         Transform player = v.GetComponent<Transform>();
 
         // Text above
-        GameObject weaponText =
-            GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
-        weaponText.GetComponent<TextMesh>().text = weapon.weaponName[weaponNum];
+        if (showText)
+        {
+            GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
+            weaponText.GetComponent<TextMesh>().text = weapon.weaponName[weaponNum];
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -218,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
             if (isWeaponCrate)
             {
                 weapon.GetRandom();
-                view.RPC("WeaponEffectRPC", RpcTarget.All, weapon.weaponNum, view.ViewID);
+                view.RPC("WeaponEffectRPC", RpcTarget.All, weapon.weaponNum, view.ViewID, true);
             }
             else
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);

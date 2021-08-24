@@ -41,6 +41,13 @@ public class PlayerWeapon : MonoBehaviour
         isReloaded = true;
     }
 
+    public void ResetWeapon()
+    {
+        weaponNum = 0;
+        reload = 0f;
+        isReloaded = true;
+    }
+
     public bool IsAutomatic()
     {
         return automatic[weaponNum];

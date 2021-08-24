@@ -24,9 +24,16 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator Respawn(PlayerHealth player, PhotonView v)
     {
         yield return new WaitForSeconds(1.5f);
-        
+
         if (v.IsMine)
+        {
             player.transform.position = SpawnManager.instance.GetRespawnPos();
+            
+            PlayerWeapon w = player.GetComponent<PlayerWeapon>();
+            w.ResetWeapon();
+            view.RPC("WeaponEffectRPC", RpcTarget.All, w.weaponNum, v.ViewID, false);
+        }
+            
         
         yield return new WaitForSeconds(1.5f);
         

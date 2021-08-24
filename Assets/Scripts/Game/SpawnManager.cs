@@ -6,8 +6,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     private PhotonView view;
-    private GameObject player;
-    
+
     [SerializeField] private GameObject[] playerPrefabToInstantiate;
     [SerializeField] private GameObject cratePrefabToInstantiate;
     private Transform spawnPositionsParent;
@@ -96,7 +95,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (spawnPosition != null && spawnPosition[index] != Vector3.zero)
             {
-                player = PhotonNetwork.Instantiate(PhotonNetwork.IsMasterClient
+                PhotonNetwork.Instantiate(PhotonNetwork.IsMasterClient
                     ? playerPrefabToInstantiate[0].name
                     : playerPrefabToInstantiate[1].name, spawnPosition[index], Quaternion.identity);
                 
