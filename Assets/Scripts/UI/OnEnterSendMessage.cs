@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class OnEnterSendMessage : MonoBehaviour
@@ -17,7 +18,7 @@ public class OnEnterSendMessage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inputField.isActiveAndEnabled && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+        if (inputField.isActiveAndEnabled && (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame))
         {
             net.SendChatMessage();
         }

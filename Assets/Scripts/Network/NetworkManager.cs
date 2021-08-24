@@ -826,7 +826,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             chatInputField.text = "";
         }
         
-        chatInputField.Select();
+        // Re-select input field
+        chatInputField.OnPointerClick(new PointerEventData(EventSystem.current)); 
+        EventSystem.current.SetSelectedGameObject(chatInputField.gameObject, new BaseEventData(EventSystem.current));
     }
 
     public void SendLevelSize()
