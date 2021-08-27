@@ -31,11 +31,15 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject pauseDefault;
     
     private Text[] infoTexts;
+
+    private float gameDuration = 90f;
+    private float countdownDuration = 3f;
     
-    private float timeRemaining = 90f;
+    private float timeRemaining;
     private int timeLast = 0;
-    private float countdownTime = 3f;
+    private float countdownTime;
     private int countdownLast = 0;
+    private float beginTime = 0;
 
     private bool beginned = false;
     private bool ended = false;
@@ -72,7 +76,6 @@ public class GuiManager : MonoBehaviourPunCallbacks
                 break;
             }
         }
-        
     }
     
     
@@ -122,15 +125,18 @@ public class GuiManager : MonoBehaviourPunCallbacks
         if (!beginned)
         {
             if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length * 3) // - 1 for the crate
+            {
+                countdownTime = countdownDuration;
+                beginTime = Time.time;
                 beginned = true;
+            }
             else
                 return;
         }
 
         if (countdownTime > 0f)
         {
-            //string lastText = countdownText.text;
-            countdownTime -= Time.deltaTime;
+            countdownTime = beginTime + countdownDuration - Time.time;
 
             if (countdownTime <= 0f)
             {
@@ -138,6 +144,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
                 GameObject.Destroy(countdownText.gameObject, 0.5f);
 
                 LevelManager.instance.gameStarted = true;
+
+                beginTime = Time.time;
+                timeRemaining = gameDuration;
                 
                 countdownGoSound.Play();
                 GameObject.Instantiate(countdownEffect, Vector3.zero, Quaternion.identity);
@@ -161,7 +170,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
         
         if (!endPanel.activeInHierarchy)
         {
-            timeRemaining -= Time.deltaTime;
+            timeRemaining = beginTime + 90f - Time.time;
             SetTimeText();
 
             if (!ended && timeRemaining <= 0f)
@@ -170,7 +179,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
                 End();
             }
             
-            if (Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame))
+            if (Keyboard.current.escapeKey.wasPressedThisFrame || (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame))
             {
                 Pause();
             }

@@ -7387,7 +7387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce8f5b313cdbf84f8c55eb899816db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToShow: 'If muted, you won''t here anyone (but if you press Tab,
+  textToShow: 'If muted, you won''t hear anyone (but if you press Tab,
 
     they
     will still hear you!)'
