@@ -15,8 +15,8 @@ public class Volume : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
-        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.3f);
+        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SfxVolume", 0.3f);
         muteVoiceChat.isOn = PlayerPrefs.GetInt("MuteVoiceChat", 0) == 1;
         
         

@@ -11,7 +11,7 @@ public class ReloadBarAbovePlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slider = transform.GetChild(2).GetChild(1).GetComponent<Slider>();
+        slider = transform.GetChild(1).GetChild(1).GetComponent<Slider>();
     }
 
     private void Update()

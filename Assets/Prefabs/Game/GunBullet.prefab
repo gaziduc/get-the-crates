@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ae3b785a65a1293469e6023d3e38bcd3, type: 3}
   m_Color: {r: 1, g: 0.6451223, b: 0.1745283, a: 1}
   m_FlipX: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
   speed: 30
   viewID: 0
   weaponDamage: 0
+  weaponNum: 0
 --- !u!50 &3384966974440105578
 Rigidbody2D:
   serializedVersion: 4

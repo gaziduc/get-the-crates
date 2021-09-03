@@ -26,7 +26,10 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private GameObject backToRoomButton;
     [SerializeField] private GameObject transitionPanel;
-    
+    [SerializeField] private Text leaderboardText;
+    [SerializeField] private Text leaderScoresText;
+    [SerializeField] private GameObject leaderboardPanel;
+
     // default selected buttons (for keyboard and gamepad)
     [SerializeField] private GameObject pauseDefault;
     
@@ -120,8 +123,23 @@ public class GuiManager : MonoBehaviourPunCallbacks
         LeanTween.scale(text.gameObject, Vector3.one, 0.2f).setEaseOutBack();
     }
     
+    private void UpdateLeaderboard()
+    {
+        Player[] players = PhotonNetwork.PlayerList;
+        Array.Sort(players, (p1, p2) => p2.GetScore().CompareTo(p1.GetScore()));
+        string nicknameText = "";
+        string scoreText = "";
+        GetScoreBoardText(players, ref nicknameText, ref scoreText);
+        leaderboardText.text = nicknameText;
+        leaderScoresText.text = scoreText;
+    }
+    
+    
     private void Update()
     {
+        if (leaderboardPanel.activeInHierarchy)
+            UpdateLeaderboard();
+        
         if (!beginned)
         {
             if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length * 3) // - 1 for the crate
@@ -206,29 +224,34 @@ public class GuiManager : MonoBehaviourPunCallbacks
         pausePanel.SetActive(false);
     }
 
+    private void GetScoreBoardText(Player[] players, ref string nicknames, ref string scores)
+    {
+        for (int i = 0; i < players.Length - 1; i++)
+        {
+            nicknames += players[i].NickName + "\n";
+            scores += players[i].GetScore() + "\n";
+        }
+
+        nicknames += players[players.Length - 1].NickName;
+        scores += players[players.Length - 1].GetScore();
+    }
+
     private void End()
     {
         // disable pause menu if enabled
         if (pausePanel.activeInHierarchy)
             Pause();
+
+        LeanTween.scale(leaderboardPanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(() => leaderboardPanel.SetActive(false));
         
-        NewTextAnim(secondsText, "0");          
+        NewTextAnim(secondsText, "0");
         
         Player[] players = PhotonNetwork.PlayerList;
         Array.Sort(players, (p1, p2) => p2.GetScore().CompareTo(p1.GetScore()));
         
         string nicknameText = "";
         string scoreText = "";
-    
-        for (int i = 0; i < players.Length - 1; i++)
-        {
-            nicknameText += players[i].NickName + "\n";
-            scoreText += players[i].GetScore() + "\n";
-        }
-
-        nicknameText += players[players.Length - 1].NickName;
-        scoreText += players[players.Length - 1].GetScore();
-
+        GetScoreBoardText(players, ref nicknameText, ref scoreText);
         scoreboardText.text = nicknameText;
         scoresText.text = scoreText;
         

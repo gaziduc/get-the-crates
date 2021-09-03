@@ -10,8 +10,8 @@ public class HealthBarAbovePlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slider = transform.GetChild(2).GetChild(0).GetComponent<Slider>();
-        fill = transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>();
+        slider = transform.GetChild(1).GetChild(0).GetComponent<Slider>();
+        fill = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Image>();
     }
 
     public void SetMaxHealth(int maxHealth, Gradient gradient)

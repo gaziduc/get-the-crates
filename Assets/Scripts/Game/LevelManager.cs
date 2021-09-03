@@ -28,6 +28,6 @@ public class LevelManager : MonoBehaviour
         
         PhotonNetwork.Instantiate(spawnManager.name, Vector3.zero, Quaternion.identity);
         
-        sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
+        sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.3f);
     }
 }

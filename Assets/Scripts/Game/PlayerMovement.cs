@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
+        float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.3f);
         shoot.volume = sfxVolume;
 
         controls = new KeyCode[(int) Options.Controls.NumControls];
@@ -186,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
         PhotonView v = PhotonNetwork.GetPhotonView(viewId);
 
         // Set weapon image
-        v.transform.GetChild(2).GetChild(2).GetComponent<Image>().sprite = weaponSprites[weaponNum];
+        v.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = weaponSprites[weaponNum];
 
         ReloadBarAbovePlayer reloadBar = v.GetComponent<ReloadBarAbovePlayer>();
         reloadBar.SetToReloaded();
@@ -211,8 +211,7 @@ public class PlayerMovement : MonoBehaviour
             // Add 1 to score if it is Get Most Crates mode
             if (LevelManager.instance.winCondition == LevelManager.WinCondition.GetMostCrates)
             {
-                view.RPC("IncrementScoreRPC", RpcTarget.All, view.ViewID, PhotonNetwork.LocalPlayer.GetScore() + 1,
-                    isWeaponCrate);
+                view.RPC("IncrementScoreRPC", RpcTarget.All, isWeaponCrate);
                 PhotonNetwork.LocalPlayer.AddScore(1);
             }
 

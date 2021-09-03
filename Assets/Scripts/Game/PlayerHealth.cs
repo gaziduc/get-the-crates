@@ -70,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 PhotonView shooterView = PhotonNetwork.GetPhotonView(ShooterID);
                 PlayerScore shooterScore = shooterView.GetComponent<PlayerScore>();
-                shooterScore.IncrementScoreRPC(ShooterID, shooterView.Owner.GetScore() + 1, true);
+                shooterScore.IncrementScoreRPC(true);
                 shooterView.Owner.AddScore(1);
             }
             
