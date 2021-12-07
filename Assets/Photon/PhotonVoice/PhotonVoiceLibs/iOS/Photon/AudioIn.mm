@@ -311,7 +311,8 @@ static OSStatus    performRender (void                         *inRefCon,
     AVAudioSession *sessionInstance = [AVAudioSession sharedInstance];
     
     NSError *error = nil;
-    NSLog(@"[PV] [AI] Setting category = %@, mode = %@, options = %lu", self->sessionCategory, self->sessionMode, (unsigned long)self->sessionCategoryOptions);
+	NSLog(@"[PV] [AI] Current category = %@, mode = %@, options = %lu", sessionInstance.category, sessionInstance.mode, (unsigned long)sessionInstance.categoryOptions);
+	NSLog(@"[PV] [AI] Setting category = %@, mode = %@, options = %lu", self->sessionCategory, self->sessionMode, (unsigned long)self->sessionCategoryOptions);
     [sessionInstance setCategory:self->sessionCategory
                             mode:self->sessionMode
                          options:self->sessionCategoryOptions
@@ -474,6 +475,16 @@ static OSStatus    performRender (void                         *inRefCon,
     OSStatus err = AudioOutputUnitStop(cd.rioUnit);
     if (err) NSLog(@"[PV] [AI] couldn't stop AURemoteIO: %d", (int)err);
     else NSLog(@"[PV] [AI] AURemoteIO successfully stopped.");
+
+	AVAudioSession *sessionInstance = [AVAudioSession sharedInstance];
+	NSError *error = nil;
+	NSLog(@"[PV] [AI] Current category = %@, mode = %@, options = %lu", sessionInstance.category, sessionInstance.mode, (unsigned long)sessionInstance.categoryOptions);
+	[sessionInstance setCategory:AVAudioSessionCategoryAmbient
+							mode:AVAudioSessionModeDefault
+						 options:AVAudioSessionCategoryOptionMixWithOthers
+						   error:&error];
+	NSLog(@"[PV] [AI] Reset to default category = %@, mode = %@, options = %lu", sessionInstance.category, sessionInstance.mode, (unsigned long)sessionInstance.categoryOptions);
+
     return err;
 }
 

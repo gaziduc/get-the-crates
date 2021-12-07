@@ -2187,11 +2187,6 @@ namespace PlayFab.ClientModels
     public class GetLeaderboardForUsersCharactersRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Maximum number of entries to retrieve.
-        /// </summary>
-        [Obsolete("Use '' instead", true)]
-        public int? MaxResultsCount;
-        /// <summary>
         /// Unique identifier for the title-specific statistic for the leaderboard.
         /// </summary>
         public string StatisticName;

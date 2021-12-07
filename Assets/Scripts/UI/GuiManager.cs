@@ -29,7 +29,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text leaderboardText;
     [SerializeField] private Text leaderScoresText;
     [SerializeField] private GameObject leaderboardPanel;
-
+    [SerializeField] private Slider countdownSlider;
+    [SerializeField] private GameObject centerPanel;
+    
     // default selected buttons (for keyboard and gamepad)
     [SerializeField] private GameObject pauseDefault;
     
@@ -121,6 +123,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
         text.transform.localScale = Vector3.zero;
         text.text = newText;
         LeanTween.scale(text.gameObject, Vector3.one, 0.2f).setEaseOutBack();
+        countdownSlider.value = 0;
     }
     
     private void UpdateLeaderboard()
@@ -161,6 +164,8 @@ public class GuiManager : MonoBehaviourPunCallbacks
                 NewTextAnim(countdownText, "GO!");
                 GameObject.Destroy(countdownText.gameObject, 0.5f);
 
+                StartCoroutine(HideCenterPanelCoroutine());
+                
                 LevelManager.instance.gameStarted = true;
 
                 beginTime = Time.time;
@@ -182,7 +187,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
                 countdownLast = countdownNow;
             }
-            
+            else
+                countdownSlider.value += Time.deltaTime;
+
             return;
         }
         
@@ -202,6 +209,12 @@ public class GuiManager : MonoBehaviourPunCallbacks
                 Pause();
             }
         }
+    }
+
+    private IEnumerator HideCenterPanelCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        LeanTween.scale(centerPanel, Vector3.zero, 0.2f).setEaseInBack();
     }
 
     public void Pause()

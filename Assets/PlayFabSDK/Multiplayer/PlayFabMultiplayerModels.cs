@@ -108,7 +108,8 @@ namespace PlayFab.MultiplayerModels
         Dsv2,
         NCasT4_v3,
         Ddv4,
-        Ddsv4
+        Ddsv4,
+        HBv3
     }
 
     public enum AzureVmSize
@@ -172,7 +173,12 @@ namespace PlayFab.MultiplayerModels
         Standard_D2ds_v4,
         Standard_D4ds_v4,
         Standard_D8ds_v4,
-        Standard_D16ds_v4
+        Standard_D16ds_v4,
+        Standard_HB120_16rs_v3,
+        Standard_HB120_32rs_v3,
+        Standard_HB120_64rs_v3,
+        Standard_HB120_96rs_v3,
+        Standard_HB120rs_v3
     }
 
     [Serializable]
@@ -217,6 +223,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public int MaxServers;
         /// <summary>
+        /// Regional override for the number of multiplayer servers to host on a single VM of the build.
+        /// </summary>
+        public int? MultiplayerServerCountPerVm;
+        /// <summary>
         /// The build region.
         /// </summary>
         public string Region;
@@ -233,6 +243,10 @@ namespace PlayFab.MultiplayerModels
         /// Unhealthy, Deleting, Deleted.
         /// </summary>
         public string Status;
+        /// <summary>
+        /// Regional override for the VM size the build was created on.
+        /// </summary>
+        public AzureVmSize? VmSize;
     }
 
     [Serializable]
@@ -247,6 +261,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public int MaxServers;
         /// <summary>
+        /// Regional override for the number of multiplayer servers to host on a single VM of the build.
+        /// </summary>
+        public int? MultiplayerServerCountPerVm;
+        /// <summary>
         /// The build region.
         /// </summary>
         public string Region;
@@ -258,6 +276,10 @@ namespace PlayFab.MultiplayerModels
         /// The number of standby multiplayer servers for the region.
         /// </summary>
         public int StandbyServers;
+        /// <summary>
+        /// Regional override for the VM size the build was created on.
+        /// </summary>
+        public AzureVmSize? VmSize;
     }
 
     [Serializable]
@@ -3504,19 +3526,9 @@ namespace PlayFab.MultiplayerModels
     public class ShutdownMultiplayerServerRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// The guid string build ID of the multiplayer server to delete.
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public string BuildId;
-        /// <summary>
         /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         /// </summary>
         public Dictionary<string,string> CustomTags;
-        /// <summary>
-        /// The region of the multiplayer server to shut down.
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public string Region;
         /// <summary>
         /// A guid string session ID of the multiplayer server to shut down.
         /// </summary>

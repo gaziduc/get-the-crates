@@ -35,27 +35,24 @@ MonoBehaviour:
   StartInOfflineMode: 0
   RpcList:
   - CantHearYou
+  - ChangeColour
   - ClickRpc
   - DestroyRpc
   - DestroySpaceship
   - Fire
-  - HeresWhy
-  - RespawnSpaceship
-  - ChangeColour
   - HealRPC
+  - HeresWhy
   - HurtRPC
   - IncrementScoreRPC
   - InstantiatePlayerRPC
+  - RespawnSpaceship
   - SendMessageRPC
   - SetLevelDropdownStateRPC
   - SetNicknameRPC
   - SetWinConditionStateRPC
   - ShootBulletRPC
-  - WeaponEffectRPC
-  - SetVoiceStatus
-  - SetVoiceStatusRPC
   - StartTransitionRPC
-  - EndTransitionRPC
+  - WeaponEffectRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -61,12 +61,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject forgotInfoPanel;
     [SerializeField] private GameObject forgotInfoAfterPanel;
     [SerializeField] private GameObject transitionPanel;
+    [SerializeField] private GameObject logoffPanel;
+    [SerializeField] private InputField guestNickname;
+    [SerializeField] private Dropdown regionDropdownLogin;
+    [SerializeField] private Dropdown regionDropdownRegister;
+    [SerializeField] private Dropdown regionDropdownGuest;
     
-
     private string playerIdCache = "";
     private string username = "";
     private string password = "";
-    
+
     private Dictionary<string, RoomInfo> cachedRoomList;
     private Dictionary<string, string> cachedFriendList;
     private PhotonView chatView;
@@ -103,7 +107,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 savePasswordToggle.isOn = true;
                 loginPass.text = PlayerPrefs.GetString("Password", "");
             }
-            
+
             ActivateUIElement(nicknamePanel);
         }
         else
@@ -112,10 +116,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             OnJoinedRoom();
         }
     }
+    
+    public override void OnRegionListReceived(RegionHandler regionHandler)
+    {
+        regionDropdownLogin.ClearOptions();
+        regionDropdownRegister.ClearOptions();
+        regionDropdownGuest.ClearOptions();
 
+        foreach (var region in regionHandler.EnabledRegions)
+        {
+            Dropdown.OptionData option = new Dropdown.OptionData(region.Code);
+            regionDropdownLogin.options.Add(option);
+            regionDropdownRegister.options.Add(option);
+            regionDropdownGuest.options.Add(option);
+        }
+    }
 
+    private void SetGuestState(bool isGuest)
+    {
+        Hashtable hashtable = new Hashtable();
+        hashtable.Add("guest", isGuest);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+    }
+    
     public void Login()
     {
+        SetGuestState(false);
+        
         selectSound.Play();
         LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLogin);
     }
@@ -150,6 +177,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void Register()
     {
+        SetGuestState(false);
+        
         selectSound.Play();
         LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteRegister);
     }
@@ -272,6 +301,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    public void LoginAsGuest()
+    {
+        if (!String.IsNullOrWhiteSpace(guestNickname.text))
+        {
+            selectSound.Play();
+            LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLoginAsGuest);
+        }
+    }
+
+    private void OnCompleteLoginAsGuest()
+    {
+        // Set guest state
+        SetGuestState(true);
+        
+        PhotonNetwork.NickName = guestNickname.text + " (Guest)";
+        OnFriendListUpdate(new List<FriendInfo>());
+        ActivateUIElement(connectingPanel);
+        Connect();
+    }
+
     private void Update()
     {
         if (statusText && statusText.gameObject.activeInHierarchy)
@@ -281,22 +330,28 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             statsText.text = "Connected: " + PhotonNetwork.CountOfPlayers + " Player(s)\nIn a room: " +
                               PhotonNetwork.CountOfPlayersInRooms + " Player(s)";
 
-        if (menuPanel.activeInHierarchy && lastFriendsUpdateTime + 8f < Time.time)
+       
+        
+        if (menuPanel.activeInHierarchy && PhotonNetwork.IsConnected && lastFriendsUpdateTime + 8f < Time.time)
         {
-            lastFriendsUpdateTime = Time.time;
-
-            if (cachedFriendList != null && cachedFriendList.Count > 0)
+            bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
+            if (!isGuest)
             {
-                string[] friendsToFind = new string[cachedFriendList.Count];
+                lastFriendsUpdateTime = Time.time;
 
-                int i = 0;
-                foreach (var friend in cachedFriendList)
+                if (cachedFriendList != null && cachedFriendList.Count > 0)
                 {
-                    friendsToFind[i] = friend.Key;
-                    i++;
-                }
+                    string[] friendsToFind = new string[cachedFriendList.Count];
+
+                    int i = 0;
+                    foreach (var friend in cachedFriendList)
+                    {
+                        friendsToFind[i] = friend.Key;
+                        i++;
+                    }
          
-                PhotonNetwork.FindFriends(friendsToFind);
+                    PhotonNetwork.FindFriends(friendsToFind);
+                }
             }
         }
     }
@@ -305,7 +360,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinLobby();
     }
-    
+
     private void FriendListResult(GetFriendsListResult result)
     {
         cachedFriendList = new Dictionary<string, string>();
@@ -350,6 +405,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void AddFriend()
     {
+        bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
+        if (isGuest)
+            return;
+        
         if (!String.IsNullOrWhiteSpace(friendNameField.text))
         {
             AddFriendRequest request = new AddFriendRequest();
@@ -372,7 +431,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError);
+        bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
+        if (!isGuest)
+            PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError);
         
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinedLobby);
     }
@@ -389,6 +450,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         connectingPanel.SetActive(false);
 
         ActivateUIElement(menuPanel);
+        ActivateUIElement(logoffPanel);
+
+        bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
+        if (isGuest)
+            noFriendText.GetComponent<Text>().text = "To add friends, please\ncreate an account.\n(Logout > Register)";
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -497,8 +563,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void RemoveFriend(string friendId)
+    private void RemoveFriend(string friendId)
     {
+        bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
+        if (isGuest)
+            return;
+        
         Tooltip.instance.HideTooltip();
         
         RemoveFriendRequest request = new RemoveFriendRequest();
@@ -611,6 +681,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        LeanTween.scale(logoffPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnJoinedRoom);
     }
 
@@ -782,6 +853,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
+        // If client logouts
+        if (cause == DisconnectCause.DisconnectByClientLogic)
+            return;
+        
         menuPanel.SetActive(false);
         connectingPanel.SetActive(false);
         statusPanel.SetActive(false);
@@ -952,6 +1027,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void OnCompleteEscapeAfterForgotPanel()
     {
         forgotInfoPanel.SetActive(false);
+        ActivateUIElement(nicknamePanel);
+    }
+
+    public void Logout()
+    {
+        backSound.Play();
+        LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLogout);
+    }
+    
+    private void OnCompleteLogout()
+    {
+        menuPanel.SetActive(false);
+        
+        ActivateUIElement(connectingPanel);
+        PhotonNetwork.Disconnect();
+        
+        LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteDisconnecting);
+    }
+
+    private void OnCompleteDisconnecting()
+    {
+        LeanTween.scale(logoffPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+        
         ActivateUIElement(nicknamePanel);
     }
 }
