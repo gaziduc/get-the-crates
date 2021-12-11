@@ -7,7 +7,8 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
     private SpriteRenderer sp;
     private Animator anim;
     private PhotonView view;
-    private PlayerMovement player;
+    [SerializeField] private bool isBot = false;
+    private Bot bot;
 
     private Vector2 networkPosition;
     
@@ -15,9 +16,11 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
     {
         rigidbody = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
-        player = GetComponent<PlayerMovement>();
         sp = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        if (isBot)
+            bot = GetComponent<Bot>();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -28,6 +31,8 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
             stream.SendNext(sp.flipX);
             stream.SendNext(anim.GetBool("IsRunning"));
             stream.SendNext(rigidbody.velocity);
+            if (isBot)
+                stream.SendNext(bot.score);
         }
         else
         {
@@ -38,6 +43,9 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
             networkPosition += rigidbody.velocity * lag;
+
+            if (isBot)
+                bot.score = (int) stream.ReceiveNext();
         }
     }
     

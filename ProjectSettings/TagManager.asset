@@ -18,6 +18,10 @@ TagManager:
   - ChatView
   - NetworkManager
   - TransitionPanel
+  - HealthBarP1
+  - FxTemporaire
+  - HealthBarP2
+  - NumPlayersDropdown
   layers:
   - Default
   - TransparentFX

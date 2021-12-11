@@ -40,7 +40,14 @@ public class PlayerHealth : MonoBehaviour
         player.health = initialHealth;
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         player.transform.localScale = Vector3.one;
-        player.GetComponent<PlayerMovement>().canMove = true;
+        
+        PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            
+        // If not a bot
+        if (playerMovement)
+            playerMovement.canMove = true;
+        else
+            player.GetComponent<Bot>().canMove = true;
     }
 
     [PunRPC]
@@ -61,7 +68,15 @@ public class PlayerHealth : MonoBehaviour
                 audio.volume = LevelManager.instance.sfxVolume;
             
             player.transform.localScale = Vector3.zero;
-            player.GetComponent<PlayerMovement>().canMove = false;
+
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            
+            // If not a bot
+            if (playerMovement)
+                playerMovement.canMove = false;
+            else
+                player.GetComponent<Bot>().canMove = false;
+            
             health.SetHealthBar(initialHealth);
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
@@ -71,7 +86,12 @@ public class PlayerHealth : MonoBehaviour
                 PhotonView shooterView = PhotonNetwork.GetPhotonView(ShooterID);
                 PlayerScore shooterScore = shooterView.GetComponent<PlayerScore>();
                 shooterScore.IncrementScoreRPC(true);
-                shooterView.Owner.AddScore(1);
+
+                Bot bot = shooterView.GetComponent<Bot>();
+                if (bot)
+                    bot.score++;
+                else
+                    shooterView.Owner.AddScore(1);
             }
             
             StartCoroutine(Respawn(player, v));

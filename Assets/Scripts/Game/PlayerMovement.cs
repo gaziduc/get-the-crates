@@ -14,8 +14,6 @@ public class PlayerMovement : MonoBehaviour
     private PhotonView view;
 
     [SerializeField] private LayerMask platformsLayerMask;
-    [SerializeField] private GameObject weaponTextPrefab;
-    [SerializeField] private Sprite[] weaponSprites;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -24,8 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 direction;
     private SpriteRenderer sp;
     private Animator anim;
-    [SerializeField] private AudioSource shoot;
-
+    
     private Transform[] feet;
     private PlayerWeapon weapon;
 
@@ -34,9 +31,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.3f);
-        shoot.volume = sfxVolume;
-
         controls = new KeyCode[(int) Options.Controls.NumControls];
         gamepadControls = new string[(int) Options.Controls.NumControls];
 
@@ -146,61 +140,8 @@ public class PlayerMovement : MonoBehaviour
         raycastHit2D = Physics2D.Raycast(feet[1].position, Vector2.down, 0.1f, platformsLayerMask);
         return raycastHit2D.collider != null;
     }
-
-
-
-    [PunRPC]
-    void ShootBulletRPC(float posX, float posY, int weaponNum, float bulletDirection, int viewID)
-    {
-        GameObject bullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],
-            new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
-        BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
-
-        bulletMovement.weaponNum = weaponNum;
-        bulletMovement.weaponDamage = weapon.damage[weaponNum];
-        bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
-        bulletMovement.viewID = viewID;
-
-        if (weaponNum == 3) // If Double Gun
-        {
-            GameObject oppositeBullet = GameObject.Instantiate(weapon.weaponPrefabs[weaponNum],
-                new Vector3(posX - bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
-            BulletMovement oppositeBulletMovement = oppositeBullet.GetComponent<BulletMovement>();
-
-            oppositeBulletMovement.weaponNum = weaponNum;
-            oppositeBulletMovement.weaponDamage = weapon.damage[weaponNum];
-            oppositeBulletMovement.direction = new Vector3(-bulletDirection, 0, 0);
-            oppositeBulletMovement.viewID = viewID;
-        }
-
-        PhotonView playerShooting = PhotonNetwork.GetPhotonView(viewID);
-        ReloadBarAbovePlayer reloadBar = playerShooting.GetComponent<ReloadBarAbovePlayer>();
-        reloadBar.Shoot(weapon.reloadTime[weaponNum]);
-
-        shoot.Play();
-    }
-
-    [PunRPC]
-    void WeaponEffectRPC(int weaponNum, int viewId, bool showText)
-    {
-        PhotonView v = PhotonNetwork.GetPhotonView(viewId);
-
-        // Set weapon image
-        v.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = weaponSprites[weaponNum];
-
-        ReloadBarAbovePlayer reloadBar = v.GetComponent<ReloadBarAbovePlayer>();
-        reloadBar.SetToReloaded();
-
-        Transform player = v.GetComponent<Transform>();
-
-        // Text above
-        if (showText)
-        {
-            GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
-            weaponText.GetComponent<TextMesh>().text = weapon.weaponName[weaponNum];
-        }
-    }
-
+    
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (view.IsMine && other.CompareTag("Crate"))

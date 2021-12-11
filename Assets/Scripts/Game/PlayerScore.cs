@@ -17,7 +17,7 @@ public class PlayerScore : MonoBehaviour
         
         view = GetComponent<PhotonView>();
         if (view.IsMine)
-            view.RPC("SetNicknameRPC", RpcTarget.All, view.ViewID, PhotonNetwork.NickName);
+            view.RPC("SetNicknameRPC", RpcTarget.All, view.ViewID, GetComponent<Bot>() ? "Bot" : PhotonNetwork.NickName);
     }
 
     [PunRPC]

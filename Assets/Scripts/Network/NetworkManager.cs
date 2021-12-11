@@ -17,7 +17,6 @@ using Random = UnityEngine.Random;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    private byte maxPlayersPerRoom = 4;
     [SerializeField] private GameObject connectingPanel;
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject statusPanel;
@@ -66,6 +65,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Dropdown regionDropdownLogin;
     [SerializeField] private Dropdown regionDropdownRegister;
     [SerializeField] private Dropdown regionDropdownGuest;
+    [SerializeField] private Dropdown numPlayersDropdown;
     
     private string playerIdCache = "";
     private string username = "";
@@ -306,6 +306,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!String.IsNullOrWhiteSpace(guestNickname.text))
         {
             selectSound.Play();
+            
             LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLoginAsGuest);
         }
     }
@@ -316,6 +317,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetGuestState(true);
         
         PhotonNetwork.NickName = guestNickname.text + " (Guest)";
+        nicknameText.text = PhotonNetwork.NickName;
         OnFriendListUpdate(new List<FriendInfo>());
         ActivateUIElement(connectingPanel);
         Connect();
@@ -602,7 +604,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         var roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
         roomOptions.IsVisible = true;
-        roomOptions.MaxPlayers = maxPlayersPerRoom;
+        roomOptions.MaxPlayers = Byte.Parse(numPlayersDropdown.options[numPlayersDropdown.value].text);
         roomOptions.PublishUserId = true; // for friends
         roomOptions.CustomRoomPropertiesForLobby = new string[1] {"winner"};
         PhotonNetwork.CreateRoom(String.IsNullOrWhiteSpace(roomNameInputField.text) ? GetRandomString(): roomNameInputField.text, roomOptions, TypedLobby.Default);
@@ -667,14 +669,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 playerListTexts[i].GetComponent<BlinkText>().DisableBlink();
         }
 
-        for (int i = PhotonNetwork.CurrentRoom.Players.Count; i < maxPlayersPerRoom; i++)
+        for (int i = PhotonNetwork.CurrentRoom.Players.Count; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
         {
-            playerListTexts[i].text = "P" + (i + 1) + ": Waiting...";
+            playerListTexts[i].text = "P" + (i + 1) + ": Waiting... (Bot)";
             
             if (i > 0)
                 playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
         }
-        
+
+        for (int i = PhotonNetwork.CurrentRoom.MaxPlayers; i < 4; i++)
+            playerListTexts[i].text = "";
+
         if (chatView) // Do not remove, check because SetNickname can call this method before chatView is gotten
             chatView.GetComponent<Chat>().ResetVoiceStatusForRemainingPlayers();
     }
@@ -710,7 +715,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 break;
             }
         }
-        
+
         if (chatView == null)
         {
             GameObject temp = PhotonNetwork.Instantiate(viewPrefab.name, Vector3.zero, Quaternion.identity);

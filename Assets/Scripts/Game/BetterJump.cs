@@ -8,11 +8,13 @@ public class BetterJump : MonoBehaviour
     private float lowJumpMultiplier = 10f;
 
     private Rigidbody2D rb;
+    private Bot bot;
 
     private KeyCode upKey;
     private string upKeyGamepad;
 
     private PhotonView view;
+    [SerializeField] private bool isBot = false;
     
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,8 @@ public class BetterJump : MonoBehaviour
         
         rb = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
+        if (isBot)
+            bot = GetComponent<Bot>();
     }
 
     // Update is called once per frame
@@ -33,9 +37,12 @@ public class BetterJump : MonoBehaviour
             {
                 rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
             }
-            else if (rb.velocity.y > 0 && !Input.GetKey(upKey) && (Gamepad.current == null || !Gamepad.current[upKeyGamepad].IsPressed()))
+            else if (rb.velocity.y > 0)
             {
-                rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+                if (isBot && bot.direction.y < -0.1f)
+                    rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+                else if (!isBot && !Input.GetKey(upKey) && (Gamepad.current == null || !Gamepad.current[upKeyGamepad].IsPressed()))
+                    rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
             }
         }
     }

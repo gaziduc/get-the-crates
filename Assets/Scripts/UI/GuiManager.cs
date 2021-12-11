@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
@@ -129,10 +130,29 @@ public class GuiManager : MonoBehaviourPunCallbacks
     private void UpdateLeaderboard()
     {
         Player[] players = PhotonNetwork.PlayerList;
-        Array.Sort(players, (p1, p2) => p2.GetScore().CompareTo(p1.GetScore()));
+
+        List<(string, int)> playersInfos = new List<(string, int)>();
+        
+        // Real players
+        foreach (var p in players)
+            playersInfos.Add((p.NickName, p.GetScore()));
+
+        // Bots
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in allPlayers)
+        {
+            Bot bot = p.GetComponent<Bot>();
+            if (bot)
+                playersInfos.Add(("Bot", bot.score));
+        }
+            
+        
+        (string, int)[] infosArray = playersInfos.ToArray();
+
+        Array.Sort(infosArray, (p1, p2) => p2.Item2.CompareTo(p1.Item2));
         string nicknameText = "";
         string scoreText = "";
-        GetScoreBoardText(players, ref nicknameText, ref scoreText);
+        GetScoreBoardText(infosArray, ref nicknameText, ref scoreText);
         leaderboardText.text = nicknameText;
         leaderScoresText.text = scoreText;
     }
@@ -145,7 +165,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
         
         if (!beginned)
         {
-            if (FindObjectsOfType<PhotonView>().Length - 1 == PhotonNetwork.PlayerList.Length * 3) // - 1 for the crate
+            if (FindObjectsOfType<PhotonView>().Length - 1 >= PhotonNetwork.PlayerList.Length * 3) // - 1 for the crate
             {
                 countdownTime = countdownDuration;
                 beginTime = Time.time;
@@ -237,16 +257,16 @@ public class GuiManager : MonoBehaviourPunCallbacks
         pausePanel.SetActive(false);
     }
 
-    private void GetScoreBoardText(Player[] players, ref string nicknames, ref string scores)
+    private void GetScoreBoardText((string, int)[] infos, ref string nicknames, ref string scores)
     {
-        for (int i = 0; i < players.Length - 1; i++)
+        for (int i = 0; i < infos.Length - 1; i++)
         {
-            nicknames += players[i].NickName + "\n";
-            scores += players[i].GetScore() + "\n";
+            nicknames += infos[i].Item1 + "\n";
+            scores += infos[i].Item2 + "\n";
         }
 
-        nicknames += players[players.Length - 1].NickName;
-        scores += players[players.Length - 1].GetScore();
+        nicknames += infos[infos.Length - 1].Item1;
+        scores += infos[infos.Length - 1].Item2;
     }
 
     private void End()
@@ -258,13 +278,31 @@ public class GuiManager : MonoBehaviourPunCallbacks
         LeanTween.scale(leaderboardPanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(() => leaderboardPanel.SetActive(false));
         
         NewTextAnim(secondsText, "0");
+
         
         Player[] players = PhotonNetwork.PlayerList;
-        Array.Sort(players, (p1, p2) => p2.GetScore().CompareTo(p1.GetScore()));
+
+        List<(string, int)> playersInfos = new List<(string, int)>();
         
+        // Real players
+        foreach (var p in players)
+            playersInfos.Add((p.NickName, p.GetScore()));
+
+        // Bots
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in allPlayers)
+        {
+            Bot bot = p.GetComponent<Bot>();
+            if (bot)
+                playersInfos.Add(("Bot", bot.score));
+        }
+        
+        (string, int)[] infosArray = playersInfos.ToArray();
+
+        Array.Sort(infosArray, (p1, p2) => p2.Item2.CompareTo(p1.Item2));
         string nicknameText = "";
         string scoreText = "";
-        GetScoreBoardText(players, ref nicknameText, ref scoreText);
+        GetScoreBoardText(infosArray, ref nicknameText, ref scoreText);
         scoreboardText.text = nicknameText;
         scoresText.text = scoreText;
         

@@ -8,6 +8,7 @@ public class SpawnManager : MonoBehaviour
     private PhotonView view;
 
     [SerializeField] private GameObject[] playerPrefabToInstantiate;
+    [SerializeField] private GameObject botPrefabToInstantiate;
     [SerializeField] private GameObject cratePrefabToInstantiate;
     private Transform spawnPositionsParent;
     private Vector3[] spawnPosition;
@@ -45,22 +46,36 @@ public class SpawnManager : MonoBehaviour
             // Players
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                int spawnNum = Random.Range(0, takenSpawn.Length);
-                while (takenSpawn[spawnNum])
-                {
-                    spawnNum++;
-                    if (spawnNum >= takenSpawn.Length)
-                        spawnNum = 0;
-                }
-                
+                int spawnNum = GetSpawnNum(takenSpawn);
                 takenSpawn[spawnNum] = true;
                 view.RPC("InstantiatePlayerRPC", p, spawnNum);
+            }
+            
+            // Bots
+            for (int i = PhotonNetwork.CurrentRoom.PlayerCount; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
+            {
+                int spawnNum = GetSpawnNum(takenSpawn);
+                takenSpawn[spawnNum] = true;
+                StartCoroutine(InstantiateBot(spawnNum));
             }
             
             
             // Crate
             PhotonNetwork.Instantiate(cratePrefabToInstantiate.name, GetCrateNewPosition(Vector3.zero), Quaternion.identity);
         }
+    }
+
+    private int GetSpawnNum(bool[] takenSpawn)
+    {
+        int spawnNum = Random.Range(0, takenSpawn.Length);
+        while (takenSpawn[spawnNum])
+        {
+            spawnNum++;
+            if (spawnNum >= takenSpawn.Length)
+                spawnNum = 0;
+        }
+
+        return spawnNum;
     }
     
     public Vector3 GetRespawnPos()
@@ -99,6 +114,22 @@ public class SpawnManager : MonoBehaviour
                     ? playerPrefabToInstantiate[0].name
                     : playerPrefabToInstantiate[1].name, spawnPosition[index], Quaternion.identity);
                 
+                instantiated = true;
+            }
+            
+            yield return null;
+        }
+    }
+    
+    private IEnumerator InstantiateBot(int index)
+    {
+        bool instantiated = false;
+        
+        while (!instantiated)
+        {
+            if (spawnPosition != null && spawnPosition[index] != Vector3.zero)
+            {
+                PhotonNetwork.Instantiate(botPrefabToInstantiate.name, spawnPosition[index], Quaternion.identity);
                 instantiated = true;
             }
             
