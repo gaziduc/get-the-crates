@@ -745,6 +745,7 @@ MonoBehaviour:
   deathByDiskEffect: {fileID: 100000, guid: e55c7cf0f1281cb438d4d39b5c2bdace, type: 3}
   healthEffect: {fileID: 100004, guid: 9c1298636d9e1a0438ccc70056555539, type: 3}
   weaponTextPrefab: {fileID: 1510917079228708310, guid: 1f0fd20434736e6438d92acb5bff0624, type: 3}
+  spawnPrefab: {fileID: 1965343156803978, guid: aa8d6482d70a23445b4b2a928ed1b845, type: 3}
 --- !u!95 &701898467339606837
 Animator:
   serializedVersion: 3

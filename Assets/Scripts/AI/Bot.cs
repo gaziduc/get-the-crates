@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class Bot : MonoBehaviour
 {
     private Transform target;
+    private Vector2 force;
     [HideInInspector] public bool canMove = false;
     [HideInInspector] public int score = 0;
     [HideInInspector] public Vector2 direction;
@@ -101,20 +102,20 @@ public class Bot : MonoBehaviour
         {
             if (target != null && TargetInDistance() && followEnabled)
             {
-                PathFollow();
+                rb.velocity = new Vector2(force.x * Time.fixedDeltaTime, rb.velocity.y + force.y);
+                force.y = 0;
             }
         }
     }
 
     private void Update()
     {
-        // Direction Graphics Handling
-        if (directionLookEnabled)
+        if (view.IsMine)
         {
-            if (rb.velocity.x > 0.05f)
-                sp.flipX = true;
-            else if (rb.velocity.x < -0.05f)
-                sp.flipX = false;
+            if (target != null && TargetInDistance() && followEnabled)
+            {
+                PathFollow();
+            }
         }
     }
 
@@ -150,20 +151,27 @@ public class Bot : MonoBehaviour
 
         // Direction Calculation
         direction = ((Vector2) path.vectorPath[currentWaypoint] - rb.position).normalized;
-        Vector2 force = direction * speed * Time.fixedDeltaTime;
+        force = direction * speed;
 
         // Jump and movement
         if (jumpEnabled && IsGrounded() && direction.y > jumpNodeHeightRequirement)
-            rb.velocity = new Vector2(force.x, jumpModifier);
+            force = new Vector2(force.x, jumpModifier);
         else // Movement
-            rb.velocity = new Vector2(force.x, rb.velocity.y);
-
-       
-
+            force = new Vector2(force.x, 0);
+        
         // Next Waypoint
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
         if (distance < nextWaypointDistance)
             currentWaypoint++;
+        
+        // Direction Graphics Handling
+        if (directionLookEnabled)
+        {
+            if (rb.velocity.x > 0.05f)
+                sp.flipX = true;
+            else if (rb.velocity.x < -0.05f)
+                sp.flipX = false;
+        }
     }
 
     private bool TargetInDistance()
@@ -186,6 +194,7 @@ public class Bot : MonoBehaviour
         if (view.IsMine && other.CompareTag("Crate"))
         {
             Crate crate = other.GetComponent<Crate>();
+            
             bool isWeaponCrate = crate.spriteNum == 0;
 
             // Add 1 to score if it is Get Most Crates mode
@@ -210,6 +219,8 @@ public class Bot : MonoBehaviour
             // ...to move position
             other.transform.position = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
             crate.SetSprite(Random.Range(0, 8) == 0 ? 1 : 0);
+
+            crate.SetSpawnEffect();
         }
     }
 }

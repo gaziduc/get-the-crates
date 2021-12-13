@@ -3,7 +3,6 @@ using Photon.Pun.UtilityScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
@@ -147,6 +146,7 @@ public class PlayerMovement : MonoBehaviour
         if (view.IsMine && other.CompareTag("Crate"))
         {
             Crate crate = other.GetComponent<Crate>();
+            
             bool isWeaponCrate = crate.spriteNum == 0;
 
             // Add 1 to score if it is Get Most Crates mode
@@ -171,6 +171,8 @@ public class PlayerMovement : MonoBehaviour
             // ...to move position
             other.transform.position = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
             crate.SetSprite(Random.Range(0, 8) == 0 ? 1 : 0);
+
+            crate.SetSpawnEffect();
         }
     }
 }

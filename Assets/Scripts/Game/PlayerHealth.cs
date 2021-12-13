@@ -14,11 +14,15 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private GameObject deathByDiskEffect;
     [SerializeField] private GameObject healthEffect;
     [SerializeField] private GameObject weaponTextPrefab;
+    [SerializeField] private GameObject spawnPrefab;
 
     private void Start()
     {
         health = initialHealth;
         view = GetComponent<PhotonView>();
+        
+        // Spawn particle effects
+        GameObject.Instantiate(spawnPrefab, transform.position, Quaternion.identity);
     }
 
     private IEnumerator Respawn(PlayerHealth player, PhotonView v)
@@ -48,6 +52,9 @@ public class PlayerHealth : MonoBehaviour
             playerMovement.canMove = true;
         else
             player.GetComponent<Bot>().canMove = true;
+        
+        // Spawn particle effects
+        GameObject.Instantiate(spawnPrefab, transform.position, Quaternion.identity);
     }
 
     [PunRPC]
