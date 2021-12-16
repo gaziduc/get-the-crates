@@ -50,9 +50,13 @@ public class SpawnManager : MonoBehaviour
                 takenSpawn[spawnNum] = true;
                 view.RPC("InstantiatePlayerRPC", p, spawnNum);
             }
+
+            int numBots = 0;
+            if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("bots"))
+                numBots = (int) PhotonNetwork.CurrentRoom.CustomProperties["bots"];
             
             // Bots
-            for (int i = PhotonNetwork.CurrentRoom.PlayerCount; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
+            for (int i = 0; i < numBots; i++)
             {
                 int spawnNum = GetSpawnNum(takenSpawn);
                 takenSpawn[spawnNum] = true;

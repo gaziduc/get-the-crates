@@ -22,6 +22,7 @@ TagManager:
   - FxTemporaire
   - HealthBarP2
   - NumPlayersDropdown
+  - NumBotsDropdown
   layers:
   - Default
   - TransparentFX

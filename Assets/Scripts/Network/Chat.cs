@@ -48,12 +48,16 @@ public class Chat : MonoBehaviour
                 isVoiceEnabled = (bool) PhotonNetwork.PlayerList[i].CustomProperties["voice"];
 
             playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = isVoiceEnabled;
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                playerList.transform.GetChild(i).GetChild(2).GetComponent<Image>().enabled = !isVoiceEnabled;
             SetNickname(i, isVoiceEnabled, PhotonNetwork.PlayerList[i]);
         }
 
         for (int i = PhotonNetwork.PlayerList.Length; i < playerList.transform.childCount; i++)
         {
             playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = false;
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                playerList.transform.GetChild(i).GetChild(2).GetComponent<Image>().enabled = false;
             SetNickname(i, false, null);
         }
     }
@@ -81,6 +85,13 @@ public class Chat : MonoBehaviour
         GameObject.FindWithTag("AudioSources").transform.GetChild(1).GetChild(4).GetComponent<AudioSource>().Play();
     }
 
+    [PunRPC]
+    public void SetNumBotsStateRPC(int value)
+    {
+        GameObject.FindWithTag("NumBotsDropdown").GetComponent<Dropdown>().value = value;
+        GameObject.FindWithTag("AudioSources").transform.GetChild(1).GetChild(4).GetComponent<AudioSource>().Play();
+    }
+    
     [PunRPC]
     public void SetLevelDropdownStateRPC(int value)
     {
@@ -138,6 +149,8 @@ public class Chat : MonoBehaviour
         for (int i = PhotonNetwork.PlayerList.Length; i < playerList.transform.childCount; i++)
         {
             playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = false;
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                playerList.transform.GetChild(i).GetChild(2).GetComponent<Image>().enabled = false;
             SetNickname(i, false, null);
         }
     }

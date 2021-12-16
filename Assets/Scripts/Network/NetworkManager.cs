@@ -40,6 +40,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField roomToJoinInputField;
     [SerializeField] private Dropdown sizeDropdown;
     [SerializeField] private Dropdown winConditionDropdown;
+    [SerializeField] private Dropdown numBotsDropdown;
     [SerializeField] private GameObject disconnectedPanel;
     [SerializeField] private AudioSource selectSound;
     [SerializeField] private AudioSource backSound;
@@ -66,6 +67,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Dropdown regionDropdownRegister;
     [SerializeField] private Dropdown regionDropdownGuest;
     [SerializeField] private Dropdown numPlayersDropdown;
+    [SerializeField] private Toggle hiddenRoomToggle;
     
     private string playerIdCache = "";
     private string username = "";
@@ -305,6 +307,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (!String.IsNullOrWhiteSpace(guestNickname.text))
         {
+            PhotonNetwork.AuthValues = null;
+            
             selectSound.Play();
             
             LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLoginAsGuest);
@@ -603,7 +607,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         var roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
-        roomOptions.IsVisible = true;
+        roomOptions.IsVisible = !hiddenRoomToggle.isOn;
         roomOptions.MaxPlayers = Byte.Parse(numPlayersDropdown.options[numPlayersDropdown.value].text);
         roomOptions.PublishUserId = true; // for friends
         roomOptions.CustomRoomPropertiesForLobby = new string[1] {"winner"};
@@ -658,7 +662,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomToJoinInputField.text);
     }
 
-    private void UpdatePlayerList()
+    public void UpdatePlayerList()
     {
         for (int i = 0; i < PhotonNetwork.CurrentRoom.Players.Count; i++)
         {
@@ -669,9 +673,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 playerListTexts[i].GetComponent<BlinkText>().DisableBlink();
         }
 
+        int numBots = numBotsDropdown.value;
+
         for (int i = PhotonNetwork.CurrentRoom.Players.Count; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
         {
-            playerListTexts[i].text = "P" + (i + 1) + ": Waiting... (Bot)";
+            playerListTexts[i].text = "P" + (i + 1) + ": Waiting... ";
+
+            if (i < numBots + PhotonNetwork.CurrentRoom.Players.Count)
+                playerListTexts[i].text += "/ Bot";
             
             if (i > 0)
                 playerListTexts[i].GetComponent<BlinkText>().EnableBlink();
@@ -697,9 +706,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         // If master client, then able to launch game
         startButton.interactable = PhotonNetwork.IsMasterClient;
+        numBotsDropdown.interactable = PhotonNetwork.IsMasterClient;
         sizeDropdown.interactable = PhotonNetwork.IsMasterClient;
         winConditionDropdown.interactable = PhotonNetwork.IsMasterClient;
 
+        numBotsDropdown.value = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("bots") ? (int) PhotonNetwork.CurrentRoom.CustomProperties["bots"] : 0;
         sizeDropdown.value = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("level") ? (int) PhotonNetwork.CurrentRoom.CustomProperties["level"] : 0;
         winConditionDropdown.value = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("win") ? (int) PhotonNetwork.CurrentRoom.CustomProperties["win"] : 0;
         
@@ -730,6 +741,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetProperties();
         
         UpdatePlayerList();
+        
+        SetNumBotsDropdownOptions();
     }
     
     private void SetMasterClientText(string masterClientName)
@@ -770,6 +783,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         bool amIMaster = newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber;
         
         startButton.interactable = amIMaster;
+        numBotsDropdown.interactable = amIMaster;
         sizeDropdown.interactable = amIMaster;
         winConditionDropdown.interactable = amIMaster;
     }
@@ -804,11 +818,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+            chatView.RPC("SetNumBotsStateRPC", RpcTarget.Others, numBotsDropdown.value);
             chatView.RPC("SetLevelDropdownStateRPC", RpcTarget.Others, sizeDropdown.value);
             chatView.RPC("SetWinConditionStateRPC", RpcTarget.Others, winConditionDropdown.value);
         }
         
         UpdatePlayerList();
+
+        SetNumBotsDropdownOptions();
+    }
+
+
+    private void SetNumBotsDropdownOptions()
+    {
+        int previousNumBots = numBotsDropdown.value;
+        
+        numBotsDropdown.ClearOptions();
+        int maxNumBots = PhotonNetwork.CurrentRoom.MaxPlayers - PhotonNetwork.CurrentRoom.Players.Count;
+        
+        for (int i = 0; i <= maxNumBots; i++)
+            numBotsDropdown.options.Add(new Dropdown.OptionData(i.ToString()));
+
+        if (previousNumBots > maxNumBots)
+            numBotsDropdown.value = maxNumBots;
+        else
+            numBotsDropdown.value = previousNumBots;
+        
+        numBotsDropdown.RefreshShownValue();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -818,6 +854,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         UpdatePlayerList();
         
         chatView.GetComponent<Chat>().SetVoiceStatus();
+        
+        SetNumBotsDropdownOptions();
     }
     
     public void LeaveGame()
@@ -939,6 +977,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void SendNumBots()
+    {
+        if (numBotsDropdown.interactable)
+        {
+            SetProperties();
+
+            if (chatView)
+            {
+                chatView.RPC("SendMessageRPC", RpcTarget.All, "<color=lime>Master Client <color=cyan>" + PhotonNetwork.MasterClient.NickName + "</color> set number of bots to <color=orange>" + numBotsDropdown.options[numBotsDropdown.value].text + "</color></color>");
+                chatView.RPC("SetNumBotsStateRPC", RpcTarget.Others, numBotsDropdown.value);
+            }
+        }
+        
+        UpdatePlayerList(); // keep out of if (numBotsDropdown.interactable)
+    }
+
     public void ToggleVoice()
     {
         chatView.GetComponent<Chat>().ToggleVoiceChat();
@@ -956,6 +1010,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void SetProperties()
     {
         Hashtable hashtable = new Hashtable();
+        hashtable.Add("bots", numBotsDropdown.value);
         hashtable.Add("level", sizeDropdown.value);
         hashtable.Add("win", winConditionDropdown.value);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
