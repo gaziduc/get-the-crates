@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Android;	
 #endif
 
-namespace Photon.Voice.Unity
+namespace FrostweepGames.Plugins.Native
 {
-	public class UnityMicrophone
+	public class CustomMicrophone
 	{
 		public static string[] devices
 		{
