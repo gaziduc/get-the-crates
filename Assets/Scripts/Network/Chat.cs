@@ -216,7 +216,10 @@ public class Chat : MonoBehaviour
     public void ToggleVoiceChat()
     {
         #if UNITY_WEBGL
-            SendMessageRPC("Please download the game to get voice chat.");
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                SendMessageRPC("<color=lime>Please download the game to get voice chat.</color>");
+            else
+                GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().AddMessage("<color=lime>Please download the game to get voice chat.</color>");
         #else
             Recorder recorder = GetComponent<Recorder>();
             recorder.TransmitEnabled = !recorder.TransmitEnabled;
