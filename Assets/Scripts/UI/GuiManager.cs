@@ -65,12 +65,8 @@ public class GuiManager : MonoBehaviourPunCallbacks
             infoTexts[i] = infoPanel.transform.GetChild(i).GetComponent<Text>();
             infoTexts[i].text = "";
         }
-    
-        #if UNITY_WEBGL
-            AddMessage("<color=lime>Please download the game to get voice chat.</color>");
-        #else
-            AddMessage("<color=lime>Press <color=cyan>Tab</color> to enable/disable voice chat.</color>");
-        #endif
+        
+        AddMessage("<color=lime>Press <color=cyan>Tab</color> to enable/disable voice chat.</color>");
 
         GameObject[] chatViews = GameObject.FindGameObjectsWithTag("ChatView");
 

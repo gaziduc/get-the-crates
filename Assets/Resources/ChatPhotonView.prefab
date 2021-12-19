@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   logLevel: 3
   ignoreGlobalLogLevel: 0
-  playbackOnlyWhenEnabled: 0
+  playbackOnlyWhenEnabled: 1
   playDelayMs: -1
   playbackDelaySettings:
     MinDelaySoft: 200

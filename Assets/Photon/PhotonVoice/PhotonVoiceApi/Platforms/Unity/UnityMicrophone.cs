@@ -1,241 +1,72 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-#if UNITY_ANDROID
-using UnityEngine.Android;	
-#endif
-
-namespace Photon.Voice.Unity
+﻿namespace Photon.Voice.Unity
 {
-	public class UnityMicrophone
-	{
-		public static string[] devices
-		{
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
-			get { return Microphone.devices; }
-#elif UNITY_WEBGL
-			get { return FrostweepGames.Plugins.WebGL.Microphone.Instance.GetMicrophoneDevices(); }
-#else
-			get { return new string[0]; }
-#endif
-		}
+    #if UNITY_WEBGL
+    using System;
+    #endif
+    using UnityEngine;
 
-		public static AudioClip Start(string deviceName, bool loop, int lengthSec, int frequency)
-		{
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
-			return Microphone.Start(deviceName, loop, lengthSec, frequency);
-#elif UNITY_WEBGL
-			return FrostweepGames.Plugins.WebGL.Microphone.Instance.Start(deviceName, loop, lengthSec, frequency);
-#else
-			throw new System.NotImplementedException("microphone not implemented yet");
-#endif
-		}
+    /// <summary>A wrapper around UnityEngine.Microphone to be able to safely use Microphone and compile for WebGL.</summary>
+    public static class UnityMicrophone
+    {
+        #if UNITY_WEBGL
+        private static readonly string[] _devices = new string[0];
+        #endif
 
-		public static bool IsRecording(string deviceName)
-		{
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
-			return Microphone.IsRecording(deviceName);
-#elif UNITY_WEBGL
-			return FrostweepGames.Plugins.WebGL.Microphone.Instance.IsRecording(deviceName);
-#else
-			return false;
-#endif
-		}
+        public static string[] devices
+        {
+            get
+            {
+                #if UNITY_WEBGL
+                return _devices;
+                #else
+                return Microphone.devices;
+                #endif
+            }
+        }
 
-		public static void GetDeviceCaps(string deviceName, out int minFreq, out int maxfreq)
-		{
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
-			Microphone.GetDeviceCaps(deviceName, out minFreq, out maxfreq);
-#elif UNITY_WEBGL
-			FrostweepGames.Plugins.WebGL.Microphone.Instance.GetDeviceCaps(deviceName, out minFreq, out maxfreq);
-#else
-			minFreq = 0;
-			maxfreq = 0;
-#endif
-		}
+        public static void End(string deviceName)
+        {
+            #if UNITY_WEBGL
+            throw new NotImplementedException("Unity Microphone not supported on WebGL");
+            #else
+            Microphone.End(deviceName);
+            #endif
+        }
+        
+        public static void GetDeviceCaps(string deviceName, out int minFreq, out int maxFreq)
+        {
+            #if UNITY_WEBGL
+            throw new NotImplementedException("Unity Microphone not supported on WebGL");
+            #else
+            Microphone.GetDeviceCaps(deviceName, out minFreq, out maxFreq);
+            #endif
+        }
 
-		public static int GetPosition(string deviceName)
-		{
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
-			return Microphone.GetPosition(deviceName);
-#elif UNITY_WEBGL
-			return FrostweepGames.Plugins.WebGL.Microphone.Instance.GetPosition(deviceName);
-#else
-			return 0;
-#endif
-		}
+        public static int GetPosition(string deviceName)
+        {
+            #if UNITY_WEBGL
+            throw new NotImplementedException("Unity Microphone not supported on WebGL");
+            #else
+            return Microphone.GetPosition(deviceName);
+            #endif
+        }
 
-		public static void End(string deviceName)
-		{
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
-			Microphone.End(deviceName);
-#elif UNITY_WEBGL
-			FrostweepGames.Plugins.WebGL.Microphone.Instance.End(deviceName);
-#else
-			throw new System.NotImplementedException("microphone not implemented yet");
-#endif
-		}
+        public static bool IsRecording(string deviceName)
+        {
+            #if UNITY_WEBGL
+            return false;
+            #else
+            return Microphone.IsRecording(deviceName);
+            #endif
+        }
 
-		public static bool HasConnectedMicrophoneDevices()
-		{
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
-			return Microphone.devices.Length > 0;
-#elif UNITY_WEBGL
-			return FrostweepGames.Plugins.WebGL.Microphone.Instance.HasConnectedMicrophoneDevices();
-#else
-			return false;
-#endif
-		}
-
-		public static void RequestMicrophonePermission()
-		{
-			if (!HasMicrophonePermission())
-			{
-#if UNITY_ANDROID
-				Permission.RequestUserPermission(Permission.Microphone);
-#elif UNITY_WEBGL && !UNITY_EDITOR
-				FrostweepGames.Plugins.WebGL.Microphone.Instance.RequestPermission();
-#endif
-			}
-		}
-
-		public static bool HasMicrophonePermission()
-		{
-#if UNITY_ANDROID
-			return Permission.HasUserAuthorizedPermission(Permission.Microphone);
-#elif UNITY_WEBGL && !UNITY_EDITOR
-			return FrostweepGames.Plugins.WebGL.Microphone.Instance.HasUserAuthorizedPermission();
-#else
-			return true;
-#endif
-		}
-
-		public static bool GetRawData(ref float[] output, AudioClip source = null)
-		{
-#if UNITY_WEBGL && !UNITY_EDITOR
-			output = FrostweepGames.Plugins.WebGL.Microphone.Instance.GetRawData();
-			return true;
-#else
-			if (source == null)
-				return false;
-
-			source.GetData(output, 0);
-			return true;
-#endif
-		}
-
-		public static void RefreshMicrophoneDevices()
-		{
-#if UNITY_WEBGL && !UNITY_EDITOR
-			FrostweepGames.Plugins.WebGL.Microphone.Instance.RefreshMicrophoneDevices();
-#endif
-		}
-
-		/// <summary>
-		/// Detect voice based on threshold
-		/// </summary>
-		/// <param name="data">input bytes data</param>
-		/// <param name="averageVoiceLevel">ref value of current voice level</param>
-		/// <param name="threshold">threshold filter</param>
-		/// <returns></returns>
-		public static bool IsVoiceDetected(float[] samples, ref float averageVoiceLevel, double threshold = 0.02d)
-		{
-			return IsVoiceDetected(FloatToByte(samples), ref averageVoiceLevel, threshold);
-		}
-
-		/// <summary>
-		/// Detect voice based on threshold
-		/// </summary>
-		/// <param name="data">input bytes data</param>
-		/// <param name="averageVoiceLevel">ref value of current voice level</param>
-		/// <param name="threshold">threshold filter</param>
-		/// <returns></returns>
-		public static bool IsVoiceDetected(string deviceName, AudioClip audioClip, ref float averageVoiceLevel,  double threshold = 0.02d)
-		{
-			if (IsRecording(deviceName) && audioClip != null && audioClip)
-			{
-				float[] samples = new float[audioClip.samples];
-				if (GetRawData(ref samples, audioClip))
-				{
-					int position = GetPosition(deviceName);
-
-					List<float> samplesList = samples.ToList();
-
-					int amount = 1024;
-
-					if (position >= amount)
-					{
-						int startIndex = position - amount;
-						int count = amount;
-
-						if(startIndex + count >= samplesList.Count)
-						{
-							count = samplesList.Count - startIndex;
-						}
-
-						samples = samplesList.GetRange(startIndex, count).ToArray();
-						return IsVoiceDetected(samples, ref averageVoiceLevel, threshold);
-					}
-				}
-			}
-
-			return false;
-		}
-
-		/// <summary>
-		/// Convert float arra of RAW samples into bytes array
-		/// </summary>
-		/// <param name="samples"></param>
-		/// <returns></returns>
-		private static byte[] FloatToByte(float[] samples)
-		{
-			short[] intData = new short[samples.Length];
-
-			byte[] bytesData = new byte[samples.Length * 2];
-
-			for (int i = 0; i < samples.Length; i++)
-			{
-				intData[i] = (short)(samples[i] * 32767);
-				byte[] byteArr = System.BitConverter.GetBytes(intData[i]);
-				byteArr.CopyTo(bytesData, i * 2);
-			}
-
-			return bytesData;
-		}
-
-		/// <summary>
-		/// Filters data based on threshold
-		/// </summary>
-		/// <param name="data">input bytes data</param>
-		/// <param name="averageVoiceLevel">ref value of current voice level</param>
-		/// <param name="threshold">threshold filter</param>
-		/// <returns></returns>
-		private static bool IsVoiceDetected(byte[] data, ref float averageVoiceLevel, double threshold = 0.02d)
-		{
-			bool detected = false;
-			double sumTwo = 0;
-			double tempValue;
-
-			for (int index = 0; index < data.Length; index += 2)
-			{
-				tempValue = (short)((data[index + 1] << 8) | data[index + 0]);
-
-				tempValue /= 32767;
-
-				sumTwo += tempValue * tempValue;
-
-				if (tempValue > threshold)
-					detected = true;
-			}
-
-			sumTwo /= (data.Length / 2);
-
-			averageVoiceLevel = (averageVoiceLevel + (float)sumTwo) / 2f;
-
-			if (detected || sumTwo > threshold)
-				return true;
-			else
-				return false;
-		}
-	}
+        public static AudioClip Start(string deviceName, bool loop, int lengthSec, int frequency)
+        {
+            #if UNITY_WEBGL
+            throw new NotImplementedException("Unity Microphone not supported on WebGL");
+            #else
+            return Microphone.Start(deviceName, loop, lengthSec, frequency);
+            #endif
+        }
+    }
 }

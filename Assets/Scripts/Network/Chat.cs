@@ -1,6 +1,7 @@
 using System.Collections;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,16 +49,24 @@ public class Chat : MonoBehaviour
                 isVoiceEnabled = (bool) PhotonNetwork.PlayerList[i].CustomProperties["voice"];
 
             playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = isVoiceEnabled;
+            
             if (SceneManager.GetActiveScene().buildIndex == 0)
                 playerList.transform.GetChild(i).GetChild(2).GetComponent<Image>().enabled = !isVoiceEnabled;
+            
+            playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = false;
+            
             SetNickname(i, isVoiceEnabled, PhotonNetwork.PlayerList[i]);
         }
 
         for (int i = PhotonNetwork.PlayerList.Length; i < playerList.transform.childCount; i++)
         {
             playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = false;
+            
             if (SceneManager.GetActiveScene().buildIndex == 0)
                 playerList.transform.GetChild(i).GetChild(2).GetComponent<Image>().enabled = false;
+            
+            playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = false;
+            
             SetNickname(i, false, null);
         }
     }
@@ -117,14 +126,14 @@ public class Chat : MonoBehaviour
         StartCoroutine(WaitForPlayerList());
     }
 
-    private void SetNickname(int i, bool isSpeaking, Player player)
+    private void SetNickname(int i, bool voiceEnabled, Player player)
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             GameObject playerList = GameObject.FindWithTag("PlayerList");
             
             Text text = playerList.transform.GetChild(i).GetChild(1).GetComponent<Text>();
-            text.enabled = isSpeaking;
+            text.enabled = voiceEnabled;
             if (text.enabled)
                 text.text = player.NickName;
         }
@@ -148,9 +157,15 @@ public class Chat : MonoBehaviour
 
         for (int i = PhotonNetwork.PlayerList.Length; i < playerList.transform.childCount; i++)
         {
-            playerList.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = false;
+            Transform currChild = playerList.transform.GetChild(i);
+            
+            currChild.GetChild(0).GetComponent<Image>().enabled = false;
+            
             if (SceneManager.GetActiveScene().buildIndex == 0)
-                playerList.transform.GetChild(i).GetChild(2).GetComponent<Image>().enabled = false;
+                currChild.GetChild(2).GetComponent<Image>().enabled = false;
+
+            currChild.GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = false;
+            
             SetNickname(i, false, null);
         }
     }
@@ -169,17 +184,39 @@ public class Chat : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
                     ToggleVoiceChat();
+
+                GameObject playerList = GameObject.FindWithTag("PlayerList");
+                if (playerList == null)
+                    return;
+                
+                PhotonVoiceView[] voiceViews = GameObject.FindObjectsOfType<PhotonVoiceView>();
+
+                foreach (var voiceView in voiceViews)
+                {
+                    PhotonView photonView = voiceView.GetComponent<PhotonView>();
+
+                    for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+                    {
+                        if (PhotonNetwork.PlayerList[i].ActorNumber == photonView.OwnerActorNr)
+                            playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = voiceView.IsSpeaking;
+                    }
+                }
             }
         }
+    }
+
+    private int GetSpeakerImageChildIndex()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            return 3;
+
+        return 2;
     }
     
     public void ToggleVoiceChat()
     {
         #if UNITY_WEBGL
-            if (SceneManager.GetActiveScene().buildIndex != 0)
-                GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().AddMessage("<color=lime>Please download the game to get voice chat.</color>");
-            else
-                SendMessageRPC("<color=lime>Please download the game to get voice chat.</color>");
+            SendMessageRPC("Please download the game to get voice chat.");
         #else
             Recorder recorder = GetComponent<Recorder>();
             recorder.TransmitEnabled = !recorder.TransmitEnabled;
