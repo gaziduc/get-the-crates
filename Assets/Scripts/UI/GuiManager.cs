@@ -32,6 +32,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject leaderboardPanel;
     [SerializeField] private Slider countdownSlider;
     [SerializeField] private GameObject centerPanel;
+    [SerializeField] private Text thirtySecRemainingText;
+    [SerializeField] private Text tenSecRemainingText;
+    [SerializeField] private AudioSource secRemainingSound;
     
     // default selected buttons (for keyboard and gamepad)
     [SerializeField] private GameObject pauseDefault;
@@ -112,10 +115,43 @@ public class GuiManager : MonoBehaviourPunCallbacks
         
         if (timeNow != timeLast)
         {
-            NewTextAnim(secondsText, timeNow.ToString());            
+            NewTextAnim(secondsText, timeNow.ToString());
 
+            if (timeNow == 30)
+            {
+                thirtySecRemainingText.gameObject.SetActive(true);
+                thirtySecRemainingText.transform.localScale = Vector3.zero;
+                secRemainingSound.Play();
+                LeanTween.scale(thirtySecRemainingText.gameObject, Vector3.one, 0.2f).setEaseOutBack().setOnComplete(OnComplete30Sec);
+            }
+            else if (timeNow == 10)
+            {
+                tenSecRemainingText.gameObject.SetActive(true);
+                tenSecRemainingText.transform.localScale = Vector3.zero;
+                secRemainingSound.Play();
+                LeanTween.scale(tenSecRemainingText.gameObject, Vector3.one, 0.2f).setEaseOutBack().setOnComplete(OnComplete10Sec);
+            }
+            
             timeLast = timeNow;
         }
+    }
+
+    private void OnComplete10Sec()
+    {
+        StartCoroutine(HideTextCoroutine(tenSecRemainingText));
+    }
+    
+    private void OnComplete30Sec()
+    {
+        StartCoroutine(HideTextCoroutine(thirtySecRemainingText));
+    }
+
+    private IEnumerator HideTextCoroutine(Text text)
+    {
+        yield return new WaitForSeconds(1.6f);
+        LeanTween.scale(text.gameObject, Vector3.zero, 0.2f).setEaseInBack();
+        yield return new WaitForSeconds(0.2f);
+        text.gameObject.SetActive(false);
     }
 
     private void NewTextAnim(Text text, string newText)
@@ -167,7 +203,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
             if (FindObjectsOfType<PhotonView>().Length - 1 >= PhotonNetwork.PlayerList.Length * 3) // - 1 for the crate
             {
                 countdownTime = countdownDuration;
-                beginTime = Time.time;
+                beginTime = Time.realtimeSinceStartup;
                 beginned = true;
             }
             else
@@ -176,7 +212,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
         if (countdownTime > 0f)
         {
-            countdownTime = beginTime + countdownDuration - Time.time;
+            countdownTime = beginTime + countdownDuration - Time.realtimeSinceStartup;
 
             if (countdownTime <= 0f)
             {
@@ -187,7 +223,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
                 
                 LevelManager.instance.gameStarted = true;
 
-                beginTime = Time.time;
+                beginTime = Time.realtimeSinceStartup;
                 timeRemaining = gameDuration;
                 
                 countdownGoSound.Play();
@@ -214,7 +250,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
         
         if (!endPanel.activeInHierarchy)
         {
-            timeRemaining = beginTime + 90f - Time.time;
+            timeRemaining = beginTime + 90f - Time.realtimeSinceStartup;
             SetTimeText();
 
             if (!ended && timeRemaining <= 0f)

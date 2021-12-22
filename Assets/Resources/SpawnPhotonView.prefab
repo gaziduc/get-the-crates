@@ -47,6 +47,8 @@ MonoBehaviour:
   playerPrefabToInstantiate:
   - {fileID: 6322902377588903146, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
   - {fileID: 8741815974691743358, guid: 30f183af567a15547b8de013948427a5, type: 3}
+  - {fileID: 8303062846817031490, guid: 846de264c18f61f44952685174d71d5b, type: 3}
+  - {fileID: 5690754918715028932, guid: 0c150621e76aa0440b6c1a5a5dcf2a3b, type: 3}
   botPrefabToInstantiate: {fileID: 4479650578889521883, guid: 12eb1b5ca6ab49f49bde6389d61c01be, type: 3}
   cratePrefabToInstantiate: {fileID: 614847060541941494, guid: 1f104fa6059847f4baadb029b2ba608b, type: 3}
 --- !u!114 &7039107185780567366

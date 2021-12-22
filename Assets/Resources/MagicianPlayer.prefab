@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3381743063993870996
+--- !u!1001 &2631528922099816872
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,15 +10,7 @@ PrefabInstance:
     - target: {fileID: 701898467339606837, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 87542d904b377fd40b578d5675990bc2, type: 2}
-    - target: {fileID: 2515500007896418029, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
-      propertyPath: m_TagString
-      value: HealthBarP2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2721351325443451218, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 4126348674810730549, guid: 7a0d8e1a55bb5a24ab9161f381b3f02e, type: 3}
+      objectReference: {fileID: 9100000, guid: c6a2bba019ca8a246b35f3b83e46ebc3, type: 2}
     - target: {fileID: 4844260623672338240, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -65,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6322902377588903146, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
       propertyPath: m_Name
-      value: Player2
+      value: MagicianPlayer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}

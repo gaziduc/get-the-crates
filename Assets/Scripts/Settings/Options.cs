@@ -10,6 +10,7 @@ public class Options : MonoBehaviour
     [SerializeField] private GameObject controlsPanel;
     [SerializeField] private Text[] keyTexts;
     [SerializeField] private Text[] gamepadTexts;
+    [SerializeField] private GameObject skinsPanel;
 
     public static Options instance;
     
@@ -177,4 +178,23 @@ public class Options : MonoBehaviour
             gamepadTexts[i].text = defaultControlsGamepad[i];
         }
     }
+
+    public void SetSkin(int skinNum)
+    {
+        PlayerPrefs.SetInt("SkinNum", skinNum);
+        PlayerPrefs.Save();
+
+        Image image = skinsPanel.transform.GetChild(skinNum).GetComponent<Image>();
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 0.35f);
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == skinNum)
+                continue;
+            
+            Image imageToDisable = skinsPanel.transform.GetChild(i).GetComponent<Image>();
+            imageToDisable.color = new Color(imageToDisable.color.r, imageToDisable.color.g, imageToDisable.color.b, 0f);
+        }
+    }
+    
 }

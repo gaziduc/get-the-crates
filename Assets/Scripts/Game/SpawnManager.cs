@@ -114,9 +114,11 @@ public class SpawnManager : MonoBehaviour
         {
             if (spawnPosition != null && spawnPosition[index] != Vector3.zero)
             {
-                PhotonNetwork.Instantiate(PhotonNetwork.IsMasterClient
-                    ? playerPrefabToInstantiate[0].name
-                    : playerPrefabToInstantiate[1].name, spawnPosition[index], Quaternion.identity);
+                int skinNum = PlayerPrefs.GetInt("SkinNum", 0);
+                if (skinNum >= playerPrefabToInstantiate.Length)
+                    skinNum = 0;
+                
+                PhotonNetwork.Instantiate(playerPrefabToInstantiate[skinNum].name, spawnPosition[index], Quaternion.identity);
                 
                 instantiated = true;
             }

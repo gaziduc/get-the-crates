@@ -68,6 +68,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Dropdown regionDropdownGuest;
     [SerializeField] private Dropdown numPlayersDropdown;
     [SerializeField] private Toggle hiddenRoomToggle;
+    [SerializeField] private GameObject skinsPanel;
+    [SerializeField] private GameObject friendsPanel;
+    
     
     private string playerIdCache = "";
     private string username = "";
@@ -456,11 +459,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         connectingPanel.SetActive(false);
 
         ActivateUIElement(menuPanel);
+        ActivateUIElement(skinsPanel);
+        SetCurrentSkin();
+        ActivateUIElement(friendsPanel);
         ActivateUIElement(logoffPanel);
 
         bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
         if (isGuest)
             noFriendText.GetComponent<Text>().text = "To add friends, please\ncreate an account.\n(Logout > Register)";
+    }
+
+    private void SetCurrentSkin()
+    {
+        int skinNum = PlayerPrefs.GetInt("SkinNum", 0);
+        if (skinNum >= 4)
+            skinNum = 0;
+        
+        var image = skinsPanel.transform.GetChild(skinNum).GetComponent<Image>();
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 0.35f);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -592,12 +608,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         selectSound.Play();
+        LeanTween.scale(skinsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+        LeanTween.scale(friendsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteCreateRoom);
     }
 
     private void OnCompleteCreateRoom()
     {
         menuPanel.SetActive(false);
+        skinsPanel.SetActive(false);
+        friendsPanel.SetActive(false);
         
         if (!connectingPanel.activeInHierarchy)
             ActivateUIElement(connectingPanel);
@@ -623,17 +643,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         connectingPanel.SetActive(false);
         ActivateUIElement(menuPanel);
+        ActivateUIElement(skinsPanel);
+        SetCurrentSkin();
+        ActivateUIElement(friendsPanel);
     }
 
     private void JoinRoom(string roomName)
     {
         selectSound.Play();
+        LeanTween.scale(skinsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+        LeanTween.scale(friendsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinRoom, roomName);
     }
 
     private void OnCompleteJoinRoom(object roomName)
     {
         menuPanel.SetActive(false);
+        skinsPanel.SetActive(false);
+        friendsPanel.SetActive(false);
         ActivateUIElement(connectingPanel);
         
         statusPanel.SetActive(true);
@@ -647,6 +674,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!String.IsNullOrWhiteSpace(roomToJoinInputField.text))
         {
             selectSound.Play();
+            LeanTween.scale(skinsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+            LeanTween.scale(friendsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
             LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinRoomWithName);
         }
     }
@@ -654,6 +683,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void OnCompleteJoinRoomWithName()
     {
         menuPanel.SetActive(false);
+        skinsPanel.SetActive(false);
+        friendsPanel.SetActive(false);
         ActivateUIElement(connectingPanel);
         
         statusPanel.SetActive(true);
@@ -774,6 +805,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void OnCompleteReturnToMenu()
     {
         ActivateUIElement(menuPanel);
+        ActivateUIElement(skinsPanel);
+        SetCurrentSkin();
+        ActivateUIElement(friendsPanel);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -791,12 +825,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void JoinRandom()
     {
         selectSound.Play();
+        LeanTween.scale(skinsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+        LeanTween.scale(friendsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinRandom);
     }
     
     private void OnCompleteJoinRandom()
     {
         menuPanel.SetActive(false);
+        skinsPanel.SetActive(false);
+        friendsPanel.SetActive(false);
         ActivateUIElement(connectingPanel);
         
         statusPanel.SetActive(true);
@@ -900,6 +938,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (cause == DisconnectCause.DisconnectByClientLogic)
             return;
         
+        skinsPanel.SetActive(false);
+        friendsPanel.SetActive(false);
         menuPanel.SetActive(false);
         connectingPanel.SetActive(false);
         statusPanel.SetActive(false);
@@ -1093,11 +1133,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void Logout()
     {
         backSound.Play();
+        LeanTween.scale(skinsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+        LeanTween.scale(friendsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLogout);
     }
     
     private void OnCompleteLogout()
     {
+        skinsPanel.SetActive(false);
+        friendsPanel.SetActive(false);
         menuPanel.SetActive(false);
         
         ActivateUIElement(connectingPanel);

@@ -1,1087 +1,541 @@
 fileFormatVersion: 2
-guid: 7b6dafa4b3efd194aa5415d9a1a115f2
+guid: b166c0a9fa87a24458848307facb084b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4334783836991956000
-    second: player_0
+      213: 1923695725613500992
+    second: zombie_skin_0
   - first:
-      213: 7388399842426930641
-    second: player_1
+      213: 3831607844557625721
+    second: zombie_skin_1
   - first:
-      213: 6757282713640645180
-    second: player_2
+      213: 7222573330133275656
+    second: zombie_skin_2
   - first:
-      213: -6781412095145881161
-    second: player_3
+      213: 6798033367942393559
+    second: zombie_skin_3
   - first:
-      213: 1755772209161902963
-    second: player_4
+      213: 1767727250904541388
+    second: zombie_skin_4
   - first:
-      213: 5865078278364869351
-    second: player_5
+      213: -3357838881191985523
+    second: zombie_skin_5
   - first:
-      213: -2023923573111878767
-    second: player_6
+      213: 3173534832286707694
+    second: zombie_skin_6
   - first:
-      213: -540375121143967267
-    second: player_7
+      213: -235156531264619993
+    second: zombie_skin_7
   - first:
-      213: -1205440766039775075
-    second: player_8
+      213: 5715415188821768128
+    second: zombie_skin_8
   - first:
-      213: 5602337906906987636
-    second: player_9
+      213: 3447293513740908986
+    second: zombie_skin_9
   - first:
-      213: -3861952770410913445
-    second: player_10
+      213: -358795303952871881
+    second: zombie_skin_10
   - first:
-      213: 5044450397378941176
-    second: player_11
+      213: -4626282229563892620
+    second: zombie_skin_11
   - first:
-      213: 1871739406167786269
-    second: player_12
+      213: 5801510793517963807
+    second: zombie_skin_12
   - first:
-      213: 6426868497666326525
-    second: player_13
+      213: 138646804379117697
+    second: zombie_skin_13
   - first:
-      213: -2418196558428526619
-    second: player_14
+      213: -5831032443931682368
+    second: zombie_skin_14
   - first:
-      213: -480808811739928509
-    second: player_15
+      213: 3458583219060989793
+    second: zombie_skin_15
   - first:
-      213: -7814200450545973387
-    second: player_16
+      213: -3262858454252980985
+    second: zombie_skin_16
   - first:
-      213: -7689382371589266427
-    second: player_17
+      213: 471300590642037572
+    second: zombie_skin_17
   - first:
-      213: -6119387374007233121
-    second: player_18
+      213: -8796832934583691465
+    second: zombie_skin_18
   - first:
-      213: 5435452280369712508
-    second: player_19
+      213: 1067814805573241055
+    second: zombie_skin_19
   - first:
-      213: 6476020496741556544
-    second: player_20
+      213: -5063086719322753523
+    second: zombie_skin_20
   - first:
-      213: -2812111548000859311
-    second: player_21
+      213: -7759179990490937610
+    second: zombie_skin_21
   - first:
-      213: 6581797731665330364
-    second: player_22
+      213: 4919680345889055511
+    second: zombie_skin_22
   - first:
-      213: -735806604810280217
-    second: player_23
+      213: -1061609439396935546
+    second: zombie_skin_23
   - first:
-      213: 8871532568298537163
-    second: player_24
+      213: 8496158229333104261
+    second: zombie_skin_24
   - first:
-      213: -3522477055284954234
-    second: player_25
+      213: 8825895177503350486
+    second: zombie_skin_25
   - first:
-      213: -2611168455720188827
-    second: player_26
+      213: -5569232766040451621
+    second: zombie_skin_26
   - first:
-      213: -747095956079510842
-    second: player_27
+      213: 2677847379324122095
+    second: zombie_skin_27
   - first:
-      213: -1150986314314233284
-    second: player_28
+      213: 4980766987545957926
+    second: zombie_skin_28
   - first:
-      213: -1549151736782420611
-    second: player_29
+      213: 7706917291778145095
+    second: zombie_skin_29
   - first:
-      213: 4425439098077930050
-    second: player_30
+      213: -8475616083202732463
+    second: zombie_skin_30
   - first:
-      213: -7411917632262290953
-    second: player_31
+      213: 6743558539890643754
+    second: zombie_skin_31
   - first:
-      213: 4951135081433990916
-    second: player_32
+      213: -676073258764086829
+    second: zombie_skin_32
   - first:
-      213: -4432693348276648354
-    second: player_33
+      213: 8610167834698698337
+    second: zombie_skin_33
   - first:
-      213: 8810164309174969732
-    second: player_34
+      213: 1857229562182788205
+    second: zombie_skin_34
   - first:
-      213: -2458299864582215990
-    second: player_35
+      213: -2532249582145066422
+    second: zombie_skin_35
   - first:
-      213: -4024232986141084162
-    second: player_36
+      213: 8130198675604604416
+    second: zombie_skin_36
   - first:
-      213: -3551967274139903119
-    second: player_37
+      213: 4773017088394746974
+    second: zombie_skin_37
   - first:
-      213: 8113700493152974639
-    second: player_38
+      213: 2245213631535181060
+    second: zombie_skin_38
   - first:
-      213: 4819963251569588764
-    second: player_39
+      213: -2078134934089490647
+    second: zombie_skin_39
   - first:
-      213: -5809692940870928453
-    second: player_40
+      213: -8643161549413859937
+    second: zombie_skin_40
   - first:
-      213: 2351414161340878556
-    second: player_41
+      213: -721751449400739126
+    second: zombie_skin_41
   - first:
-      213: 6285642079362487989
-    second: player_42
+      213: 4703450470604473668
+    second: zombie_skin_42
   - first:
-      213: 3530494885523508410
-    second: player_43
+      213: -8778991604676179137
+    second: zombie_skin_43
   - first:
-      213: 1910719979137897025
-    second: player_44
+      213: 1525502761308523755
+    second: zombie_skin_44
   - first:
-      213: -4065140288915962496
-    second: player_45
+      213: -4542491352414198107
+    second: zombie_skin_45
   - first:
-      213: -959359598807138626
-    second: player_46
+      213: 424308149499516320
+    second: zombie_skin_46
   - first:
-      213: 6581714141959652647
-    second: player_47
+      213: 4371103681638997696
+    second: zombie_skin_47
   - first:
-      213: 784450156739352477
-    second: player_48
+      213: -1606719256322264606
+    second: zombie_skin_48
   - first:
-      213: -7329554966121860841
-    second: player_49
+      213: 4877054319444866465
+    second: zombie_skin_49
   - first:
-      213: -6424778614128376839
-    second: player_50
+      213: 4801778098060817649
+    second: zombie_skin_50
   - first:
-      213: 24488831695328927
-    second: player_51
+      213: 5193463038471527758
+    second: zombie_skin_51
   - first:
-      213: -9010412303514370960
-    second: player_52
+      213: -3631460326560401516
+    second: zombie_skin_52
   - first:
-      213: -1471150439371921032
-    second: player_53
+      213: 8327795286443305159
+    second: zombie_skin_53
   - first:
-      213: 6356270043700376670
-    second: player_54
+      213: 1072991128476856364
+    second: zombie_skin_54
   - first:
-      213: -3055141403683709317
-    second: player_55
+      213: -7333420876534493716
+    second: zombie_skin_55
   - first:
-      213: -7658368728387630918
-    second: player_56
+      213: 4704932873888362649
+    second: zombie_skin_56
   - first:
-      213: -3142433877728364584
-    second: player_57
+      213: -4218045192700305145
+    second: zombie_skin_57
   - first:
-      213: 978835004439848441
-    second: player_58
+      213: -4482897462533473679
+    second: zombie_skin_58
   - first:
-      213: 7666009234751109314
-    second: player_59
+      213: -5845599928370954962
+    second: zombie_skin_59
   - first:
-      213: 6003678716702419011
-    second: player_60
+      213: -1492634809255906353
+    second: zombie_skin_60
   - first:
-      213: -8118021626352764311
-    second: player_61
+      213: 1638401145052950537
+    second: zombie_skin_61
   - first:
-      213: -1919226082822115720
-    second: player_62
+      213: 7461607797938575729
+    second: zombie_skin_62
   - first:
-      213: -1901548039332803167
-    second: player_63
+      213: -2229388534443128896
+    second: zombie_skin_63
   - first:
-      213: 186849415912240425
-    second: player_64
+      213: -2677501795845604249
+    second: zombie_skin_64
   - first:
-      213: 4842614935711310879
-    second: player_65
+      213: -7106113180163741355
+    second: zombie_skin_65
   - first:
-      213: 543262910872810958
-    second: player_66
+      213: 6592424417574994374
+    second: zombie_skin_66
   - first:
-      213: 3530693141798483878
-    second: player_67
+      213: 8629502716067469852
+    second: zombie_skin_67
   - first:
-      213: 8614713264629934856
-    second: player_68
+      213: -5170350181442572835
+    second: zombie_skin_68
   - first:
-      213: 4998264556459369981
-    second: player_69
+      213: 2010070882359206224
+    second: zombie_skin_69
   - first:
-      213: 1025201624436891910
-    second: player_70
+      213: 7144443892829599345
+    second: zombie_skin_70
   - first:
-      213: 5512345687778137028
-    second: player_71
+      213: 5123840382298317311
+    second: zombie_skin_71
   - first:
-      213: -5816212841178619291
-    second: player_72
+      213: 3107799314018056713
+    second: zombie_skin_72
   - first:
-      213: -8549782188224975114
-    second: player_73
+      213: 217615612526189461
+    second: zombie_skin_73
   - first:
-      213: -4165993090297180660
-    second: player_74
+      213: -1887280507517844828
+    second: zombie_skin_74
   - first:
-      213: 2032883781746864006
-    second: player_75
+      213: 5281598500758226400
+    second: zombie_skin_75
   - first:
-      213: 755288386236347924
-    second: player_76
+      213: 6519820161402065040
+    second: zombie_skin_76
   - first:
-      213: 8415287649517554588
-    second: player_77
+      213: 7924770227559288429
+    second: zombie_skin_77
   - first:
-      213: -7122248257440364370
-    second: player_78
+      213: -1978507659266500652
+    second: zombie_skin_78
   - first:
-      213: -780575055049866624
-    second: player_79
+      213: 1721905092296183686
+    second: zombie_skin_79
   - first:
-      213: 5949499773671742420
-    second: player_80
+      213: -6402787264140927563
+    second: zombie_skin_80
   - first:
-      213: -6381271909531830395
-    second: player_81
+      213: 3733838507783976433
+    second: zombie_skin_81
   - first:
-      213: 1816782274672844633
-    second: player_82
+      213: -3786890489069404270
+    second: zombie_skin_82
   - first:
-      213: 7958882606748513261
-    second: player_83
+      213: 4362054287048097603
+    second: zombie_skin_83
   - first:
-      213: -2338233574300219304
-    second: player_84
+      213: 1333516941963832008
+    second: zombie_skin_84
   - first:
-      213: 1114179336690016498
-    second: player_85
+      213: 7449796705758304811
+    second: zombie_skin_85
   - first:
-      213: 885339599137179357
-    second: player_86
+      213: 7515618849916669455
+    second: zombie_skin_86
   - first:
-      213: -6931071014307296567
-    second: player_87
+      213: -2346322241578567414
+    second: zombie_skin_87
   - first:
-      213: 1345730653276347667
-    second: player_88
+      213: 2287833767532590282
+    second: zombie_skin_88
   - first:
-      213: -6322430871392764910
-    second: player_89
+      213: 7209347011678971592
+    second: zombie_skin_89
   - first:
-      213: 364394854341352986
-    second: player_90
+      213: 9175223063595316658
+    second: zombie_skin_90
   - first:
-      213: -3090441107083036337
-    second: player_91
+      213: -8648717010584943595
+    second: zombie_skin_91
   - first:
-      213: -7160363577377518492
-    second: player_92
+      213: -8787393405038219471
+    second: zombie_skin_92
   - first:
-      213: -2238840216430234695
-    second: player_93
+      213: 5357282630482515845
+    second: zombie_skin_93
   - first:
-      213: 907595121127696914
-    second: player_94
+      213: 279327930616476667
+    second: zombie_skin_94
   - first:
-      213: 2188690442455397818
-    second: player_95
+      213: -1958942616460451572
+    second: zombie_skin_95
   - first:
-      213: -1047243353699185544
-    second: player_96
+      213: -8777292798078395605
+    second: zombie_skin_96
   - first:
-      213: 7320215849835720592
-    second: player_97
+      213: -3854492897863151571
+    second: zombie_skin_97
   - first:
-      213: -3822206343920908
-    second: player_98
+      213: -7197203874801340085
+    second: zombie_skin_98
   - first:
-      213: 4437075278075132431
-    second: player_99
+      213: 1951054291838937218
+    second: zombie_skin_99
   - first:
-      213: -3864951244427689568
-    second: player_100
+      213: 1796500859885807711
+    second: zombie_skin_100
   - first:
-      213: 1735185397292356890
-    second: player_101
+      213: -5222911762131383309
+    second: zombie_skin_101
   - first:
-      213: -4587381762326766240
-    second: player_102
+      213: -5258108321194650374
+    second: zombie_skin_102
   - first:
-      213: 2520234075072322915
-    second: player_103
+      213: 4002587869350718403
+    second: zombie_skin_103
   - first:
-      213: -1300847211978517168
-    second: player_104
+      213: 4923315308425687999
+    second: zombie_skin_104
   - first:
-      213: -1328217454035709594
-    second: player_105
+      213: 1999422416082784127
+    second: zombie_skin_105
   - first:
-      213: 7722445455430268805
-    second: player_106
+      213: -732955999466241164
+    second: zombie_skin_106
   - first:
-      213: 6317922764752177594
-    second: player_107
+      213: -1371157618996242590
+    second: zombie_skin_107
   - first:
-      213: 7148498895527343477
-    second: player_108
+      213: -875219485705947807
+    second: zombie_skin_108
   - first:
-      213: -6381341679728142229
-    second: player_109
+      213: 5112796426861833748
+    second: zombie_skin_109
   - first:
-      213: -222212382031015177
-    second: player_110
+      213: -1681884290188716878
+    second: zombie_skin_110
   - first:
-      213: -1569289406996694393
-    second: player_111
+      213: 966162041783645874
+    second: zombie_skin_111
   - first:
-      213: -3002379291996257046
-    second: player_112
+      213: 5905027635552864623
+    second: zombie_skin_112
   - first:
-      213: -4691487776599240987
-    second: player_113
+      213: -7238455810305338237
+    second: zombie_skin_113
   - first:
-      213: 7382591858093193845
-    second: player_114
+      213: -23539837230380073
+    second: zombie_skin_114
   - first:
-      213: -1151866733681903542
-    second: player_115
+      213: -1171413626310794159
+    second: zombie_skin_115
   - first:
-      213: 6673735429837823184
-    second: player_116
+      213: -3945322163030168915
+    second: zombie_skin_116
   - first:
-      213: 2446483727130034515
-    second: player_117
+      213: -5896961755276328169
+    second: zombie_skin_117
   - first:
-      213: -1990224866591770144
-    second: player_118
+      213: 1722580979427266869
+    second: zombie_skin_118
   - first:
-      213: -7150512652558862421
-    second: player_119
+      213: 1186400872236337904
+    second: zombie_skin_119
   - first:
-      213: 7077556744085623237
-    second: player_120
+      213: 8451541160185478465
+    second: zombie_skin_120
   - first:
-      213: -7813876683821929065
-    second: player_121
+      213: 7750912606498496044
+    second: zombie_skin_121
   - first:
-      213: 7884029874519804696
-    second: player_122
+      213: 2986536356826072588
+    second: zombie_skin_122
   - first:
-      213: -2613121831678925193
-    second: player_123
+      213: -3089930376843208551
+    second: zombie_skin_123
   - first:
-      213: -2721807141118093581
-    second: player_124
+      213: -2056193533553104766
+    second: zombie_skin_124
   - first:
-      213: 8071681805026193971
-    second: player_125
+      213: -8503423821226819053
+    second: zombie_skin_125
   - first:
-      213: -4066068202618978691
-    second: player_126
+      213: 1015572599590727074
+    second: zombie_skin_126
   - first:
-      213: 1588590983580254781
-    second: player_127
+      213: 1072029259684317247
+    second: zombie_skin_127
   - first:
-      213: 994202943096656007
-    second: player_128
+      213: -4599052950833218566
+    second: zombie_skin_128
   - first:
-      213: -4330786175662244889
-    second: player_129
+      213: 5053815546503970562
+    second: zombie_skin_129
   - first:
-      213: 3687740970776744776
-    second: player_130
+      213: 5771678202227021292
+    second: zombie_skin_130
   - first:
-      213: 5815351013143273000
-    second: player_131
+      213: -5607617687852066431
+    second: zombie_skin_131
   - first:
-      213: -2915873577822318305
-    second: player_132
+      213: 2174497642656569172
+    second: zombie_skin_132
   - first:
-      213: -2425238355618639691
-    second: player_133
+      213: -1655365017390000445
+    second: zombie_skin_133
   - first:
-      213: -7683936272854065571
-    second: player_134
+      213: 3712082915360842702
+    second: zombie_skin_134
   - first:
-      213: 997920094865930198
-    second: player_135
+      213: 1203095477113136063
+    second: zombie_skin_135
   - first:
-      213: 3664356081618430933
-    second: player_136
+      213: 6701570948239419443
+    second: zombie_skin_136
   - first:
-      213: 3606006750098408450
-    second: player_137
+      213: -4449773400306319185
+    second: zombie_skin_137
   - first:
-      213: -5969537880082894754
-    second: player_138
+      213: 7795909524893884012
+    second: zombie_skin_138
   - first:
-      213: -1278335155659282580
-    second: player_139
+      213: -4816938799532474905
+    second: zombie_skin_139
   - first:
-      213: 1719328418585888910
-    second: player_140
+      213: 2202347668749791616
+    second: zombie_skin_140
   - first:
-      213: -374466307994213982
-    second: player_141
+      213: 9002241858494257372
+    second: zombie_skin_141
   - first:
-      213: -4625735567576939964
-    second: player_142
+      213: 8900626910788608697
+    second: zombie_skin_142
   - first:
-      213: 8498623589493740820
-    second: player_143
+      213: -3694505643870945462
+    second: zombie_skin_143
   - first:
-      213: 7628791274613828547
-    second: player_144
+      213: -7629654171642178507
+    second: zombie_skin_144
   - first:
-      213: -5292196193714169755
-    second: player_145
+      213: -4309814946757490800
+    second: zombie_skin_145
   - first:
-      213: 5629277008389950345
-    second: player_146
+      213: 2846768032027117896
+    second: zombie_skin_146
   - first:
-      213: 1247300634410082306
-    second: player_147
+      213: 2581002840746001119
+    second: zombie_skin_147
   - first:
-      213: -8292301615756700478
-    second: player_148
+      213: 7720290860204181459
+    second: zombie_skin_148
   - first:
-      213: 4327611528565094257
-    second: player_149
+      213: -2568614613287016731
+    second: zombie_skin_149
   - first:
-      213: -1440229135956892124
-    second: player_150
+      213: -7035941154705650259
+    second: zombie_skin_150
   - first:
-      213: -2981879165242637771
-    second: player_151
+      213: -2247724817599087437
+    second: zombie_skin_151
   - first:
-      213: -2706455901065991903
-    second: player_152
+      213: -4359377740305998712
+    second: zombie_skin_152
   - first:
-      213: -5363115346751933492
-    second: player_153
+      213: 8399291212896070928
+    second: zombie_skin_153
   - first:
-      213: -4150340497030434583
-    second: player_154
+      213: 5636862169783065152
+    second: zombie_skin_154
   - first:
-      213: 5533335759857664282
-    second: player_155
+      213: 7141546372751608378
+    second: zombie_skin_155
   - first:
-      213: -5472368744992575476
-    second: player_156
+      213: 7604493716478037734
+    second: zombie_skin_156
   - first:
-      213: 5141385465220118006
-    second: player_157
+      213: 9214178960990369662
+    second: zombie_skin_157
   - first:
-      213: 1424156804194639824
-    second: player_158
+      213: -1503912991845861762
+    second: zombie_skin_158
   - first:
-      213: 1840951802110830015
-    second: player_159
+      213: 1864520789044950644
+    second: zombie_skin_159
   - first:
-      213: -6127073958101161402
-    second: player_160
+      213: 1211416174042800974
+    second: zombie_skin_160
   - first:
-      213: -3162615440214375819
-    second: player_161
+      213: 677427174449618050
+    second: zombie_skin_161
   - first:
-      213: 6433786065826725200
-    second: player_162
+      213: 8306031955141718065
+    second: zombie_skin_162
   - first:
-      213: -3756905608215383635
-    second: player_163
+      213: 1722218456688278197
+    second: zombie_skin_163
   - first:
-      213: 4742589899391064672
-    second: player_164
+      213: 957405570268801917
+    second: zombie_skin_164
   - first:
-      213: -3404105926099453900
-    second: player_165
+      213: -2810864869193203496
+    second: zombie_skin_165
   - first:
-      213: 1977901360728052746
-    second: player_166
+      213: -6112288568166422136
+    second: zombie_skin_166
   - first:
-      213: 4508953363261955739
-    second: player_167
+      213: -1632728347865087585
+    second: zombie_skin_167
   - first:
-      213: -3935852461744741545
-    second: player_168
+      213: -7156639543353312490
+    second: zombie_skin_168
   - first:
-      213: -881052255395695187
-    second: player_169
+      213: 1349933659880677653
+    second: zombie_skin_169
   - first:
-      213: 7704773433819815393
-    second: player_170
+      213: 7841476102994400007
+    second: zombie_skin_170
   - first:
-      213: -2137548899550163088
-    second: player_171
+      213: 7478698665866148429
+    second: zombie_skin_171
   - first:
-      213: -4345231543348939792
-    second: player_172
+      213: -118954038240796770
+    second: zombie_skin_172
   - first:
-      213: -3050103023216957184
-    second: player_173
+      213: -718997546144101632
+    second: zombie_skin_173
   - first:
-      213: 9217010172210958536
-    second: player_174
+      213: -649399014052071024
+    second: zombie_skin_174
   - first:
-      213: 1325099441910837132
-    second: player_175
+      213: 826614192374029287
+    second: zombie_skin_175
   - first:
-      213: -7367503739745527287
-    second: player_176
+      213: 1984822070166385124
+    second: zombie_skin_176
   - first:
-      213: -1588383267134366056
-    second: player_177
-  - first:
-      213: 5526858869430640889
-    second: player_178
-  - first:
-      213: -5942495638665858270
-    second: player_179
-  - first:
-      213: -4398183398628465896
-    second: player1_0
-  - first:
-      213: 7839784871684049599
-    second: player1_1
-  - first:
-      213: -2087131801688729284
-    second: player1_2
-  - first:
-      213: -8367330479227117672
-    second: player1_3
-  - first:
-      213: 4415216904226883167
-    second: player1_4
-  - first:
-      213: 2516802226072463256
-    second: player1_5
-  - first:
-      213: 440235799827986768
-    second: player1_6
-  - first:
-      213: 2962048942281255309
-    second: player1_7
-  - first:
-      213: -1070265378249208709
-    second: player1_8
-  - first:
-      213: -1658548773986321718
-    second: player1_9
-  - first:
-      213: 5681193448538658771
-    second: player1_10
-  - first:
-      213: 2556067887680778913
-    second: player1_11
-  - first:
-      213: -8833008166218025490
-    second: player1_12
-  - first:
-      213: 7769750014258281238
-    second: player1_13
-  - first:
-      213: -5180488722387340039
-    second: player1_14
-  - first:
-      213: -6688495621246355036
-    second: player1_15
-  - first:
-      213: 7369020619667118342
-    second: player1_16
-  - first:
-      213: -8646753142055028412
-    second: player1_17
-  - first:
-      213: -2090964266290527897
-    second: player1_18
-  - first:
-      213: 7199106367365678473
-    second: player1_19
-  - first:
-      213: -6078534998846284335
-    second: player1_20
-  - first:
-      213: 2120375694697107668
-    second: player1_21
-  - first:
-      213: -1999538507929542385
-    second: player1_22
-  - first:
-      213: -4385696934514869900
-    second: player1_23
-  - first:
-      213: 6411654109742804064
-    second: player1_24
-  - first:
-      213: -7032957945902457635
-    second: player1_25
-  - first:
-      213: -9203410618108425541
-    second: player1_26
-  - first:
-      213: 5807645497936979300
-    second: player1_27
-  - first:
-      213: 1831899301448676273
-    second: player1_28
-  - first:
-      213: 1942080535675081350
-    second: player1_29
-  - first:
-      213: -3162236377849738157
-    second: player1_30
-  - first:
-      213: 7756036183085501469
-    second: player1_31
-  - first:
-      213: -2782009419268223093
-    second: player1_32
-  - first:
-      213: -3027044486652042879
-    second: player1_33
-  - first:
-      213: 5265172544308376016
-    second: player1_34
-  - first:
-      213: -6592291372030891906
-    second: player1_35
-  - first:
-      213: -5001071064394814462
-    second: player1_36
-  - first:
-      213: -2107802225959821518
-    second: player1_37
-  - first:
-      213: -8553378111245809984
-    second: player1_38
-  - first:
-      213: 6425643827173889535
-    second: player1_39
-  - first:
-      213: 2352559031077062701
-    second: player1_40
-  - first:
-      213: -7711168624754863022
-    second: player1_41
-  - first:
-      213: 6357095889930530124
-    second: player1_42
-  - first:
-      213: -6241751543502733506
-    second: player1_43
-  - first:
-      213: 857438801405865552
-    second: player1_44
-  - first:
-      213: 3109112118394022147
-    second: player1_45
-  - first:
-      213: 9051563536603467783
-    second: player1_46
-  - first:
-      213: -3130819785561068725
-    second: player1_47
-  - first:
-      213: 3800431422949351815
-    second: player1_48
-  - first:
-      213: 4004410755639996957
-    second: player1_49
-  - first:
-      213: -174962803806874475
-    second: player1_50
-  - first:
-      213: -5382938415296066439
-    second: player1_51
-  - first:
-      213: -3632005229227700202
-    second: player1_52
-  - first:
-      213: 3875423475162854685
-    second: player1_53
-  - first:
-      213: -7717961446660110075
-    second: player1_54
-  - first:
-      213: -4110474669982213968
-    second: player1_55
-  - first:
-      213: 7771666489816456900
-    second: player1_56
-  - first:
-      213: 7202882409442090249
-    second: player1_57
-  - first:
-      213: 4149987481975772439
-    second: player1_58
-  - first:
-      213: 6923932342517497208
-    second: player1_59
-  - first:
-      213: -1083819776932521096
-    second: player1_60
-  - first:
-      213: 8416584334744384538
-    second: player1_61
-  - first:
-      213: 1527599643175533122
-    second: player1_62
-  - first:
-      213: -3934594629786633752
-    second: player1_63
-  - first:
-      213: -46798784508745695
-    second: player1_64
-  - first:
-      213: 969525637558078239
-    second: player1_65
-  - first:
-      213: 6619411998264505658
-    second: player1_66
-  - first:
-      213: -1210280216375399075
-    second: player1_67
-  - first:
-      213: 2070638571429746481
-    second: player1_68
-  - first:
-      213: 481547886606395488
-    second: player1_69
-  - first:
-      213: -53221417982299776
-    second: player1_70
-  - first:
-      213: -4670172545172971577
-    second: player1_71
-  - first:
-      213: 6108343619437727975
-    second: player1_72
-  - first:
-      213: -5133883164736454690
-    second: player1_73
-  - first:
-      213: -200833206669150188
-    second: player1_74
-  - first:
-      213: -2113390778217590717
-    second: player1_75
-  - first:
-      213: 5209653770463126834
-    second: player1_76
-  - first:
-      213: 2652669121101525961
-    second: player1_77
-  - first:
-      213: 8530076396271942930
-    second: player1_78
-  - first:
-      213: -8464550061212805216
-    second: player1_79
-  - first:
-      213: 4416743161898008410
-    second: player1_80
-  - first:
-      213: 3138847425481218060
-    second: player1_81
-  - first:
-      213: -3603838316940076885
-    second: player1_82
-  - first:
-      213: -1553394471302851382
-    second: player1_83
-  - first:
-      213: 1898697691063590296
-    second: player1_84
-  - first:
-      213: -5189508074326670732
-    second: player1_85
-  - first:
-      213: 6235130031321292292
-    second: player1_86
-  - first:
-      213: -8404491249325713678
-    second: player1_87
-  - first:
-      213: 4526769829211098571
-    second: player1_88
-  - first:
-      213: -1805958453350577215
-    second: player1_89
-  - first:
-      213: 1482451685896964950
-    second: player1_90
-  - first:
-      213: -1225185635191652455
-    second: player1_91
-  - first:
-      213: -5111984227263086156
-    second: player1_92
-  - first:
-      213: -9179655871055107661
-    second: player1_93
-  - first:
-      213: 2993669293452909841
-    second: player1_94
-  - first:
-      213: -6589295198399095919
-    second: player1_95
-  - first:
-      213: 7300465165118456754
-    second: player1_96
-  - first:
-      213: 7937698769199018029
-    second: player1_97
-  - first:
-      213: 5787330290792271342
-    second: player1_98
-  - first:
-      213: 2312753198126281620
-    second: player1_99
-  - first:
-      213: 7168527962848173070
-    second: player1_100
-  - first:
-      213: 8105788349773849000
-    second: player1_101
-  - first:
-      213: -6100951622239619677
-    second: player1_102
-  - first:
-      213: -500908582720318175
-    second: player1_103
-  - first:
-      213: -1147109897220085567
-    second: player1_104
-  - first:
-      213: 4557871843975064589
-    second: player1_105
-  - first:
-      213: 1341202915366808941
-    second: player1_106
-  - first:
-      213: 274876767779941057
-    second: player1_107
-  - first:
-      213: 1546622411889145730
-    second: player1_108
-  - first:
-      213: 275243637088414331
-    second: player1_109
-  - first:
-      213: -3590306982332091900
-    second: player1_110
-  - first:
-      213: -6872220944994495373
-    second: player1_111
-  - first:
-      213: 1995788212118941211
-    second: player1_112
-  - first:
-      213: -8484510245891837602
-    second: player1_113
-  - first:
-      213: -7282443081982737519
-    second: player1_114
-  - first:
-      213: -5798941988979726696
-    second: player1_115
-  - first:
-      213: 32338304377781739
-    second: player1_116
-  - first:
-      213: 1974301974795782729
-    second: player1_117
-  - first:
-      213: -739510103891789658
-    second: player1_118
-  - first:
-      213: 1156997509502772269
-    second: player1_119
-  - first:
-      213: -7778335726799369309
-    second: player1_120
-  - first:
-      213: 1833664467094963234
-    second: player1_121
-  - first:
-      213: 5422618210932123730
-    second: player1_122
-  - first:
-      213: 1152079001301585482
-    second: player1_123
-  - first:
-      213: -5432123114130902814
-    second: player1_124
-  - first:
-      213: -6859117815065599832
-    second: player1_125
-  - first:
-      213: 8458494455931941616
-    second: player1_126
-  - first:
-      213: 6625785787548294764
-    second: player1_127
-  - first:
-      213: 8974129845359385454
-    second: player1_128
-  - first:
-      213: 1111849717072895628
-    second: player1_129
-  - first:
-      213: 1344656734899479115
-    second: player1_130
-  - first:
-      213: 98970999614644303
-    second: player1_131
-  - first:
-      213: 792348173402661116
-    second: player1_132
-  - first:
-      213: -6704052623504810668
-    second: player1_133
-  - first:
-      213: -747014517002359844
-    second: player1_134
-  - first:
-      213: 6530219911795897598
-    second: player1_135
-  - first:
-      213: -1021750375655796774
-    second: player1_136
-  - first:
-      213: -5315717235311122019
-    second: player1_137
-  - first:
-      213: 750949717995466914
-    second: player1_138
-  - first:
-      213: -3481457126777817007
-    second: player1_139
-  - first:
-      213: 9221666020882485461
-    second: player1_140
-  - first:
-      213: 1479902054042890448
-    second: player1_141
-  - first:
-      213: 6987609001172850386
-    second: player1_142
-  - first:
-      213: 8143129419659112745
-    second: player1_143
-  - first:
-      213: 2961701037539965285
-    second: player1_144
-  - first:
-      213: 3939037757528474623
-    second: player1_145
-  - first:
-      213: -2366348110367634576
-    second: player1_146
-  - first:
-      213: -4201119638587558776
-    second: player1_147
-  - first:
-      213: -7378295195058578294
-    second: player1_148
-  - first:
-      213: -4274656601233265777
-    second: player1_149
-  - first:
-      213: 7954443185367885939
-    second: player1_150
-  - first:
-      213: 2514635034273619931
-    second: player1_151
-  - first:
-      213: -3507108207785278364
-    second: player1_152
-  - first:
-      213: 3342463589062620570
-    second: player1_153
-  - first:
-      213: 2427938609092848570
-    second: player1_154
-  - first:
-      213: 9029435613208077698
-    second: player1_155
-  - first:
-      213: -8030043630064335246
-    second: player1_156
-  - first:
-      213: -2041653584893673016
-    second: player1_157
-  - first:
-      213: 8256366497980962229
-    second: player1_158
-  - first:
-      213: 69223921579923077
-    second: player1_159
-  - first:
-      213: -7727279468107369300
-    second: player1_160
-  - first:
-      213: 8543177463232718452
-    second: player1_161
-  - first:
-      213: -4850307411002615088
-    second: player1_162
-  - first:
-      213: -4533765064236192173
-    second: player1_163
-  - first:
-      213: 2097580893488619292
-    second: player1_164
-  - first:
-      213: 5386609926082551238
-    second: player1_165
-  - first:
-      213: 7805742828902323645
-    second: player1_166
-  - first:
-      213: -2824526817064428756
-    second: player1_167
-  - first:
-      213: -1783059451017743407
-    second: player1_168
-  - first:
-      213: 8613682847525218588
-    second: player1_169
-  - first:
-      213: 4847697427945725756
-    second: player1_170
-  - first:
-      213: -7557941448926881008
-    second: player1_171
-  - first:
-      213: -6531841925182087574
-    second: player1_172
-  - first:
-      213: 7871807391844228841
-    second: player1_173
-  - first:
-      213: -7506135179014422171
-    second: player1_174
-  - first:
-      213: 2028934886720916859
-    second: player1_175
-  - first:
-      213: 7637904748888193526
-    second: player1_176
-  - first:
-      213: 6551646752812723629
-    second: player1_177
-  - first:
-      213: 3625704696625406784
-    second: player1_178
-  - first:
-      213: -8815512174738822621
-    second: player1_179
+      213: 5441057308937056427
+    second: zombie_skin_177
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1148,7 +602,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -1160,7 +614,31 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -1171,7 +649,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player1_0
+      name: zombie_skin_0
       rect:
         serializedVersion: 2
         x: 0
@@ -1185,14 +663,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 813eab3608386f2c0800000000000000
-      internalID: -4398183398628465896
+      spriteID: 04a412df11752ba10800000000000000
+      internalID: 1923695725613500992
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_1
+      name: zombie_skin_1
       rect:
         serializedVersion: 2
         x: 64
@@ -1206,14 +684,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fba8538cdc28ccc60800000000000000
-      internalID: 7839784871684049599
+      spriteID: 979157da80b9c2530800000000000000
+      internalID: 3831607844557625721
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_2
+      name: zombie_skin_2
       rect:
         serializedVersion: 2
         x: 128
@@ -1227,14 +705,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c391ce83fa40903e0800000000000000
-      internalID: -2087131801688729284
+      spriteID: 804ddca4d2cbb3460800000000000000
+      internalID: 7222573330133275656
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_3
+      name: zombie_skin_3
       rect:
         serializedVersion: 2
         x: 192
@@ -1248,14 +726,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89f5e5bd24541eb80800000000000000
-      internalID: -8367330479227117672
+      spriteID: 7de6573a457775e50800000000000000
+      internalID: 6798033367942393559
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_4
+      name: zombie_skin_4
       rect:
         serializedVersion: 2
         x: 256
@@ -1269,14 +747,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f564ebea160064d30800000000000000
-      internalID: 4415216904226883167
+      spriteID: cc861f1a19a388810800000000000000
+      internalID: 1767727250904541388
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_5
+      name: zombie_skin_5
       rect:
         serializedVersion: 2
         x: 320
@@ -1290,14 +768,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89726fe3a4a7de220800000000000000
-      internalID: 2516802226072463256
+      spriteID: d8e7e81045f8661d0800000000000000
+      internalID: -3357838881191985523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_6
+      name: zombie_skin_6
       rect:
         serializedVersion: 2
         x: 384
@@ -1311,14 +789,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0593822a0280c1600800000000000000
-      internalID: 440235799827986768
+      spriteID: eef27c8ad19aa0c20800000000000000
+      internalID: 3173534832286707694
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_7
+      name: zombie_skin_7
       rect:
         serializedVersion: 2
         x: 0
@@ -1332,14 +810,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d89eef3c1df4b1920800000000000000
-      internalID: 2962048942281255309
+      spriteID: 72afb57716e8cbcf0800000000000000
+      internalID: -235156531264619993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_8
+      name: zombie_skin_8
       rect:
         serializedVersion: 2
         x: 64
@@ -1353,14 +831,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7c8e0a1f47a521f0800000000000000
-      internalID: -1070265378249208709
+      spriteID: 0c7f79925db315f40800000000000000
+      internalID: 5715415188821768128
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_9
+      name: zombie_skin_9
       rect:
         serializedVersion: 2
         x: 128
@@ -1374,14 +852,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acab2eb6da6abf8e0800000000000000
-      internalID: -1658548773986321718
+      spriteID: ab9f80baf2f37df20800000000000000
+      internalID: 3447293513740908986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_10
+      name: zombie_skin_10
       rect:
         serializedVersion: 2
         x: 192
@@ -1395,14 +873,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d75c685757a7de40800000000000000
-      internalID: 5681193448538658771
+      spriteID: 73e8fc0729d450bf0800000000000000
+      internalID: -358795303952871881
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_11
+      name: zombie_skin_11
       rect:
         serializedVersion: 2
         x: 256
@@ -1416,14 +894,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a2fef2833af87320800000000000000
-      internalID: 2556067887680778913
+      spriteID: 47c5424c2d42ccfb0800000000000000
+      internalID: -4626282229563892620
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_12
+      name: zombie_skin_12
       rect:
         serializedVersion: 2
         x: 320
@@ -1437,14 +915,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee533724fd9da6580800000000000000
-      internalID: -8833008166218025490
+      spriteID: f1a9b38345b138050800000000000000
+      internalID: 5801510793517963807
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_13
+      name: zombie_skin_13
       rect:
         serializedVersion: 2
         x: 384
@@ -1458,14 +936,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61b7379d872b3db60800000000000000
-      internalID: 7769750014258281238
+      spriteID: 188a244b8829ce100800000000000000
+      internalID: 138646804379117697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_14
+      name: zombie_skin_14
       rect:
         serializedVersion: 2
         x: 0
@@ -1479,14 +957,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f47f2354f43b18b0800000000000000
-      internalID: -5180488722387340039
+      spriteID: 0c99ca9e2e2041fa0800000000000000
+      internalID: -5831032443931682368
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_15
+      name: zombie_skin_15
       rect:
         serializedVersion: 2
         x: 64
@@ -1500,14 +978,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a9fadd6ba0bd23a0800000000000000
-      internalID: -6688495621246355036
+      spriteID: 16fd1460d1b5fff20800000000000000
+      internalID: 3458583219060989793
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_16
+      name: zombie_skin_16
       rect:
         serializedVersion: 2
         x: 128
@@ -1521,14 +999,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 60999c9f535044660800000000000000
-      internalID: 7369020619667118342
+      spriteID: 705fed1f58ff7b2d0800000000000000
+      internalID: -3262858454252980985
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_17
+      name: zombie_skin_17
       rect:
         serializedVersion: 2
         x: 192
@@ -1542,14 +1020,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 449315b64df800880800000000000000
-      internalID: -8646753142055028412
+      spriteID: 44386afd3656a8600800000000000000
+      internalID: 471300590642037572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_18
+      name: zombie_skin_18
       rect:
         serializedVersion: 2
         x: 256
@@ -1563,14 +1041,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 761c7b504176bf2e0800000000000000
-      internalID: -2090964266290527897
+      spriteID: 7379ea9bd0f5be580800000000000000
+      internalID: -8796832934583691465
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_19
+      name: zombie_skin_19
       rect:
         serializedVersion: 2
         x: 320
@@ -1584,14 +1062,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 985851f391d58e360800000000000000
-      internalID: 7199106367365678473
+      spriteID: fd8881c78e3a1de00800000000000000
+      internalID: 1067814805573241055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_20
+      name: zombie_skin_20
       rect:
         serializedVersion: 2
         x: 384
@@ -1605,56 +1083,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1dddcfebf94b4aba0800000000000000
-      internalID: -6078534998846284335
+      spriteID: d06f4c3447d4cb9b0800000000000000
+      internalID: -5063086719322753523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_21
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 1152
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4d01bc8c5761d6d10800000000000000
-      internalID: 2120375694697107668
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player1_22
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 1152
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f01252032563044e0800000000000000
-      internalID: -1999538507929542385
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player1_23
+      name: zombie_skin_21
       rect:
         serializedVersion: 2
         x: 0
@@ -1668,14 +1104,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 479b8bddfdfd223c0800000000000000
-      internalID: -4385696934514869900
+      spriteID: 6f6087698ead15490800000000000000
+      internalID: -7759179990490937610
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_24
+      name: zombie_skin_22
       rect:
         serializedVersion: 2
         x: 64
@@ -1689,14 +1125,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06ca4e14175caf850800000000000000
-      internalID: 6411654109742804064
+      spriteID: 71320318537364440800000000000000
+      internalID: 4919680345889055511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_25
+      name: zombie_skin_23
       rect:
         serializedVersion: 2
         x: 128
@@ -1710,14 +1146,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddc193aa20ae56e90800000000000000
-      internalID: -7032957945902457635
+      spriteID: 6884b8ae6d76441f0800000000000000
+      internalID: -1061609439396935546
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_26
+      name: zombie_skin_24
       rect:
         serializedVersion: 2
         x: 192
@@ -1731,14 +1167,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbac699fdcae64080800000000000000
-      internalID: -9203410618108425541
+      spriteID: 58659ee15ea68e570800000000000000
+      internalID: 8496158229333104261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_27
+      name: zombie_skin_25
       rect:
         serializedVersion: 2
         x: 256
@@ -1752,14 +1188,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4652ee56fc6e89050800000000000000
-      internalID: 5807645497936979300
+      spriteID: 6de9beff6e0eb7a70800000000000000
+      internalID: 8825895177503350486
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_28
+      name: zombie_skin_26
       rect:
         serializedVersion: 2
         x: 320
@@ -1773,14 +1209,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b3722775b63c6910800000000000000
-      internalID: 1831899301448676273
+      spriteID: bd551bc6e4c16b2b0800000000000000
+      internalID: -5569232766040451621
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_29
+      name: zombie_skin_27
       rect:
         serializedVersion: 2
         x: 384
@@ -1794,14 +1230,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6821d1625f7a3fa10800000000000000
-      internalID: 1942080535675081350
+      spriteID: fe3335fe000a92520800000000000000
+      internalID: 2677847379324122095
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_30
+      name: zombie_skin_28
       rect:
         serializedVersion: 2
         x: 0
@@ -1815,14 +1251,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35cc272c4ca7d14d0800000000000000
-      internalID: -3162236377849738157
+      spriteID: 6265ba99f2d3f1540800000000000000
+      internalID: 4980766987545957926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_31
+      name: zombie_skin_29
       rect:
         serializedVersion: 2
         x: 64
@@ -1836,14 +1272,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1c43e5b0d9f2ab60800000000000000
-      internalID: 7756036183085501469
+      spriteID: 74b70c1a17874fa60800000000000000
+      internalID: 7706917291778145095
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_32
+      name: zombie_skin_30
       rect:
         serializedVersion: 2
         x: 128
@@ -1857,14 +1293,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8f0ab24c215469d0800000000000000
-      internalID: -2782009419268223093
+      spriteID: 15e0d1cf310906a80800000000000000
+      internalID: -8475616083202732463
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_33
+      name: zombie_skin_31
       rect:
         serializedVersion: 2
         x: 192
@@ -1878,14 +1314,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 181eccdc317cdf5d0800000000000000
-      internalID: -3027044486652042879
+      spriteID: a23db3c53cee59d50800000000000000
+      internalID: 6743558539890643754
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_34
+      name: zombie_skin_32
       rect:
         serializedVersion: 2
         x: 256
@@ -1899,14 +1335,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d1f3a07886a11940800000000000000
-      internalID: 5265172544308376016
+      spriteID: 3d1d93104fa1e96f0800000000000000
+      internalID: -676073258764086829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_35
+      name: zombie_skin_33
       rect:
         serializedVersion: 2
         x: 320
@@ -1920,14 +1356,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e78e932bce97384a0800000000000000
-      internalID: -6592291372030891906
+      spriteID: 16ec5bbe6067d7770800000000000000
+      internalID: 8610167834698698337
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_36
+      name: zombie_skin_34
       rect:
         serializedVersion: 2
         x: 384
@@ -1941,14 +1377,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 20c234e1d50a89ab0800000000000000
-      internalID: -5001071064394814462
+      spriteID: d646240627436c910800000000000000
+      internalID: 1857229562182788205
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_37
+      name: zombie_skin_35
       rect:
         serializedVersion: 2
         x: 448
@@ -1962,14 +1398,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23f13e80b059fb2e0800000000000000
-      internalID: -2107802225959821518
+      spriteID: a4aac95eb64abdcd0800000000000000
+      internalID: -2532249582145066422
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_38
+      name: zombie_skin_36
       rect:
         serializedVersion: 2
         x: 0
@@ -1983,14 +1419,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c68791fceb4c4980800000000000000
-      internalID: -8553378111245809984
+      spriteID: 00683ccae9444d070800000000000000
+      internalID: 8130198675604604416
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_39
+      name: zombie_skin_37
       rect:
         serializedVersion: 2
         x: 64
@@ -2004,14 +1440,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff591eb24097c2950800000000000000
-      internalID: 6425643827173889535
+      spriteID: e5c53acd0c92d3240800000000000000
+      internalID: 4773017088394746974
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_40
+      name: zombie_skin_38
       rect:
         serializedVersion: 2
         x: 128
@@ -2025,14 +1461,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d284c7079f7f5a020800000000000000
-      internalID: 2352559031077062701
+      spriteID: 40de488f6e9982f10800000000000000
+      internalID: 2245213631535181060
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_41
+      name: zombie_skin_39
       rect:
         serializedVersion: 2
         x: 192
@@ -2046,14 +1482,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2545956cdfc6cf490800000000000000
-      internalID: -7711168624754863022
+      spriteID: 92f1442b94bf823e0800000000000000
+      internalID: -2078134934089490647
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_42
+      name: zombie_skin_40
       rect:
         serializedVersion: 2
         x: 256
@@ -2067,14 +1503,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4da762d701f83850800000000000000
-      internalID: 6357095889930530124
+      spriteID: f9d3fde3d525d0880800000000000000
+      internalID: -8643161549413859937
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_43
+      name: zombie_skin_41
       rect:
         serializedVersion: 2
         x: 320
@@ -2088,14 +1524,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3ff5499a08d069a0800000000000000
-      internalID: -6241751543502733506
+      spriteID: aca785a71e2dbf5f0800000000000000
+      internalID: -721751449400739126
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_44
+      name: zombie_skin_42
       rect:
         serializedVersion: 2
         x: 384
@@ -2109,14 +1545,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05eee660c0c36eb00800000000000000
-      internalID: 857438801405865552
+      spriteID: 44506077843064140800000000000000
+      internalID: 4703450470604473668
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_45
+      name: zombie_skin_43
       rect:
         serializedVersion: 2
         x: 448
@@ -2130,14 +1566,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 309ecb7bff8c52b20800000000000000
-      internalID: 3109112118394022147
+      spriteID: f3bc32d06a1ca2680800000000000000
+      internalID: -8778991604676179137
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_46
+      name: zombie_skin_44
       rect:
         serializedVersion: 2
         x: 0
@@ -2151,14 +1587,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 700d02d441d9d9d70800000000000000
-      internalID: 9051563536603467783
+      spriteID: bec0cafcdacab2510800000000000000
+      internalID: 1525502761308523755
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_47
+      name: zombie_skin_45
       rect:
         serializedVersion: 2
         x: 64
@@ -2172,14 +1608,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4b2ed92ef71d84d0800000000000000
-      internalID: -3130819785561068725
+      spriteID: 5a66110ae24d5f0c0800000000000000
+      internalID: -4542491352414198107
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_48
+      name: zombie_skin_46
       rect:
         serializedVersion: 2
         x: 128
@@ -2193,14 +1629,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 781e02e5e38ddb430800000000000000
-      internalID: 3800431422949351815
+      spriteID: 0a5d83e830273e500800000000000000
+      internalID: 424308149499516320
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_49
+      name: zombie_skin_47
       rect:
         serializedVersion: 2
         x: 192
@@ -2214,14 +1650,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d12fca0bd56829730800000000000000
-      internalID: 4004410755639996957
+      spriteID: 0ce9e7ca3a749ac30800000000000000
+      internalID: 4371103681638997696
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_50
+      name: zombie_skin_48
       rect:
         serializedVersion: 2
         x: 256
@@ -2235,14 +1671,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5945f26c148629df0800000000000000
-      internalID: -174962803806874475
+      spriteID: 2e1b1216959c3b9e0800000000000000
+      internalID: -1606719256322264606
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_51
+      name: zombie_skin_49
       rect:
         serializedVersion: 2
         x: 320
@@ -2256,14 +1692,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97c49740806fb45b0800000000000000
-      internalID: -5382938415296066439
+      spriteID: 1a5bbc45017cea340800000000000000
+      internalID: 4877054319444866465
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_52
+      name: zombie_skin_50
       rect:
         serializedVersion: 2
         x: 384
@@ -2277,14 +1713,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6109589bc76889dc0800000000000000
-      internalID: -3632005229227700202
+      spriteID: 1f47a214db753a240800000000000000
+      internalID: 4801778098060817649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_53
+      name: zombie_skin_51
       rect:
         serializedVersion: 2
         x: 448
@@ -2298,14 +1734,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d15ba472e1548c530800000000000000
-      internalID: 3875423475162854685
+      spriteID: e4d573a0e13e21840800000000000000
+      internalID: 5193463038471527758
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_54
+      name: zombie_skin_52
       rect:
         serializedVersion: 2
         x: 0
@@ -2319,14 +1755,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5090aada4fa44e490800000000000000
-      internalID: -7717961446660110075
+      spriteID: 4977173c2167a9dc0800000000000000
+      internalID: -3631460326560401516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_55
+      name: zombie_skin_53
       rect:
         serializedVersion: 2
         x: 64
@@ -2340,14 +1776,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b8187dd019a4f6c0800000000000000
-      internalID: -4110474669982213968
+      spriteID: 7c820a2c0b5429370800000000000000
+      internalID: 8327795286443305159
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_56
+      name: zombie_skin_54
       rect:
         serializedVersion: 2
         x: 128
@@ -2361,14 +1797,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ce11561f718adb60800000000000000
-      internalID: 7771666489816456900
+      spriteID: c2032041fb704ee00800000000000000
+      internalID: 1072991128476856364
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_57
+      name: zombie_skin_55
       rect:
         serializedVersion: 2
         x: 192
@@ -2382,14 +1818,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90d94bd8367c5f360800000000000000
-      internalID: 7202882409442090249
+      spriteID: ced4ab121947a3a90800000000000000
+      internalID: -7333420876534493716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_58
+      name: zombie_skin_56
       rect:
         serializedVersion: 2
         x: 256
@@ -2403,14 +1839,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 715db7590a7b79930800000000000000
-      internalID: 4149987481975772439
+      spriteID: 9907c2065874b4140800000000000000
+      internalID: 4704932873888362649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_59
+      name: zombie_skin_57
       rect:
         serializedVersion: 2
         x: 320
@@ -2424,14 +1860,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87df79ce7cfb61060800000000000000
-      internalID: 6923932342517497208
+      spriteID: 701ed82de3e7675c0800000000000000
+      internalID: -4218045192700305145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_60
+      name: zombie_skin_58
       rect:
         serializedVersion: 2
         x: 384
@@ -2445,14 +1881,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87bd46bb7af75f0f0800000000000000
-      internalID: -1083819776932521096
+      spriteID: 17a313d528c89c1c0800000000000000
+      internalID: -4482897462533473679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_61
+      name: zombie_skin_59
       rect:
         serializedVersion: 2
         x: 448
@@ -2466,14 +1902,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a147e860cd6bdc470800000000000000
-      internalID: 8416584334744384538
+      spriteID: e2d766226d140eea0800000000000000
+      internalID: -5845599928370954962
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_62
+      name: zombie_skin_60
       rect:
         serializedVersion: 2
         x: 0
@@ -2487,14 +1923,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24abd7a28cf133510800000000000000
-      internalID: 1527599643175533122
+      spriteID: fc33bee9c88194be0800000000000000
+      internalID: -1492634809255906353
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_63
+      name: zombie_skin_61
       rect:
         serializedVersion: 2
         x: 64
@@ -2508,14 +1944,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e97864d7038569c0800000000000000
-      internalID: -3934594629786633752
+      spriteID: 900797a2925ccb610800000000000000
+      internalID: 1638401145052950537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_64
+      name: zombie_skin_62
       rect:
         serializedVersion: 2
         x: 128
@@ -2529,14 +1965,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 128af61e0ccb95ff0800000000000000
-      internalID: -46798784508745695
+      spriteID: 179d96942c4fc8760800000000000000
+      internalID: 7461607797938575729
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_65
+      name: zombie_skin_63
       rect:
         serializedVersion: 2
         x: 192
@@ -2550,14 +1986,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1b884b3e62747d00800000000000000
-      internalID: 969525637558078239
+      spriteID: 0c7403290fe9f01e0800000000000000
+      internalID: -2229388534443128896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_66
+      name: zombie_skin_64
       rect:
         serializedVersion: 2
         x: 256
@@ -2571,14 +2007,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a35b38a2420ecdb50800000000000000
-      internalID: 6619411998264505658
+      spriteID: 76cf62d7d4a97dad0800000000000000
+      internalID: -2677501795845604249
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_67
+      name: zombie_skin_65
       rect:
         serializedVersion: 2
         x: 320
@@ -2592,14 +2028,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5de2483e88343fe0800000000000000
-      internalID: -1210280216375399075
+      spriteID: 5596e9266b3026d90800000000000000
+      internalID: -7106113180163741355
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_68
+      name: zombie_skin_66
       rect:
         serializedVersion: 2
         x: 384
@@ -2613,14 +2049,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 137da4c5fc26cbc10800000000000000
-      internalID: 2070638571429746481
+      spriteID: 6c14b22641ffc7b50800000000000000
+      internalID: 6592424417574994374
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_69
+      name: zombie_skin_67
       rect:
         serializedVersion: 2
         x: 448
@@ -2634,14 +2070,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 068a383604dcea600800000000000000
-      internalID: 481547886606395488
+      spriteID: c1a587bcff622c770800000000000000
+      internalID: 8629502716067469852
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_70
+      name: zombie_skin_68
       rect:
         serializedVersion: 2
         x: 512
@@ -2655,14 +2091,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 081f8bef66be24ff0800000000000000
-      internalID: -53221417982299776
+      spriteID: ddd2db657e93f38b0800000000000000
+      internalID: -5170350181442572835
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_71
+      name: zombie_skin_69
       rect:
         serializedVersion: 2
         x: 0
@@ -2676,14 +2112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cfde2550d6303fb0800000000000000
-      internalID: -4670172545172971577
+      spriteID: 051606451d435eb10800000000000000
+      internalID: 2010070882359206224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_72
+      name: zombie_skin_70
       rect:
         serializedVersion: 2
         x: 64
@@ -2697,14 +2133,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e01c92982235c450800000000000000
-      internalID: 6108343619437727975
+      spriteID: 17631dd1ed9262360800000000000000
+      internalID: 7144443892829599345
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_73
+      name: zombie_skin_71
       rect:
         serializedVersion: 2
         x: 128
@@ -2718,14 +2154,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: edf768f4678c0c8b0800000000000000
-      internalID: -5133883164736454690
+      spriteID: ff161b03ea98b1740800000000000000
+      internalID: 5123840382298317311
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_74
+      name: zombie_skin_72
       rect:
         serializedVersion: 2
         x: 192
@@ -2739,14 +2175,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 418f169334f763df0800000000000000
-      internalID: -200833206669150188
+      spriteID: 90abf31a20f112b20800000000000000
+      internalID: 3107799314018056713
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_75
+      name: zombie_skin_73
       rect:
         serializedVersion: 2
         x: 256
@@ -2760,14 +2196,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34011c0d84abba2e0800000000000000
-      internalID: -2113390778217590717
+      spriteID: 59bd3322f30250300800000000000000
+      internalID: 217615612526189461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_76
+      name: zombie_skin_74
       rect:
         serializedVersion: 2
         x: 320
@@ -2781,14 +2217,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 235aa3790886c4840800000000000000
-      internalID: 5209653770463126834
+      spriteID: 4a241eda0680fc5e0800000000000000
+      internalID: -1887280507517844828
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_77
+      name: zombie_skin_75
       rect:
         serializedVersion: 2
         x: 384
@@ -2802,14 +2238,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c377edd28c20d420800000000000000
-      internalID: 2652669121101525961
+      spriteID: 0e50ee37ad10c4940800000000000000
+      internalID: 5281598500758226400
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_78
+      name: zombie_skin_76
       rect:
         serializedVersion: 2
         x: 448
@@ -2823,14 +2259,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21dbbb2c94be06670800000000000000
-      internalID: 8530076396271942930
+      spriteID: 090dccfa4ed0b7a50800000000000000
+      internalID: 6519820161402065040
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_79
+      name: zombie_skin_77
       rect:
         serializedVersion: 2
         x: 512
@@ -2844,14 +2280,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a756e10190e78a80800000000000000
-      internalID: -8464550061212805216
+      spriteID: d6e4344e8807afd60800000000000000
+      internalID: 7924770227559288429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_80
+      name: zombie_skin_78
       rect:
         serializedVersion: 2
         x: 0
@@ -2865,14 +2301,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5ff01d318c6b4d30800000000000000
-      internalID: 4416743161898008410
+      spriteID: 4d7d70834cdea84e0800000000000000
+      internalID: -1978507659266500652
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_81
+      name: zombie_skin_79
       rect:
         serializedVersion: 2
         x: 64
@@ -2886,14 +2322,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0815f76a1d6f8b20800000000000000
-      internalID: 3138847425481218060
+      spriteID: 68f0043fe8f65e710800000000000000
+      internalID: 1721905092296183686
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_82
+      name: zombie_skin_80
       rect:
         serializedVersion: 2
         x: 128
@@ -2907,14 +2343,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba858da05289cfdc0800000000000000
-      internalID: -3603838316940076885
+      spriteID: 5bd1c7c18eab427a0800000000000000
+      internalID: -6402787264140927563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_83
+      name: zombie_skin_81
       rect:
         serializedVersion: 2
         x: 192
@@ -2928,14 +2364,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac410f565fb317ae0800000000000000
-      internalID: -1553394471302851382
+      spriteID: 1f57321175241d330800000000000000
+      internalID: 3733838507783976433
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_84
+      name: zombie_skin_82
       rect:
         serializedVersion: 2
         x: 256
@@ -2949,14 +2385,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89d13b38d77895a10800000000000000
-      internalID: 1898697691063590296
+      spriteID: 29f76bbf923427bc0800000000000000
+      internalID: -3786890489069404270
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_85
+      name: zombie_skin_83
       rect:
         serializedVersion: 2
         x: 320
@@ -2970,14 +2406,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 472ccbec6e92bf7b0800000000000000
-      internalID: -5189508074326670732
+      spriteID: 34fb87e4341298c30800000000000000
+      internalID: 4362054287048097603
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_86
+      name: zombie_skin_84
       rect:
         serializedVersion: 2
         x: 384
@@ -2991,14 +2427,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40e96457ab1a78650800000000000000
-      internalID: 6235130031321292292
+      spriteID: 8ca28bbe79a918210800000000000000
+      internalID: 1333516941963832008
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_87
+      name: zombie_skin_85
       rect:
         serializedVersion: 2
         x: 448
@@ -3012,14 +2448,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f6df06dcbf3d5b80800000000000000
-      internalID: -8404491249325713678
+      spriteID: b2a599712aef26760800000000000000
+      internalID: 7449796705758304811
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_88
+      name: zombie_skin_86
       rect:
         serializedVersion: 2
         x: 512
@@ -3033,14 +2469,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcd45120d2152de30800000000000000
-      internalID: 4526769829211098571
+      spriteID: f0e43884687dc4860800000000000000
+      internalID: 7515618849916669455
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_89
+      name: zombie_skin_87
       rect:
         serializedVersion: 2
         x: 0
@@ -3054,14 +2490,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cbcce4ea52ffe6e0800000000000000
-      internalID: -1805958453350577215
+      spriteID: a097c164a50307fd0800000000000000
+      internalID: -2346322241578567414
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_90
+      name: zombie_skin_88
       rect:
         serializedVersion: 2
         x: 64
@@ -3075,14 +2511,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65b419634f9b29410800000000000000
-      internalID: 1482451685896964950
+      spriteID: ac47ceaa0b400cf10800000000000000
+      internalID: 2287833767532590282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_91
+      name: zombie_skin_89
       rect:
         serializedVersion: 2
         x: 128
@@ -3096,14 +2532,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99f7d76f7244ffee0800000000000000
-      internalID: -1225185635191652455
+      spriteID: 8c626ad09eebc0460800000000000000
+      internalID: 7209347011678971592
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_92
+      name: zombie_skin_90
       rect:
         serializedVersion: 2
         x: 192
@@ -3117,14 +2553,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b185940e659e09b0800000000000000
-      internalID: -5111984227263086156
+      spriteID: 2b5f19093c0f45f70800000000000000
+      internalID: 9175223063595316658
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_93
+      name: zombie_skin_91
       rect:
         serializedVersion: 2
         x: 256
@@ -3138,14 +2574,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b96e650f9f4b9080800000000000000
-      internalID: -9179655871055107661
+      spriteID: 514c435a3b599f780800000000000000
+      internalID: -8648717010584943595
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_94
+      name: zombie_skin_92
       rect:
         serializedVersion: 2
         x: 320
@@ -3159,14 +2595,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11d514b7c56ab8920800000000000000
-      internalID: 2993669293452909841
+      spriteID: 13f26177148ec0680800000000000000
+      internalID: -8787393405038219471
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_95
+      name: zombie_skin_93
       rect:
         serializedVersion: 2
         x: 384
@@ -3180,14 +2616,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19b1c3bbdee1e84a0800000000000000
-      internalID: -6589295198399095919
+      spriteID: 587d7471b24e85a40800000000000000
+      internalID: 5357282630482515845
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_96
+      name: zombie_skin_94
       rect:
         serializedVersion: 2
         x: 448
@@ -3201,14 +2637,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b3cffd5366705560800000000000000
-      internalID: 7300465165118456754
+      spriteID: bf37d30e54f50e300800000000000000
+      internalID: 279327930616476667
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_97
+      name: zombie_skin_95
       rect:
         serializedVersion: 2
         x: 512
@@ -3222,14 +2658,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d20b92099fe582e60800000000000000
-      internalID: 7937698769199018029
+      spriteID: c01208ab11070d4e0800000000000000
+      internalID: -1958942616460451572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_98
+      name: zombie_skin_96
       rect:
         serializedVersion: 2
         x: 0
@@ -3243,14 +2679,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eed0884ac3ab05050800000000000000
-      internalID: 5787330290792271342
+      spriteID: b2b51f844bac03680800000000000000
+      internalID: -8777292798078395605
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_99
+      name: zombie_skin_97
       rect:
         serializedVersion: 2
         x: 64
@@ -3264,14 +2700,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 493377bb7cc881020800000000000000
-      internalID: 2312753198126281620
+      spriteID: d20d991a127128ac0800000000000000
+      internalID: -3854492897863151571
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_100
+      name: zombie_skin_98
       rect:
         serializedVersion: 2
         x: 128
@@ -3285,14 +2721,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0c1504a33abb7360800000000000000
-      internalID: 7168527962848173070
+      spriteID: b41b66255356e1c90800000000000000
+      internalID: -7197203874801340085
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_101
+      name: zombie_skin_99
       rect:
         serializedVersion: 2
         x: 192
@@ -3306,14 +2742,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a125ccce8b8d7070800000000000000
-      internalID: 8105788349773849000
+      spriteID: 288af829a89831b10800000000000000
+      internalID: 1951054291838937218
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_102
+      name: zombie_skin_100
       rect:
         serializedVersion: 2
         x: 256
@@ -3327,14 +2763,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a57094e2d0155ba0800000000000000
-      internalID: -6100951622239619677
+      spriteID: f586d2883047ee810800000000000000
+      internalID: 1796500859885807711
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_103
+      name: zombie_skin_101
       rect:
         serializedVersion: 2
         x: 320
@@ -3348,14 +2784,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 125d2064c4a6c09f0800000000000000
-      internalID: -500908582720318175
+      spriteID: 3fb03fcac6d7487b0800000000000000
+      internalID: -5222911762131383309
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_104
+      name: zombie_skin_102
       rect:
         serializedVersion: 2
         x: 0
@@ -3369,14 +2805,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c8acd940a5a410f0800000000000000
-      internalID: -1147109897220085567
+      spriteID: af4daac27527707b0800000000000000
+      internalID: -5258108321194650374
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_105
+      name: zombie_skin_103
       rect:
         serializedVersion: 2
         x: 64
@@ -3390,14 +2826,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d0c63ef1b40d04f30800000000000000
-      internalID: 4557871843975064589
+      spriteID: 3cbefe6e57c0c8730800000000000000
+      internalID: 4002587869350718403
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_106
+      name: zombie_skin_104
       rect:
         serializedVersion: 2
         x: 128
@@ -3411,14 +2847,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6d282e02f8ec9210800000000000000
-      internalID: 1341202915366808941
+      spriteID: fb3b4fb2031235440800000000000000
+      internalID: 4923315308425687999
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_107
+      name: zombie_skin_105
       rect:
         serializedVersion: 2
         x: 192
@@ -3432,14 +2868,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cae784c6fe80d300800000000000000
-      internalID: 274876767779941057
+      spriteID: f7f419218106fbb10800000000000000
+      internalID: 1999422416082784127
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_108
+      name: zombie_skin_106
       rect:
         serializedVersion: 2
         x: 256
@@ -3453,14 +2889,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2877f46a3e4b67510800000000000000
-      internalID: 1546622411889145730
+      spriteID: 473c2dfd66404d5f0800000000000000
+      internalID: -732955999466241164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_109
+      name: zombie_skin_107
       rect:
         serializedVersion: 2
         x: 320
@@ -3474,14 +2910,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7a675f21acd1d300800000000000000
-      internalID: 275243637088414331
+      spriteID: 26798a4096ba8fce0800000000000000
+      internalID: -1371157618996242590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_110
+      name: zombie_skin_108
       rect:
         serializedVersion: 2
         x: 0
@@ -3495,14 +2931,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 402bd7362daac2ec0800000000000000
-      internalID: -3590306982332091900
+      spriteID: 1653ffdc3889ad3f0800000000000000
+      internalID: -875219485705947807
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_111
+      name: zombie_skin_109
       rect:
         serializedVersion: 2
         x: 64
@@ -3516,14 +2952,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3749a9b0677f0a0a0800000000000000
-      internalID: -6872220944994495373
+      spriteID: 41e6cffe24d44f640800000000000000
+      internalID: 5112796426861833748
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_112
+      name: zombie_skin_110
       rect:
         serializedVersion: 2
         x: 128
@@ -3537,14 +2973,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1ee2460ec672bb10800000000000000
-      internalID: 1995788212118941211
+      spriteID: 2b4ddf9262fb8a8e0800000000000000
+      internalID: -1681884290188716878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_113
+      name: zombie_skin_111
       rect:
         serializedVersion: 2
         x: 192
@@ -3558,14 +2994,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e51747c52e6f04a80800000000000000
-      internalID: -8484510245891837602
+      spriteID: 2b6faff024f786d00800000000000000
+      internalID: 966162041783645874
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_114
+      name: zombie_skin_112
       rect:
         serializedVersion: 2
         x: 256
@@ -3579,14 +3015,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1930b69d9909fea90800000000000000
-      internalID: -7282443081982737519
+      spriteID: f694efd295fd2f150800000000000000
+      internalID: 5905027635552864623
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_115
+      name: zombie_skin_113
       rect:
         serializedVersion: 2
         x: 320
@@ -3600,14 +3036,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89624c13cf4068fa0800000000000000
-      internalID: -5798941988979726696
+      spriteID: 3845360aac6db8b90800000000000000
+      internalID: -7238455810305338237
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_116
+      name: zombie_skin_114
       rect:
         serializedVersion: 2
         x: 0
@@ -3621,14 +3057,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bed73193483e27000800000000000000
-      internalID: 32338304377781739
+      spriteID: 7db00db84ae5caff0800000000000000
+      internalID: -23539837230380073
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_117
+      name: zombie_skin_115
       rect:
         serializedVersion: 2
         x: 64
@@ -3642,14 +3078,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94a0e0f8f21266b10800000000000000
-      internalID: 1974301974795782729
+      spriteID: 15461b6638d4ebfe0800000000000000
+      internalID: -1171413626310794159
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_118
+      name: zombie_skin_116
       rect:
         serializedVersion: 2
         x: 128
@@ -3663,14 +3099,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a8b7b58a7bbcb5f0800000000000000
-      internalID: -739510103891789658
+      spriteID: daa6c1c55666f39c0800000000000000
+      internalID: -3945322163030168915
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_119
+      name: zombie_skin_117
       rect:
         serializedVersion: 2
         x: 192
@@ -3684,14 +3120,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d24ace7da1b7e0010800000000000000
-      internalID: 1156997509502772269
+      spriteID: 713c0bae688c92ea0800000000000000
+      internalID: -5896961755276328169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_120
+      name: zombie_skin_118
       rect:
         serializedVersion: 2
         x: 256
@@ -3705,14 +3141,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3abc46c2edccd0490800000000000000
-      internalID: -7778335726799369309
+      spriteID: 5315b9f2646d7e710800000000000000
+      internalID: 1722580979427266869
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_121
+      name: zombie_skin_119
       rect:
         serializedVersion: 2
         x: 320
@@ -3726,14 +3162,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 224837e1e1c727910800000000000000
-      internalID: 1833664467094963234
+      spriteID: 0fa4cd6be41f67010800000000000000
+      internalID: 1186400872236337904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_122
+      name: zombie_skin_120
       rect:
         serializedVersion: 2
         x: 0
@@ -3747,14 +3183,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2586c275882014b40800000000000000
-      internalID: 5422618210932123730
+      spriteID: 14db27138e7e94570800000000000000
+      internalID: 8451541160185478465
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_123
+      name: zombie_skin_121
       rect:
         serializedVersion: 2
         x: 64
@@ -3768,14 +3204,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4e84c96fb10dff00800000000000000
-      internalID: 1152079001301585482
+      spriteID: c2e907313f5c09b60800000000000000
+      internalID: 7750912606498496044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_124
+      name: zombie_skin_122
       rect:
         serializedVersion: 2
         x: 128
@@ -3789,14 +3225,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e0f90eeec83d94b0800000000000000
-      internalID: -5432123114130902814
+      spriteID: c0648614efe427920800000000000000
+      internalID: 2986536356826072588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_125
+      name: zombie_skin_123
       rect:
         serializedVersion: 2
         x: 192
@@ -3810,14 +3246,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a0267830b48fc0a0800000000000000
-      internalID: -6859117815065599832
+      spriteID: 998529381bc5e15d0800000000000000
+      internalID: -3089930376843208551
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_126
+      name: zombie_skin_124
       rect:
         serializedVersion: 2
         x: 256
@@ -3831,14 +3267,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f23f6484eb926570800000000000000
-      internalID: 8458494455931941616
+      spriteID: 288ac1b10eee673e0800000000000000
+      internalID: -2056193533553104766
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_127
+      name: zombie_skin_125
       rect:
         serializedVersion: 2
         x: 320
@@ -3852,14 +3288,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6ed5a0a11583fb50800000000000000
-      internalID: 6625785787548294764
+      spriteID: 3124e217615cdf980800000000000000
+      internalID: -8503423821226819053
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_128
+      name: zombie_skin_126
       rect:
         serializedVersion: 2
         x: 384
@@ -3873,14 +3309,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6b90e02c838a8c70800000000000000
-      internalID: 8974129845359385454
+      spriteID: 2ada93a06e9081e00800000000000000
+      internalID: 1015572599590727074
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_129
+      name: zombie_skin_127
       rect:
         serializedVersion: 2
         x: 448
@@ -3894,14 +3330,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8e9fb54d651e6f00800000000000000
-      internalID: 1111849717072895628
+      spriteID: f380f4c8eec90ee00800000000000000
+      internalID: 1072029259684317247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_130
+      name: zombie_skin_128
       rect:
         serializedVersion: 2
         x: 512
@@ -3915,14 +3351,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4225841d2e29a210800000000000000
-      internalID: 1344656734899479115
+      spriteID: afbbf5245b1ec20c0800000000000000
+      internalID: -4599052950833218566
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_131
+      name: zombie_skin_129
       rect:
         serializedVersion: 2
         x: 576
@@ -3936,14 +3372,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f40a81b899d9f5100800000000000000
-      internalID: 98970999614644303
+      spriteID: 20f37b99672c22640800000000000000
+      internalID: 5053815546503970562
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_132
+      name: zombie_skin_130
       rect:
         serializedVersion: 2
         x: 640
@@ -3957,14 +3393,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf06816377cfefa00800000000000000
-      internalID: 792348173402661116
+      spriteID: ce55b99cebe191050800000000000000
+      internalID: 5771678202227021292
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_133
+      name: zombie_skin_131
       rect:
         serializedVersion: 2
         x: 704
@@ -3978,14 +3414,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45d587498ab66f2a0800000000000000
-      internalID: -6704052623504810668
+      spriteID: 189516f5c6dbd22b0800000000000000
+      internalID: -5607617687852066431
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_134
+      name: zombie_skin_132
       rect:
         serializedVersion: 2
         x: 768
@@ -3999,14 +3435,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cdba300314212a5f0800000000000000
-      internalID: -747014517002359844
+      spriteID: 4571873c51e5d2e10800000000000000
+      internalID: 2174497642656569172
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_135
+      name: zombie_skin_133
       rect:
         serializedVersion: 2
         x: 0
@@ -4020,14 +3456,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef4f6c3496000aa50800000000000000
-      internalID: 6530219911795897598
+      spriteID: 3c65cd48946f609e0800000000000000
+      internalID: -1655365017390000445
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_136
+      name: zombie_skin_134
       rect:
         serializedVersion: 2
         x: 64
@@ -4041,14 +3477,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: adf0ae1627302d1f0800000000000000
-      internalID: -1021750375655796774
+      spriteID: ec321ea7eb7f38330800000000000000
+      internalID: 3712082915360842702
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_137
+      name: zombie_skin_135
       rect:
         serializedVersion: 2
         x: 128
@@ -4062,14 +3498,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d99ebde9657ca36b0800000000000000
-      internalID: -5315717235311122019
+      spriteID: fb3253056f042b010800000000000000
+      internalID: 1203095477113136063
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_138
+      name: zombie_skin_136
       rect:
         serializedVersion: 2
         x: 192
@@ -4083,14 +3519,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a0bc413ac8eb6a00800000000000000
-      internalID: 750949717995466914
+      spriteID: 33863ee5543c00d50800000000000000
+      internalID: 6701570948239419443
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_139
+      name: zombie_skin_137
       rect:
         serializedVersion: 2
         x: 256
@@ -4104,14 +3540,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 158f7a150316fafc0800000000000000
-      internalID: -3481457126777817007
+      spriteID: fa082c71baa3f32c0800000000000000
+      internalID: -4449773400306319185
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_140
+      name: zombie_skin_138
       rect:
         serializedVersion: 2
         x: 320
@@ -4125,14 +3561,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d09df33360f9ff70800000000000000
-      internalID: 9221666020882485461
+      spriteID: c6e526c8862a03c60800000000000000
+      internalID: 7795909524893884012
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_141
+      name: zombie_skin_139
       rect:
         serializedVersion: 2
         x: 384
@@ -4146,14 +3582,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d0f899c31ba98410800000000000000
-      internalID: 1479902054042890448
+      spriteID: 7edf11ddeabc62db0800000000000000
+      internalID: -4816938799532474905
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_142
+      name: zombie_skin_140
       rect:
         serializedVersion: 2
         x: 448
@@ -4167,14 +3603,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d6da385d59f8f060800000000000000
-      internalID: 6987609001172850386
+      spriteID: 081bdb3498f409e10800000000000000
+      internalID: 2202347668749791616
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_143
+      name: zombie_skin_141
       rect:
         serializedVersion: 2
         x: 512
@@ -4188,14 +3624,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92170d22015320170800000000000000
-      internalID: 8143129419659112745
+      spriteID: cd8d3bd36436eec70800000000000000
+      internalID: 9002241858494257372
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_144
+      name: zombie_skin_142
       rect:
         serializedVersion: 2
         x: 576
@@ -4209,14 +3645,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 569b971e6631a1920800000000000000
-      internalID: 2961701037539965285
+      spriteID: 9b266df8401658b70800000000000000
+      internalID: 8900626910788608697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_145
+      name: zombie_skin_143
       rect:
         serializedVersion: 2
         x: 640
@@ -4230,14 +3666,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff3065678f54aa630800000000000000
-      internalID: 3939037757528474623
+      spriteID: a4f7564f0ba7abcc0800000000000000
+      internalID: -3694505643870945462
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_146
+      name: zombie_skin_144
       rect:
         serializedVersion: 2
         x: 704
@@ -4251,14 +3687,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07bce9a5eea092fd0800000000000000
-      internalID: -2366348110367634576
+      spriteID: 534d03c54f50e1690800000000000000
+      internalID: -7629654171642178507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_147
+      name: zombie_skin_145
       rect:
         serializedVersion: 2
         x: 768
@@ -4272,14 +3708,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 884321b72ff92b5c0800000000000000
-      internalID: -4201119638587558776
+      spriteID: 097c9dae3267034c0800000000000000
+      internalID: -4309814946757490800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_148
+      name: zombie_skin_146
       rect:
         serializedVersion: 2
         x: 0
@@ -4293,14 +3729,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8cdf8aac970b9990800000000000000
-      internalID: -7378295195058578294
+      spriteID: 8490aea3170c18720800000000000000
+      internalID: 2846768032027117896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_149
+      name: zombie_skin_147
       rect:
         serializedVersion: 2
         x: 64
@@ -4314,14 +3750,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8b66b2287e5da4c0800000000000000
-      internalID: -4274656601233265777
+      spriteID: fd280fea86091d320800000000000000
+      internalID: 2581002840746001119
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_150
+      name: zombie_skin_148
       rect:
         serializedVersion: 2
         x: 128
@@ -4335,14 +3771,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37821e1ceebd36e60800000000000000
-      internalID: 7954443185367885939
+      spriteID: 3d74a2d22abf32b60800000000000000
+      internalID: 7720290860204181459
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_151
+      name: zombie_skin_149
       rect:
         serializedVersion: 2
         x: 192
@@ -4356,14 +3792,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bdf91a59d37c5e220800000000000000
-      internalID: 2514635034273619931
+      spriteID: 5e6662a4e927a5cd0800000000000000
+      internalID: -2568614613287016731
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_152
+      name: zombie_skin_150
       rect:
         serializedVersion: 2
         x: 256
@@ -4377,14 +3813,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4640a1e9aaf345fc0800000000000000
-      internalID: -3507108207785278364
+      spriteID: dadc73d3cc05b5e90800000000000000
+      internalID: -7035941154705650259
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_153
+      name: zombie_skin_151
       rect:
         serializedVersion: 2
         x: 320
@@ -4398,14 +3834,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9531c4dce0d26e20800000000000000
-      internalID: 3342463589062620570
+      spriteID: 3bc3d26ff2a7ec0e0800000000000000
+      internalID: -2247724817599087437
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_154
+      name: zombie_skin_152
       rect:
         serializedVersion: 2
         x: 384
@@ -4419,14 +3855,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: abb6f6b1d45c1b120800000000000000
-      internalID: 2427938609092848570
+      spriteID: 88cd05bca016083c0800000000000000
+      internalID: -4359377740305998712
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_155
+      name: zombie_skin_153
       rect:
         serializedVersion: 2
         x: 448
@@ -4440,14 +3876,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2856787a9dffe4d70800000000000000
-      internalID: 9029435613208077698
+      spriteID: 01deab55bd6409470800000000000000
+      internalID: 8399291212896070928
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_156
+      name: zombie_skin_154
       rect:
         serializedVersion: 2
         x: 512
@@ -4461,14 +3897,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 276802b0ddd8f8090800000000000000
-      internalID: -8030043630064335246
+      spriteID: 04ad1cd27482a3e40800000000000000
+      internalID: 5636862169783065152
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_157
+      name: zombie_skin_155
       rect:
         serializedVersion: 2
         x: 576
@@ -4482,14 +3918,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c18206b1e69aa3e0800000000000000
-      internalID: -2041653584893673016
+      spriteID: a3ac6d6a69edb1360800000000000000
+      internalID: 7141546372751608378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_158
+      name: zombie_skin_156
       rect:
         serializedVersion: 2
         x: 640
@@ -4503,14 +3939,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b55797f591849270800000000000000
-      internalID: 8256366497980962229
+      spriteID: 6ee0d5baeb6988960800000000000000
+      internalID: 7604493716478037734
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_159
+      name: zombie_skin_157
       rect:
         serializedVersion: 2
         x: 704
@@ -4524,14 +3960,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5861bb73acee5f000800000000000000
-      internalID: 69223921579923077
+      spriteID: e7775ba32f65fdf70800000000000000
+      internalID: 9214178960990369662
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_160
+      name: zombie_skin_158
       rect:
         serializedVersion: 2
         x: 768
@@ -4545,14 +3981,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca47a4fb34033c490800000000000000
-      internalID: -7727279468107369300
+      spriteID: e76beeb1a17012be0800000000000000
+      internalID: -1503912991845861762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_161
+      name: zombie_skin_159
       rect:
         serializedVersion: 2
         x: 0
@@ -4566,14 +4002,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 476eb1d93a67f8670800000000000000
-      internalID: 8543177463232718452
+      spriteID: 476fa5b67cb10e910800000000000000
+      internalID: 1864520789044950644
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_162
+      name: zombie_skin_160
       rect:
         serializedVersion: 2
         x: 64
@@ -4587,14 +4023,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0da9eb39b1f30bcb0800000000000000
-      internalID: -4850307411002615088
+      spriteID: e43ebf88790dfc010800000000000000
+      internalID: 1211416174042800974
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_163
+      name: zombie_skin_161
       rect:
         serializedVersion: 2
         x: 128
@@ -4608,14 +4044,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35e202be1b4d411c0800000000000000
-      internalID: -4533765064236192173
+      spriteID: 28c144e0d64b66900800000000000000
+      internalID: 677427174449618050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_164
+      name: zombie_skin_162
       rect:
         serializedVersion: 2
         x: 192
@@ -4629,14 +4065,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1f190c85ba1c1d10800000000000000
-      internalID: 2097580893488619292
+      spriteID: 130f3435e04f44370800000000000000
+      internalID: 8306031955141718065
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_165
+      name: zombie_skin_163
       rect:
         serializedVersion: 2
         x: 256
@@ -4650,14 +4086,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6cd5eb3303511ca40800000000000000
-      internalID: 5386609926082551238
+      spriteID: 5bab688cf8c86e710800000000000000
+      internalID: 1722218456688278197
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_166
+      name: zombie_skin_164
       rect:
         serializedVersion: 2
         x: 320
@@ -4671,14 +4107,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db596cc0fb1935c60800000000000000
-      internalID: 7805742828902323645
+      spriteID: d7b2ad92b43694d00800000000000000
+      internalID: 957405570268801917
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_167
+      name: zombie_skin_165
       rect:
         serializedVersion: 2
         x: 384
@@ -4692,14 +4128,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2b5f4a23d34dc8d0800000000000000
-      internalID: -2824526817064428756
+      spriteID: 8d04d184b4dcdf8d0800000000000000
+      internalID: -2810864869193203496
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_168
+      name: zombie_skin_166
       rect:
         serializedVersion: 2
         x: 448
@@ -4713,14 +4149,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d33fa850ec4147e0800000000000000
-      internalID: -1783059451017743407
+      spriteID: 88962c97ee9cc2ba0800000000000000
+      internalID: -6112288568166422136
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_169
+      name: zombie_skin_167
       rect:
         serializedVersion: 2
         x: 512
@@ -4734,14 +4170,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c19ad9e99e2f98770800000000000000
-      internalID: 8613682847525218588
+      spriteID: f918acad7326759e0800000000000000
+      internalID: -1632728347865087585
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_170
+      name: zombie_skin_168
       rect:
         serializedVersion: 2
         x: 576
@@ -4755,14 +4191,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3f9743602b764340800000000000000
-      internalID: 4847697427945725756
+      spriteID: 61b79e8b0428eac90800000000000000
+      internalID: -7156639543353312490
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_171
+      name: zombie_skin_169
       rect:
         serializedVersion: 2
         x: 640
@@ -4776,14 +4212,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01b138fbb4ccc1790800000000000000
-      internalID: -7557941448926881008
+      spriteID: 511e78be28debb210800000000000000
+      internalID: 1349933659880677653
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_172
+      name: zombie_skin_170
       rect:
         serializedVersion: 2
         x: 704
@@ -4797,14 +4233,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6e9480506c3a55a0800000000000000
-      internalID: -6531841925182087574
+      spriteID: 70312b148f482dc60800000000000000
+      internalID: 7841476102994400007
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_173
+      name: zombie_skin_171
       rect:
         serializedVersion: 2
         x: 768
@@ -4818,14 +4254,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ee5b23cd174e3d60800000000000000
-      internalID: 7871807391844228841
+      spriteID: d4ab32110dca9c760800000000000000
+      internalID: 7478698665866148429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_174
+      name: zombie_skin_172
       rect:
         serializedVersion: 2
         x: 0
@@ -4839,14 +4275,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56148cae2d9d4d790800000000000000
-      internalID: -7506135179014422171
+      spriteID: e9f1f06bee3695ef0800000000000000
+      internalID: -118954038240796770
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_175
+      name: zombie_skin_173
       rect:
         serializedVersion: 2
         x: 64
@@ -4860,14 +4296,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7dc56b9789382c10800000000000000
-      internalID: 2028934886720916859
+      spriteID: 00b04bb8a8b9506f0800000000000000
+      internalID: -718997546144101632
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_176
+      name: zombie_skin_174
       rect:
         serializedVersion: 2
         x: 128
@@ -4881,14 +4317,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f9ffb9d6e94ff960800000000000000
-      internalID: 7637904748888193526
+      spriteID: 099ffe1990fdcf6f0800000000000000
+      internalID: -649399014052071024
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_177
+      name: zombie_skin_175
       rect:
         serializedVersion: 2
         x: 192
@@ -4902,14 +4338,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dad6e3372002cea50800000000000000
-      internalID: 6551646752812723629
+      spriteID: 7eb10c67a39b87b00800000000000000
+      internalID: 826614192374029287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_178
+      name: zombie_skin_176
       rect:
         serializedVersion: 2
         x: 256
@@ -4923,14 +4359,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 043a2d63637115230800000000000000
-      internalID: 3625704696625406784
+      spriteID: 4e17f9228218b8b10800000000000000
+      internalID: 1984822070166385124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player1_179
+      name: zombie_skin_177
       rect:
         serializedVersion: 2
         x: 320
@@ -4944,8 +4380,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32aaf87326209a580800000000000000
-      internalID: -8815512174738822621
+      spriteID: ba07cb56bc4828b40800000000000000
+      internalID: 5441057308937056427
       vertices: []
       indices: 
       edges: []
