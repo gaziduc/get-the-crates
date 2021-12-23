@@ -880,7 +880,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (previousNumBots > maxNumBots)
             numBotsDropdown.value = maxNumBots;
         else
-            numBotsDropdown.value = previousNumBots;
+            numBotsDropdown.SetValueWithoutNotify(previousNumBots);
         
         numBotsDropdown.RefreshShownValue();
     }
