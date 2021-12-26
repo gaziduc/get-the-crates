@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
     [HideInInspector] public PhotonView view;
     public int initialHealth;
     public int health;
+    public bool invincible = false;
 
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private GameObject deathByDiskEffect;
@@ -27,7 +28,7 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator Respawn(PlayerHealth player, PhotonView v)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         if (v.IsMine)
         {
@@ -39,11 +40,12 @@ public class PlayerHealth : MonoBehaviour
         }
             
         
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         
         player.health = initialHealth;
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         player.transform.localScale = Vector3.one;
+        player.invincible = true;
         
         PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
             
@@ -55,13 +57,28 @@ public class PlayerHealth : MonoBehaviour
         
         // Spawn particle effects
         GameObject.Instantiate(spawnPrefab, transform.position, Quaternion.identity);
+
+        SpriteRenderer sp = player.GetComponent<SpriteRenderer>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(0.25f);
+            sp.enabled = false;
+            yield return new WaitForSeconds(0.25f);
+            sp.enabled = true;
+        }
+        
+        player.invincible = false;
     }
 
     [PunRPC]
     void HurtRPC(int weaponDamage, int ViewID, int ShooterID, int weaponNum)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(ViewID);
-        PlayerHealth player = v.GetComponent<PlayerHealth>(); 
+        PlayerHealth player = v.GetComponent<PlayerHealth>();
+
+        if (player.invincible)
+            return;
         
         player.health -= weaponDamage;
         HealthBarAbovePlayer health = v.GetComponent<HealthBarAbovePlayer>();
@@ -91,14 +108,17 @@ public class PlayerHealth : MonoBehaviour
             if (LevelManager.instance.winCondition == LevelManager.WinCondition.KillMostPlayers)
             {
                 PhotonView shooterView = PhotonNetwork.GetPhotonView(ShooterID);
-                PlayerScore shooterScore = shooterView.GetComponent<PlayerScore>();
-                shooterScore.IncrementScoreRPC(true);
-
                 Bot bot = shooterView.GetComponent<Bot>();
-                if (bot)
-                    bot.score++;
-                else
+                
+                if (shooterView.IsMine && bot == null)
+                {
                     shooterView.Owner.AddScore(1);
+                    PlayerScore shooterScore = shooterView.GetComponent<PlayerScore>();
+                    shooterScore.PlayScoreSound();
+                    shooterScore.AddPlusOne();
+                }
+                else if (bot)
+                    bot.score++;
             }
             
             StartCoroutine(Respawn(player, v));

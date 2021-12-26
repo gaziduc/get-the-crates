@@ -36,6 +36,7 @@ public class Bot : MonoBehaviour
 
     private Path path;
     private int currentWaypoint = 0;
+    private bool jumped = false;
     private Seeker seeker;
     private Rigidbody2D rb;
     private PhotonView view;
@@ -102,8 +103,15 @@ public class Bot : MonoBehaviour
         {
             if (target != null && TargetInDistance() && followEnabled)
             {
-                rb.velocity = new Vector2(force.x * Time.fixedDeltaTime, rb.velocity.y + force.y);
-                force.y = 0;
+                if (jumped)
+                {
+                    rb.velocity = new Vector2(force.x * Time.fixedDeltaTime, jumpModifier);
+                    jumped = false;
+                }
+                else
+                {
+                    rb.velocity = new Vector2(force.x * Time.fixedDeltaTime, rb.velocity.y);
+                }
             }
         }
     }
@@ -155,9 +163,9 @@ public class Bot : MonoBehaviour
 
         // Jump and movement
         if (jumpEnabled && IsGrounded() && direction.y > jumpNodeHeightRequirement)
-            force = new Vector2(force.x, jumpModifier);
-        else // Movement
-            force = new Vector2(force.x, 0);
+            jumped = true;
+        
+        force = new Vector2(force.x, 0);
         
         // Next Waypoint
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
@@ -199,10 +207,7 @@ public class Bot : MonoBehaviour
 
             // Add 1 to score if it is Get Most Crates mode
             if (LevelManager.instance.winCondition == LevelManager.WinCondition.GetMostCrates)
-            {
-                view.RPC("IncrementScoreRPC", RpcTarget.All, isWeaponCrate);
                 score++;
-            }
 
             // Handle
             if (isWeaponCrate)
@@ -214,13 +219,12 @@ public class Bot : MonoBehaviour
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);
 
             // Transfer ownership...
-            other.GetComponent<PhotonView>().TransferOwnership(view.Owner);
+            PhotonView crateView = other.GetComponent<PhotonView>();
+            crateView.TransferOwnership(view.Owner);
 
             // ...to move position
-            other.transform.position = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
-            crate.SetSprite(Random.Range(0, 8) == 0 ? 1 : 0);
-
-            crate.SetSpawnEffect();
+            Vector3 newPos = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
+            crateView.RPC("SetNewCrateRPC", RpcTarget.All, newPos.x, newPos.y, Random.Range(0, 8) == 0 ? 1 : 0);
         }
     }
 }

@@ -72,11 +72,8 @@ public class PlayerMovement : MonoBehaviour
                     anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
             }
-            else if (Input.GetKey(controls[(int) Options.Controls.Right]) || (gamepad != null &&
-                                                                              gamepad[
-                                                                                      gamepadControls[
-                                                                                          (int) Options.Controls.Right]]
-                                                                                  .IsPressed()))
+            else if (Input.GetKey(controls[(int) Options.Controls.Right])
+                     || (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Right]].IsPressed()))
             {
                 sp.flipX = true;
                 if (!anim.GetBool("IsRunning"))
@@ -152,7 +149,9 @@ public class PlayerMovement : MonoBehaviour
             // Add 1 to score if it is Get Most Crates mode
             if (LevelManager.instance.winCondition == LevelManager.WinCondition.GetMostCrates)
             {
-                view.RPC("IncrementScoreRPC", RpcTarget.All, isWeaponCrate);
+                PlayerScore playerScore = GetComponent<PlayerScore>();
+                playerScore.PlayScoreSound();
+                playerScore.AddPlusOne();
                 PhotonNetwork.LocalPlayer.AddScore(1);
             }
 
@@ -166,13 +165,12 @@ public class PlayerMovement : MonoBehaviour
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);
 
             // Transfer ownership...
-            other.GetComponent<PhotonView>().TransferOwnership(view.Owner);
+            PhotonView crateView = other.GetComponent<PhotonView>();
+            crateView.TransferOwnership(view.Owner);
 
             // ...to move position
-            other.transform.position = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
-            crate.SetSprite(Random.Range(0, 8) == 0 ? 1 : 0);
-
-            crate.SetSpawnEffect();
+            Vector3 newPos = SpawnManager.instance.GetCrateNewPosition(other.transform.position);
+            crateView.RPC("SetNewCrateRPC", RpcTarget.All, newPos.x, newPos.y, Random.Range(0, 8) == 0 ? 1 : 0);
         }
     }
 }

@@ -41,7 +41,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
     
     private Text[] infoTexts;
 
-    private float gameDuration = 90f;
+    private float gameDuration = 100f;
     private float countdownDuration = 3f;
     
     private float timeRemaining;
@@ -250,7 +250,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
         
         if (!endPanel.activeInHierarchy)
         {
-            timeRemaining = beginTime + 90f - Time.realtimeSinceStartup;
+            timeRemaining = beginTime + gameDuration - Time.realtimeSinceStartup;
             SetTimeText();
 
             if (!ended && timeRemaining <= 0f)
@@ -329,7 +329,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
         {
             Bot bot = p.GetComponent<Bot>();
             if (bot)
+            {
                 playersInfos.Add(("Bot", bot.score));
+            }
         }
         
         (string, int)[] infosArray = playersInfos.ToArray();
@@ -407,7 +409,6 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(0.5f);
         
-        PhotonNetwork.CurrentRoom.IsVisible = true;
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.LoadLevel(0);
     }

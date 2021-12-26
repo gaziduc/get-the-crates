@@ -7,6 +7,7 @@ public class PlayerScore : MonoBehaviour
 {
     private PhotonView view;
     [SerializeField] private AudioSource crate;
+    [SerializeField] private GameObject plusOne;
 
     void Start()
     {
@@ -27,10 +28,14 @@ public class PlayerScore : MonoBehaviour
         v.transform.GetChild(1).GetChild(3).GetComponent<Text>().text = nickname;
     }
     
-    [PunRPC]
-    public void IncrementScoreRPC(bool playSound)
+    public void PlayScoreSound()
     {
-        if (playSound)
-            crate.Play();
+        crate.Play();
+    }
+
+    public void AddPlusOne()
+    {
+        GameObject text = GameObject.Instantiate(plusOne, transform.position + Vector3.up * 2.4f, Quaternion.identity);
+        text.GetComponent<TextMesh>().text = "+1";
     }
 }

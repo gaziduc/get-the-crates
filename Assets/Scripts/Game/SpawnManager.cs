@@ -94,9 +94,22 @@ public class SpawnManager : MonoBehaviour
         do
         {
             newPos = cratePosition[Random.Range(0, cratePosition.Length)];
-        } while (Vector3.Distance(newPos, lastPos) < 2);
+        } while (Vector3.Distance(newPos, lastPos) < 1f || IsNearPlayer(newPos));
 
         return newPos;
+    }
+
+    private bool IsNearPlayer(Vector3 pos)
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players)
+        {
+            if (Vector3.Distance(pos, player.transform.position) < 2f)
+                return true;
+        }
+
+        return false;
     }
     
 

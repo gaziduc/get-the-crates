@@ -55,6 +55,7 @@ MonoBehaviour:
   - WeaponEffectRPC
   - SetSpawnEffectRPC
   - SetNumBotsStateRPC
+  - SetNewCrateRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

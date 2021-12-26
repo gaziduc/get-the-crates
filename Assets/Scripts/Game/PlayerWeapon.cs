@@ -15,18 +15,16 @@ public class PlayerWeapon : MonoBehaviour
     private float reload;
     public bool isReloaded;
 
-    private PhotonView view;
-    
     [SerializeField] private GameObject weaponTextPrefab;
     [SerializeField] private Sprite[] weaponSprites;
     [SerializeField] private AudioSource shoot;
+    [SerializeField] private AudioSource weaponSound;
     
     private void Start()
     {
         float sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.3f);
         shoot.volume = sfxVolume;
-        
-        view = GetComponent<PhotonView>();
+        weaponSound.volume = sfxVolume;
     }
 
     void Update()
@@ -97,6 +95,8 @@ public class PlayerWeapon : MonoBehaviour
         {
             GameObject weaponText = GameObject.Instantiate(weaponTextPrefab, player.position + Vector3.up * 3f, Quaternion.identity);
             weaponText.GetComponent<TextMesh>().text = weaponName[weaponNum];
+            
+            weaponSound.Play();
         }
     }
     
