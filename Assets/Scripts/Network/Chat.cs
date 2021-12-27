@@ -197,10 +197,13 @@ public class Chat : MonoBehaviour
 
                     for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
                     {
-                        if (photonView.IsMine)
-                            playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = voiceView.IsRecording;
-                        else if (PhotonNetwork.PlayerList[i].ActorNumber == photonView.OwnerActorNr)
-                            playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = voiceView.IsSpeaking;
+                        if (PhotonNetwork.PlayerList[i].ActorNumber == photonView.OwnerActorNr)
+                        {
+                            if (photonView.IsMine)
+                                playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = voiceView.IsRecording;
+                            else
+                                playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = voiceView.IsSpeaking;
+                        }
                     }
                 }
             }
