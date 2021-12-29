@@ -130,7 +130,10 @@ public class SpawnManager : MonoBehaviour
                 int skinNum = PlayerPrefs.GetInt("SkinNum", 0);
                 if (skinNum >= playerPrefabToInstantiate.Length)
                     skinNum = 0;
-                
+
+                if (view.IsMine && skinNum == 2)
+                    GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().UnlockTrophyIfNotAchieved("Magician", "Launch a game with magician skin.");
+
                 PhotonNetwork.Instantiate(playerPrefabToInstantiate[skinNum].name, spawnPosition[index], Quaternion.identity);
                 
                 instantiated = true;

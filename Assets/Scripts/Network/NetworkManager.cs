@@ -70,7 +70,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Toggle hiddenRoomToggle;
     [SerializeField] private GameObject skinsPanel;
     [SerializeField] private GameObject friendsPanel;
-    
+    [SerializeField] private GameObject trophiesButtonPanel;
+    [SerializeField] private GameObject trophiesPanelContent;
+    [SerializeField] private AudioSource trophySound;
+    [SerializeField] private GameObject trophyPanel;
     
     private string playerIdCache = "";
     private string username = "";
@@ -82,6 +85,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private float UIAnimDelay = 0.2f;
     private float lastFriendsUpdateTime = 0f;
+
+    public bool[] trophiesUnlocked = null;
 
     private void Awake()
     {
@@ -118,6 +123,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else
         {
             nicknameText.text = PhotonNetwork.NickName;
+            trophiesButtonPanel.SetActive(true);
+            
+            if (String.IsNullOrEmpty(playerIdCache))
+                playerIdCache = PlayerPrefs.GetString("PlayerIdCache", "");
+            
+            if (!String.IsNullOrEmpty(playerIdCache))
+                GetUserData(playerIdCache);
+            
             OnJoinedRoom();
         }
     }
@@ -216,6 +229,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void RequestToken(LoginResult result)
     {
         playerIdCache = result.PlayFabId;
+        PlayerPrefs.SetString("PlayerIdCache", playerIdCache);
+        PlayerPrefs.Save();
 
         GetPhotonAuthenticationTokenRequest request = new GetPhotonAuthenticationTokenRequest();
         request.PhotonApplicationId = PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime;
@@ -432,6 +447,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (result.Created)
         {
+            UnlockTrophyIfNotAchieved("Hello my friend!", "Add a friend to your friend list.");
             PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError);
         }
     }
@@ -441,8 +457,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
+        
         if (!isGuest)
-            PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError);
+        {
+            if (!String.IsNullOrEmpty(playerIdCache))
+                GetUserData(playerIdCache);
+            
+            PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest() { ProfileConstraints = null }, FriendListResult, OnFriendListError); 
+        }
         
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteJoinedLobby);
     }
@@ -463,6 +485,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetCurrentSkin();
         ActivateUIElement(friendsPanel);
         ActivateUIElement(logoffPanel);
+        if (!trophiesButtonPanel.activeSelf)
+            ActivateUIElement(trophiesButtonPanel);
 
         bool isGuest = (bool) PhotonNetwork.LocalPlayer.CustomProperties["guest"];
         if (isGuest)
@@ -943,6 +967,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         menuPanel.SetActive(false);
         connectingPanel.SetActive(false);
         statusPanel.SetActive(false);
+        logoffPanel.SetActive(false);
+        trophiesButtonPanel.SetActive(false);
 
         ActivateUIElement(disconnectedPanel);
 
@@ -1133,8 +1159,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void Logout()
     {
         backSound.Play();
+        LeanTween.scale(trophiesButtonPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(skinsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(friendsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+        LeanTween.scale(logoffPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(menuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLogout);
     }
     
@@ -1143,17 +1171,107 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         skinsPanel.SetActive(false);
         friendsPanel.SetActive(false);
         menuPanel.SetActive(false);
-        
+        logoffPanel.SetActive(false);
+        trophiesButtonPanel.SetActive(false);
+
         ActivateUIElement(connectingPanel);
         PhotonNetwork.Disconnect();
+        PlayFabClientAPI.ForgetAllCredentials();
         
         LeanTween.scale(connectingPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteDisconnecting);
     }
 
     private void OnCompleteDisconnecting()
     {
-        LeanTween.scale(logoffPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
-        
         ActivateUIElement(nicknamePanel);
+    }
+
+    void GetUserData(string myPlayFabId) {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest() {
+            PlayFabId = myPlayFabId,
+            Keys = null
+        }, result => {
+            if (result.Data == null)
+                return;
+
+            trophiesUnlocked = new bool[trophiesPanelContent.transform.childCount];
+            
+            for (int i = 0; i < trophiesPanelContent.transform.childCount; i++)
+            {
+                string key = trophiesPanelContent.transform.GetChild(i).GetChild(1).GetComponent<Text>().text;
+                
+                // If achieved
+                if (result.Data.ContainsKey(key) && result.Data[key].Value == "true")
+                    trophiesUnlocked[i] = true;
+                else
+                    trophiesUnlocked[i] = false;
+            }
+        }, (error) => {
+            Debug.LogError(error.GenerateErrorReport());
+        });
+    }
+    
+    
+    
+    private void UnlockTrophy(string trophyName, string trophyDescription)
+    {
+        SetUserData(trophyName, "true");
+        
+        trophySound.Play();
+        
+        trophyPanel.SetActive(true);
+        trophyPanel.transform.localScale = Vector3.zero;
+        trophyPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = trophyName;
+        trophyPanel.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = trophyDescription;
+        LeanTween.scale(trophyPanel, Vector3.one, 0.2f).setEaseOutBack();
+        StartCoroutine(HideTrophyCoroutine());
+    }
+
+    private IEnumerator HideTrophyCoroutine()
+    {
+        yield return new WaitForSeconds(4f);
+        LeanTween.scale(trophyPanel, Vector3.zero, 0.2f).setEaseInBack();
+    }
+    
+    void SetUserData(string key, string value) {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest() {
+                Data = new Dictionary<string, string>() {
+                    {key, value},
+                }
+            },
+            result => Debug.Log("Successfully updated user data " + key + " to " + value),
+            error => Debug.LogError(error.GenerateErrorReport()));
+    }
+    
+    public void UnlockTrophyIfNotAchieved(string trophyName, string trophyDescription)
+    {
+        if (!PlayFabClientAPI.IsClientLoggedIn())
+            return;
+        
+        string playerIdCache = PlayerPrefs.GetString("PlayerIdCache", "");
+        if (String.IsNullOrEmpty(playerIdCache))
+            return;
+        
+        List<string> keys = new List<string>();
+        keys.Add(trophyName);
+        
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest() {
+            PlayFabId = playerIdCache,
+            Keys = keys
+        }, result => {
+            if (result.Data == null)
+            {
+                UnlockTrophy(trophyName, trophyDescription);
+                return;
+            }
+            
+            // If achieved
+            if (result.Data.ContainsKey(trophyName) && result.Data[trophyName].Value == "true")
+                return;
+            
+            UnlockTrophy(trophyName, trophyDescription);
+        }, (error) => {
+            Debug.LogError(error.GenerateErrorReport());
+        });
     }
 }

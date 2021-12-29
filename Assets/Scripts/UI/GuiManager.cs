@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -35,6 +37,8 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text thirtySecRemainingText;
     [SerializeField] private Text tenSecRemainingText;
     [SerializeField] private AudioSource secRemainingSound;
+    [SerializeField] private GameObject trophyPanel;
+    [SerializeField] private AudioSource trophySound;
     
     // default selected buttons (for keyboard and gamepad)
     [SerializeField] private GameObject pauseDefault;
@@ -166,11 +170,11 @@ public class GuiManager : MonoBehaviourPunCallbacks
     {
         Player[] players = PhotonNetwork.PlayerList;
 
-        List<(string, int)> playersInfos = new List<(string, int)>();
+        List<(string, int, bool)> playersInfos = new List<(string, int, bool)>();
         
         // Real players
         foreach (var p in players)
-            playersInfos.Add((p.NickName, p.GetScore()));
+            playersInfos.Add((p.NickName, p.GetScore(), p.IsLocal));
 
         // Bots
         GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
@@ -178,11 +182,11 @@ public class GuiManager : MonoBehaviourPunCallbacks
         {
             Bot bot = p.GetComponent<Bot>();
             if (bot)
-                playersInfos.Add(("Bot", bot.score));
+                playersInfos.Add(("Bot", bot.score, false));
         }
             
         
-        (string, int)[] infosArray = playersInfos.ToArray();
+        (string, int, bool)[] infosArray = playersInfos.ToArray();
 
         Array.Sort(infosArray, (p1, p2) => p2.Item2.CompareTo(p1.Item2));
         string nicknameText = "";
@@ -292,7 +296,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
         pausePanel.SetActive(false);
     }
 
-    private void GetScoreBoardText((string, int)[] infos, ref string nicknames, ref string scores)
+    private void GetScoreBoardText((string, int, bool)[] infos, ref string nicknames, ref string scores)
     {
         for (int i = 0; i < infos.Length - 1; i++)
         {
@@ -317,11 +321,13 @@ public class GuiManager : MonoBehaviourPunCallbacks
         
         Player[] players = PhotonNetwork.PlayerList;
 
-        List<(string, int)> playersInfos = new List<(string, int)>();
+        List<(string, int, bool)> playersInfos = new List<(string, int, bool)>();
         
         // Real players
         foreach (var p in players)
-            playersInfos.Add((p.NickName, p.GetScore()));
+        {
+            playersInfos.Add((p.NickName, p.GetScore(), p.IsLocal));
+        }
 
         // Bots
         GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
@@ -330,11 +336,11 @@ public class GuiManager : MonoBehaviourPunCallbacks
             Bot bot = p.GetComponent<Bot>();
             if (bot)
             {
-                playersInfos.Add(("Bot", bot.score));
+                playersInfos.Add(("Bot", bot.score, false));
             }
         }
         
-        (string, int)[] infosArray = playersInfos.ToArray();
+        (string, int, bool)[] infosArray = playersInfos.ToArray();
 
         Array.Sort(infosArray, (p1, p2) => p2.Item2.CompareTo(p1.Item2));
         string nicknameText = "";
@@ -343,13 +349,23 @@ public class GuiManager : MonoBehaviourPunCallbacks
         scoreboardText.text = nicknameText;
         scoresText.text = scoreText;
         
+        // Trophy "Winner"
+        if (infosArray[0].Item3)
+        {
+            UnlockTrophyIfNotAchieved("Winner", "Win a game!");
+
+            int numBots = (int) PhotonNetwork.CurrentRoom.CustomProperties["bots"];
+            if (numBots == 3)
+                StartCoroutine(TrophyWithDelay());
+        }
+        
         end.Play();
         
         endPanel.SetActive(true);
         endPanel.transform.localScale = Vector3.zero;
         backToRoomButton.SetActive(false);
         LeanTween.scale(endPanel, Vector3.one, 0.2f).setEaseOutBack();
-
+        
         if (PhotonNetwork.IsMasterClient)
         {
             string winner = players[0].NickName;
@@ -375,6 +391,12 @@ public class GuiManager : MonoBehaviourPunCallbacks
         StartCoroutine(ShowButton());
     }
 
+    private IEnumerator TrophyWithDelay()
+    {
+        yield return new WaitForSeconds(0.75f);
+        UnlockTrophyIfNotAchieved("Is it hard?", "Win against 3 bots.");
+    }
+    
     private IEnumerator ShowButton()
     {
         yield return new WaitForSeconds(2f);
@@ -416,5 +438,68 @@ public class GuiManager : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         chatView.GetComponent<Chat>().SetVoiceStatus();
+    }
+
+
+    private void UnlockTrophy(string trophyName, string trophyDescription)
+    {
+        SetUserData(trophyName, "true");
+        
+        trophySound.Play();
+        
+        trophyPanel.SetActive(true);
+        trophyPanel.transform.localScale = Vector3.zero;
+        trophyPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = trophyName;
+        trophyPanel.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = trophyDescription;
+        LeanTween.scale(trophyPanel, Vector3.one, 0.2f).setEaseOutBack();
+        StartCoroutine(HideTrophyCoroutine());
+    }
+
+    private IEnumerator HideTrophyCoroutine()
+    {
+        yield return new WaitForSeconds(4f);
+        LeanTween.scale(trophyPanel, Vector3.zero, 0.2f).setEaseInBack();
+    }
+    
+    void SetUserData(string key, string value) {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest() {
+                Data = new Dictionary<string, string>() {
+                    {key, value},
+                }
+            },
+            result => Debug.Log("Successfully updated user data " + key + " to " + value),
+            error => Debug.LogError(error.GenerateErrorReport()));
+    }
+    
+    public void UnlockTrophyIfNotAchieved(string trophyName, string trophyDescription)
+    {
+        if (!PlayFabClientAPI.IsClientLoggedIn())
+            return;
+        
+        string playerIdCache = PlayerPrefs.GetString("PlayerIdCache", "");
+        if (String.IsNullOrEmpty(playerIdCache))
+            return;
+        
+        List<string> keys = new List<string>();
+        keys.Add(trophyName);
+        
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest() {
+            PlayFabId = playerIdCache,
+            Keys = keys
+        }, result => {
+            if (result.Data == null)
+            {
+                UnlockTrophy(trophyName, trophyDescription);
+                return;
+            }
+            
+            // If achieved
+            if (result.Data.ContainsKey(trophyName) && result.Data[trophyName].Value == "true")
+                return;
+            
+            UnlockTrophy(trophyName, trophyDescription);
+        }, (error) => {
+            Debug.LogError(error.GenerateErrorReport());
+        });
     }
 }

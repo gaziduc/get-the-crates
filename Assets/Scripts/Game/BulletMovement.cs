@@ -9,6 +9,7 @@ public class BulletMovement : MonoBehaviour
     public int viewID;
     public int weaponDamage;
     public int weaponNum;
+    private int numKilled = 0;
     
     private void Update()
     {
@@ -27,10 +28,22 @@ public class BulletMovement : MonoBehaviour
 
                 if (weaponNum != 4) // if not disk gun
                     GameObject.Destroy(gameObject);
+                else
+                    numKilled++;
             }
         }
         else if (other.CompareTag("Ground"))
+        {
+            if (numKilled >= 2)
+            {
+                PhotonView view = PhotonNetwork.GetPhotonView(viewID);
+                if (view.IsMine)
+                {
+                    GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().UnlockTrophyIfNotAchieved("Two in a row", "Kill 2 enemies with 1 shot.");
+                }
+            }
             GameObject.Destroy(gameObject);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other)

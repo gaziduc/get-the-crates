@@ -742,6 +742,7 @@ MonoBehaviour:
   view: {fileID: 0}
   initialHealth: 4
   health: 0
+  invincible: 0
   deathEffect: {fileID: 100004, guid: 7b7886b7173a4bd4cb2f45ca459f872c, type: 3}
   deathByDiskEffect: {fileID: 100000, guid: e55c7cf0f1281cb438d4d39b5c2bdace, type: 3}
   healthEffect: {fileID: 100004, guid: 9c1298636d9e1a0438ccc70056555539, type: 3}

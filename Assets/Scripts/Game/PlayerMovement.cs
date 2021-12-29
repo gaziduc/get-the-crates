@@ -162,7 +162,13 @@ public class PlayerMovement : MonoBehaviour
                 view.RPC("WeaponEffectRPC", RpcTarget.All, weapon.weaponNum, view.ViewID, true);
             }
             else
+            {
+                if (GetComponent<PlayerHealth>().health == 1)
+                    GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().UnlockTrophyIfNotAchieved("Useful health", "Pick-up a health crate when 1 HP.");
+                
                 view.RPC("HealRPC", RpcTarget.All, view.ViewID);
+            }
+                
 
             // Transfer ownership...
             PhotonView crateView = other.GetComponent<PhotonView>();

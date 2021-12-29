@@ -112,7 +112,12 @@ public class PlayerHealth : MonoBehaviour
                 
                 if (shooterView.IsMine && bot == null)
                 {
+                    int tempScore = shooterView.Owner.GetScore();
                     shooterView.Owner.AddScore(1);
+                    
+                    if (tempScore + 1 == 8)
+                        GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().UnlockTrophyIfNotAchieved("Killer", "Do 8+ kills in \"Kill most players\" mode.");
+                    
                     PlayerScore shooterScore = shooterView.GetComponent<PlayerScore>();
                     shooterScore.PlayScoreSound();
                     shooterScore.AddPlusOne();
