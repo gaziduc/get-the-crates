@@ -9,9 +9,18 @@ public class Trophies : MonoBehaviour
     [SerializeField] private NetworkManager net;
     [SerializeField] private GameObject trophiesPanelContent;
     [SerializeField] private GameObject notLoggedText;
+
+    public static Trophies instance;
+
+    void Start()
+    {
+        instance = this;
+    }
     
     public void ToggleTrophies()
     {
+        Options.instance.CloseOptions();
+        
         if (trophiesPanel.activeInHierarchy)
         {
             LeanTween.scale(trophiesPanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(() => { trophiesPanel.SetActive(false); });
@@ -28,8 +37,6 @@ public class Trophies : MonoBehaviour
                 
                 for (int i = 0; i < trophiesPanelContent.transform.childCount; i++)
                 {
-                    string key = trophiesPanelContent.transform.GetChild(i).GetChild(1).GetComponent<Text>().text;
-
                     // If achieved
                     if (net.trophiesUnlocked[i])
                         trophiesPanelContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = Color.white;
@@ -38,7 +45,18 @@ public class Trophies : MonoBehaviour
             else
             {
                 notLoggedText.SetActive(true);
+
+                const float c = 35f / 255f;
+                
+                for (int i = 0; i < trophiesPanelContent.transform.childCount; i++)
+                    trophiesPanelContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = new Color(c, c, c, 1f);
             }
         }
+    }
+
+    public void CloseTrophies()
+    {
+        if (trophiesPanel.activeInHierarchy)
+            LeanTween.scale(trophiesPanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(() => { trophiesPanel.SetActive(false); });
     }
 }

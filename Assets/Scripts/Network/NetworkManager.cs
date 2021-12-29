@@ -74,6 +74,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject trophiesPanelContent;
     [SerializeField] private AudioSource trophySound;
     [SerializeField] private GameObject trophyPanel;
+    [SerializeField] private GameObject trophiesPanel;
     
     private string playerIdCache = "";
     private string username = "";
@@ -969,6 +970,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         statusPanel.SetActive(false);
         logoffPanel.SetActive(false);
         trophiesButtonPanel.SetActive(false);
+        trophiesPanel.SetActive(false);
+        
 
         ActivateUIElement(disconnectedPanel);
 
@@ -1008,6 +1011,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             chatView.RPC("SendMessageRPC", RpcTarget.All, "<color=cyan>["  + PhotonNetwork.NickName + "]</color> " + text);
             chatInputField.text = "";
+            
+            UnlockTrophyIfNotAchieved("Chat", "Send a message in textual chat.");
         }
         
         // Re-select input field
@@ -1159,7 +1164,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void Logout()
     {
         backSound.Play();
+
+        PlayerPrefs.DeleteKey("PlayerIdCache");
+        PlayerPrefs.Save();
+
+        playerIdCache = "";
+
         LeanTween.scale(trophiesButtonPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
+        LeanTween.scale(trophiesPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(skinsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(friendsPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
         LeanTween.scale(logoffPanel, Vector3.zero, UIAnimDelay).setEaseInBack();
@@ -1173,6 +1185,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         menuPanel.SetActive(false);
         logoffPanel.SetActive(false);
         trophiesButtonPanel.SetActive(false);
+        trophiesPanel.SetActive(false);
+
+        nicknameText.text = "";
+        trophiesUnlocked = null;
 
         ActivateUIElement(connectingPanel);
         PhotonNetwork.Disconnect();
@@ -1229,7 +1245,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private IEnumerator HideTrophyCoroutine()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
+        
+        // to refresh achieved trophies list
+        GetUserData(playerIdCache);
+        
+        yield return new WaitForSeconds(2f);
+        
         LeanTween.scale(trophyPanel, Vector3.zero, 0.2f).setEaseInBack();
     }
     

@@ -21,6 +21,8 @@ public class Options : MonoBehaviour
     
     public void ToggleOptions()
     {
+        Trophies.instance.CloseTrophies();
+        
         if (optionsPanel.activeInHierarchy)
         {
             LeanTween.scale(optionsPanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(DeactivateOptionsPanel);
@@ -33,6 +35,11 @@ public class Options : MonoBehaviour
         }
     }
 
+    public void CloseOptions()
+    {
+        LeanTween.scale(optionsPanel, Vector3.zero, 0.2f).setEaseInBack().setOnComplete(DeactivateOptionsPanel);
+    }
+    
     void DeactivateOptionsPanel()
     {
         optionsPanel.SetActive(false);
