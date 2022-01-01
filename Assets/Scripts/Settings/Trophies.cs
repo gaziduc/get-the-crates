@@ -12,6 +12,8 @@ public class Trophies : MonoBehaviour
 
     public static Trophies instance;
 
+    private const float c = 35f / 255f;
+
     void Start()
     {
         instance = this;
@@ -40,13 +42,13 @@ public class Trophies : MonoBehaviour
                     // If achieved
                     if (net.trophiesUnlocked[i])
                         trophiesPanelContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = Color.white;
+                    else
+                        trophiesPanelContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = new Color(c, c, c, 1f);
                 }
             }
             else
             {
                 notLoggedText.SetActive(true);
-
-                const float c = 35f / 255f;
                 
                 for (int i = 0; i < trophiesPanelContent.transform.childCount; i++)
                     trophiesPanelContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = new Color(c, c, c, 1f);
