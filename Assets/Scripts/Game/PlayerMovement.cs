@@ -1,8 +1,10 @@
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
@@ -28,6 +30,11 @@ public class PlayerMovement : MonoBehaviour
     private KeyCode[] controls;
     private string[] gamepadControls;
 
+    private Joystick joystick;
+    private Button shootButton;
+    private bool mobileShooting = false;
+    private bool mobileShootingDown = false;
+
     void Start()
     {
         controls = new KeyCode[(int) Options.Controls.NumControls];
@@ -51,6 +58,27 @@ public class PlayerMovement : MonoBehaviour
         feet[0] = transform.GetChild(0).GetChild(0);
         feet[1] = transform.GetChild(0).GetChild(1);
         weapon = GetComponent<PlayerWeapon>();
+        GameObject joystickGameobject = GameObject.FindWithTag("Joystick");
+        if (joystickGameobject != null)
+            joystick = joystickGameobject.GetComponent<Joystick>();
+        GameObject shootButtonGameobject = GameObject.FindWithTag("ShootButton");
+        if (shootButtonGameobject != null)
+        {
+            shootButton = shootButtonGameobject.GetComponent<Button>();
+            
+            // Pointer down
+            EventTrigger.Entry downEntry = new EventTrigger.Entry();
+            downEntry.eventID = EventTriggerType.PointerDown;
+            downEntry.callback.AddListener(arg => { OnShootPointerDown((PointerEventData) arg); });
+            shootButton.GetComponent<EventTrigger>().triggers.Add(downEntry);
+            
+            // Pointer up
+            EventTrigger.Entry upEntry = new EventTrigger.Entry();
+            upEntry.eventID = EventTriggerType.PointerUp;
+            upEntry.callback.AddListener(arg => { OnShootPointerUp((PointerEventData) arg); });
+            shootButton.GetComponent<EventTrigger>().triggers.Add(upEntry);
+        }
+            
     }
 
     private void Update()
@@ -65,7 +93,8 @@ public class PlayerMovement : MonoBehaviour
             var gamepad = Gamepad.current;
 
             if (Input.GetKey(controls[(int) Options.Controls.Left]) ||
-                (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Left]].IsPressed()))
+                (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Left]].IsPressed()) ||
+                (joystick != null && joystick.Horizontal <= -0.2f))
             {
                 sp.flipX = false;
                 if (!anim.GetBool("IsRunning"))
@@ -73,7 +102,8 @@ public class PlayerMovement : MonoBehaviour
                 change.x = -moveSpeed;
             }
             else if (Input.GetKey(controls[(int) Options.Controls.Right])
-                     || (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Right]].IsPressed()))
+                     || (gamepad != null && gamepad[gamepadControls[(int) Options.Controls.Right]].IsPressed()) ||
+                     (joystick != null && joystick.Horizontal >= 0.2f))
             {
                 sp.flipX = true;
                 if (!anim.GetBool("IsRunning"))
@@ -93,18 +123,22 @@ public class PlayerMovement : MonoBehaviour
             var jumpControl = gamepad != null ? Gamepad.current[gamepadControls[(int) Options.Controls.Jump]] : null;
 
             if (IsGrounded() && (Input.GetKeyDown(controls[(int) Options.Controls.Jump]) || (gamepad != null &&
-                jumpControl is ButtonControl && ((ButtonControl) jumpControl).wasPressedThisFrame)))
+                jumpControl is ButtonControl && ((ButtonControl) jumpControl).wasPressedThisFrame) || 
+                (joystick != null && joystick.Vertical >= 0.7f)))
                 jump = true;
 
             var shootControl = gamepad != null ? Gamepad.current[gamepadControls[(int) Options.Controls.Shoot]] : null;
 
-            if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || (gamepad != null && shootControl.IsPressed()))
+            if (Input.GetKey(controls[(int) Options.Controls.Shoot]) || (gamepad != null && shootControl.IsPressed())
+                || (shootButton != null && (mobileShooting || mobileShootingDown)))
             {
                 if (weapon.isReloaded && (weapon.IsAutomatic() ||
                                           Input.GetKeyDown(controls[(int) Options.Controls.Shoot]) ||
                                           (gamepad != null && shootControl is ButtonControl &&
-                                           ((ButtonControl) shootControl).wasPressedThisFrame)))
+                                          ((ButtonControl) shootControl).wasPressedThisFrame) ||
+                                          (shootButton != null && mobileShootingDown)))
                 {
+                    mobileShootingDown = false;
                     view.RPC("ShootBulletRPC", RpcTarget.All, transform.position.x, transform.position.y,
                         weapon.weaponNum, direction.normalized.x, view.ViewID);
                     weapon.SetReloadBeginning();
@@ -125,6 +159,18 @@ public class PlayerMovement : MonoBehaviour
                 jump = false;
             }
         }
+    }
+
+    private void OnShootPointerDown(PointerEventData data)
+    {
+        mobileShooting = true;
+        mobileShootingDown = true;
+    }
+
+    private void OnShootPointerUp(PointerEventData data)
+    {
+        mobileShooting = false;
+        mobileShootingDown = false;
     }
 
     private bool IsGrounded()

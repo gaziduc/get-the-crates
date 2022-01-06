@@ -20,9 +20,10 @@ TagManager:
   - TransitionPanel
   - HealthBarP1
   - FxTemporaire
-  - HealthBarP2
   - NumPlayersDropdown
   - NumBotsDropdown
+  - Joystick
+  - ShootButton
   layers:
   - Default
   - TransparentFX

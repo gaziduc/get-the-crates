@@ -39,7 +39,9 @@ public class GuiManager : MonoBehaviourPunCallbacks
     [SerializeField] private AudioSource secRemainingSound;
     [SerializeField] private GameObject trophyPanel;
     [SerializeField] private AudioSource trophySound;
-    
+    [SerializeField] private Joystick joystick;
+    [SerializeField] private Button shootButton;
+
     // default selected buttons (for keyboard and gamepad)
     [SerializeField] private GameObject pauseDefault;
     
@@ -61,6 +63,11 @@ public class GuiManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        #if !UNITY_ANDROID && !UNITY_IOS
+            joystick.gameObject.SetActive(false);
+            shootButton.gameObject.SetActive(false);
+        #endif
+
         LeanTween.scale(transitionPanel, Vector3.zero, 0.4f).setEaseOutCubic();
         
         backToMenuButton.interactable = PhotonNetwork.IsMasterClient;
@@ -72,12 +79,13 @@ public class GuiManager : MonoBehaviourPunCallbacks
             infoTexts[i] = infoPanel.transform.GetChild(i).GetComponent<Text>();
             infoTexts[i].text = "";
         }
+        
         #if UNITY_WEBGL
             AddMessage("<color=lime>Please download the game to get voice chat.</color>");
-        #else
+        #elif UNITY_STANDALONE
             AddMessage("<color=lime>Press <color=cyan>Tab</color> to enable/disable voice chat.</color>");
         #endif
-        
+
         GameObject[] chatViews = GameObject.FindGameObjectsWithTag("ChatView");
 
         foreach (GameObject v in chatViews)
