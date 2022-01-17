@@ -24,6 +24,7 @@ TagManager:
   - NumBotsDropdown
   - Joystick
   - ShootButton
+  - IsTypingText
   layers:
   - Default
   - TransparentFX

@@ -445,7 +445,7 @@ public class GuiManager : MonoBehaviourPunCallbacks
     
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        chatView.GetComponent<Chat>().SetVoiceStatus();
+        chatView.GetComponent<Chat>().SetVoiceAndTypingStatus();;
     }
 
 

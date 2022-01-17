@@ -916,7 +916,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         chatView.GetComponent<Chat>().SendMessageRPC("<color=cyan>"  + otherPlayer.NickName + "</color> <color=orange>left the room.</color>");
         UpdatePlayerList();
         
-        chatView.GetComponent<Chat>().SetVoiceStatus();
+        chatView.GetComponent<Chat>().SetVoiceAndTypingStatus();
         
         SetNumBotsDropdownOptions();
     }
@@ -1106,7 +1106,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         while (chatView == null)
             yield return null;
         
-        chatView.GetComponent<Chat>().SetVoiceStatus();
+        chatView.GetComponent<Chat>().SetVoiceAndTypingStatus();
     }
 
 
@@ -1295,5 +1295,34 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }, (error) => {
             Debug.LogError(error.GenerateErrorReport());
         });
+    }
+
+
+    public void SendIsTyping()
+    {
+        // if there is a message
+        if (!String.IsNullOrEmpty(chatInputField.text))
+        {
+            // if first letters of message
+            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("typing") ||
+                !(bool) PhotonNetwork.LocalPlayer.CustomProperties["typing"])
+            {
+                Chat chat = chatView.GetComponent<Chat>();
+                chat.typing = true;
+                chat.SetPlayerCustomProps();
+            }
+        }
+        else
+        {
+            // if was typing
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("typing") &&
+                (bool) PhotonNetwork.LocalPlayer.CustomProperties["typing"])
+            {
+                Chat chat = chatView.GetComponent<Chat>();
+                chat.typing = false;
+                chat.SetPlayerCustomProps();
+            }
+        }
+            
     }
 }

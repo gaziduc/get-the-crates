@@ -12,12 +12,14 @@ public class Chat : MonoBehaviour
 {
     private PhotonView view;
     private bool changedScene = false;
+    private bool voiceSpeaking = false;
+    public bool typing = false;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
         
-        SetVoiceCustomProps(false);
+        SetPlayerCustomProps();
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += SceneLoaded;
         
@@ -39,8 +41,18 @@ public class Chat : MonoBehaviour
             playerList = GameObject.FindWithTag("PlayerList");
             yield return null;
         } while (playerList == null);
-       
 
+        Text typingText = null;
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            typingText = GameObject.FindWithTag("IsTypingText").GetComponent<Text>();
+            typingText.text = "";
+        }
+        
+
+        bool firstTyping = true;
+        bool severalTyping = false;
+        
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             bool isVoiceEnabled = false;
@@ -56,7 +68,34 @@ public class Chat : MonoBehaviour
             playerList.transform.GetChild(i).GetChild(GetSpeakerImageChildIndex()).GetComponent<Image>().enabled = false;
             
             SetNickname(i, isVoiceEnabled, PhotonNetwork.PlayerList[i]);
+            
+            // Typing status
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                bool isTyping = false;
+            
+                if (PhotonNetwork.PlayerList[i].CustomProperties.ContainsKey("typing"))
+                    isTyping = (bool) PhotonNetwork.PlayerList[i].CustomProperties["typing"];
+
+                if (isTyping)
+                {
+                    if (!firstTyping)
+                    {
+                        severalTyping = true;
+                        typingText.text += ", ";
+                    }
+                        
+                
+                    firstTyping = false;
+                    typingText.text += "<color=cyan>" + PhotonNetwork.PlayerList[i].NickName + "</color>";
+                }
+            }
         }
+
+        if (!firstTyping && !severalTyping)
+            typingText.text += " is typing...";
+        else if (severalTyping)
+            typingText.text += " are typing...";
 
         for (int i = PhotonNetwork.PlayerList.Length; i < playerList.transform.childCount; i++)
         {
@@ -69,6 +108,8 @@ public class Chat : MonoBehaviour
             
             SetNickname(i, false, null);
         }
+        
+        
     }
     
 
@@ -121,10 +162,11 @@ public class Chat : MonoBehaviour
         LeanTween.scale(GameObject.FindWithTag("TransitionPanel"), new Vector3(2.2f, 2.2f,2.2f), 0.4f).setEaseInCubic();
     }
 
-    public void SetVoiceStatus()
+    public void SetVoiceAndTypingStatus()
     {
         StartCoroutine(WaitForPlayerList());
     }
+    
 
     private void SetNickname(int i, bool voiceEnabled, Player player)
     {
@@ -227,19 +269,32 @@ public class Chat : MonoBehaviour
                 GameObject.FindWithTag("PlayerManager").GetComponent<GuiManager>().AddMessage("<color=lime>Please download the game to get voice chat.</color>");
         #else
             Recorder recorder = GetComponent<Recorder>();
-            recorder.TransmitEnabled = !recorder.TransmitEnabled;
-            
-            SetVoiceCustomProps(recorder.TransmitEnabled);
+
+            if (recorder.enabled)
+            {
+                recorder.TransmitEnabled = false;
+                voiceSpeaking = false;
+                recorder.enabled = false;
+            }
+            else
+            {
+                recorder.TransmitEnabled = true;
+                voiceSpeaking = true;
+                recorder.enabled = true;
+            }
+
+            SetPlayerCustomProps(); 
         #endif
     }
 
-    private void SetVoiceCustomProps(bool isSpeaking)
+    public void SetPlayerCustomProps()
     {
         if (view.IsMine)
         {
             // Set custom player properties
             Hashtable props = new Hashtable();
-            props.Add("voice", isSpeaking);
+            props.Add("voice", voiceSpeaking);
+            props.Add("typing", typing);
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
     }
