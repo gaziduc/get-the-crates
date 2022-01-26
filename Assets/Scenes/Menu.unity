@@ -17201,7 +17201,7 @@ GameObject:
   - component: {fileID: 912988633}
   - component: {fileID: 912988632}
   m_Layer: 5
-  m_Name: AddFriendsText (1)
+  m_Name: FriendsStatusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
