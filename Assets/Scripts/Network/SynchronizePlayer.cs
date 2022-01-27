@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SynchronizePlayer : MonoBehaviour, IPunObservable
 {
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D rb;
     private SpriteRenderer sp;
     private Animator anim;
     private PhotonView view;
@@ -14,7 +14,7 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
     
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
         sp = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -27,10 +27,10 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(rigidbody.position);
+            stream.SendNext(rb.position);
             stream.SendNext(sp.flipX);
             stream.SendNext(anim.GetBool("IsRunning"));
-            stream.SendNext(rigidbody.velocity);
+            stream.SendNext(rb.velocity);
             if (isBot)
                 stream.SendNext(bot.score);
         }
@@ -39,10 +39,10 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
             networkPosition = (Vector2) stream.ReceiveNext();
             sp.flipX = (bool) stream.ReceiveNext();
             anim.SetBool("IsRunning", (bool) stream.ReceiveNext());
-            rigidbody.velocity = (Vector2) stream.ReceiveNext();
+            rb.velocity = (Vector2) stream.ReceiveNext();
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
-            networkPosition += rigidbody.velocity * lag;
+            networkPosition += rb.velocity * lag;
 
             if (isBot)
                 bot.score = (int) stream.ReceiveNext();
@@ -53,10 +53,10 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
     {
         if (!view.IsMine)
         {
-            if (Vector2.Distance(rigidbody.position, networkPosition) > 2.5f) // Teleport if to far
-                rigidbody.position = networkPosition;
+            if (Vector2.Distance(rb.position, networkPosition) > 2.5f) // Teleport if to far
+                rb.position = networkPosition;
             else
-                rigidbody.position = Vector2.MoveTowards(rigidbody.position, networkPosition, Time.deltaTime * 2f);
+                rb.position = Vector2.MoveTowards(rb.position, networkPosition, Time.deltaTime * 2f);
         }
     }
 }

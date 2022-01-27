@@ -20,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject connectingPanel;
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject statusPanel;
-    [SerializeField] private GameObject nicknamePanel;
+    [SerializeField] private GameObject firstMenuPanel;
     [SerializeField] private InputField roomNameInputField;
     [SerializeField] private GameObject content;
     [SerializeField] private GameObject roomItemPrefab;
@@ -75,6 +75,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private AudioSource trophySound;
     [SerializeField] private GameObject trophyPanel;
     [SerializeField] private GameObject trophiesPanel;
+    [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject registerPanel;
+    [SerializeField] private GameObject playAsGuestPanel;
+    
     
     private string playerIdCache = "";
     private string username = "";
@@ -112,14 +116,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = Application.version;
 
-            loginUser.text = PlayerPrefs.GetString("Nickname", "");
-            if (PlayerPrefs.GetInt("SavePassword", 1) == 1)
-            {
-                savePasswordToggle.isOn = true;
-                loginPass.text = PlayerPrefs.GetString("Password", "");
-            }
+            
 
-            ActivateUIElement(nicknamePanel);
+            ActivateUIElement(firstMenuPanel);
         }
         else
         {
@@ -135,7 +134,38 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             OnJoinedRoom();
         }
     }
-    
+
+    public void WantToLogin()
+    {
+        LeanTween.scale(firstMenuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() =>
+        {
+            ActivateUIElement(loginPanel);
+
+            loginUser.text = PlayerPrefs.GetString("Nickname", "");
+            if (PlayerPrefs.GetInt("SavePassword", 1) == 1)
+            {
+                savePasswordToggle.isOn = true;
+                loginPass.text = PlayerPrefs.GetString("Password", "");
+            }
+        });
+    }
+
+    public void WantToRegsiter()
+    {
+        LeanTween.scale(firstMenuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
+        {
+            ActivateUIElement(registerPanel);
+        });
+    }
+
+    public void WantToPlayAsGuest()
+    {
+        LeanTween.scale(firstMenuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
+        {
+            ActivateUIElement(playAsGuestPanel);
+        });
+    }
+
     public override void OnRegionListReceived(RegionHandler regionHandler)
     {
         regionDropdownLogin.ClearOptions();
@@ -163,7 +193,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetGuestState(false);
         
         selectSound.Play();
-        LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLogin);
+        LeanTween.scale(loginPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLogin);
     }
 
     private void OnCompleteLogin()
@@ -199,7 +229,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetGuestState(false);
         
         selectSound.Play();
-        LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteRegister);
+        LeanTween.scale(registerPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteRegister);
     }
 
     private void OnCompleteRegister()
@@ -309,7 +339,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void OnCompleteReturnToLoginPanel()
     {
-        ActivateUIElement(nicknamePanel);
+        ActivateUIElement(firstMenuPanel);
     }
 
     public void OnToggleSavePassword()
@@ -330,7 +360,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             
             selectSound.Play();
             
-            LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLoginAsGuest);
+            LeanTween.scale(playAsGuestPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteLoginAsGuest);
         }
     }
 
@@ -1118,7 +1148,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void OnGoingToForgotten()
     {
         selectSound.Play();
-        LeanTween.scale(nicknamePanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnGoingToForgotten);
+        LeanTween.scale(loginPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(OnCompleteOnGoingToForgotten);
     }
 
     private void OnCompleteOnGoingToForgotten()
@@ -1158,7 +1188,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void OnCompleteEscapeAfterForgotPanel()
     {
         forgotInfoPanel.SetActive(false);
-        ActivateUIElement(nicknamePanel);
+        ActivateUIElement(firstMenuPanel);
     }
 
     public void Logout()
@@ -1199,7 +1229,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void OnCompleteDisconnecting()
     {
-        ActivateUIElement(nicknamePanel);
+        ActivateUIElement(firstMenuPanel);
     }
 
     void GetUserData(string myPlayFabId) {
@@ -1323,6 +1353,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 chat.SetPlayerCustomProps();
             }
         }
-            
+    }
+
+    public void LoginBackToFirstMenu()
+    {
+        LeanTween.scale(loginPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
+        {
+            ActivateUIElement(firstMenuPanel);
+        });
+    }
+    
+    public void RegisterBackToFirstMenu()
+    {
+        LeanTween.scale(registerPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
+        {
+            ActivateUIElement(firstMenuPanel);
+        });
+    }
+    
+    public void GuestBackToFirstMenu()
+    {
+        LeanTween.scale(playAsGuestPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
+        {
+            ActivateUIElement(firstMenuPanel);
+        });
     }
 }
