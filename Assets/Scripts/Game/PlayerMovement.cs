@@ -155,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (jump)
             {
-                rb.velocity += Vector2.up * 17.5f;
+                rb.velocity = Vector2.up * 17.5f;
                 jump = false;
             }
         }
