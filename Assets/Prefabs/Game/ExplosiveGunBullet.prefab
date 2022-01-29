@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4818480657085507359, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
+      propertyPath: isExplosiveGun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4818480657085507359, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 2441976991813072089, guid: 294542ad7395c3e40a3137f950ce3567, type: 3}
     - target: {fileID: 1153208218917645760, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -79,24 +87,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplosiveGunBullet
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -4818480657085507359, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
---- !u!1 &7460265757956800949 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8318128261128195948, guid: 8efff4a03ff8ae14799d747a3b0b6a1e, type: 3}
-  m_PrefabInstance: {fileID: 1506416396843192025}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6708272566061537455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7460265757956800949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7356d8a1bafa264cbbe62d2bd6be12f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionPrefab: {fileID: 2441976991813072089, guid: 294542ad7395c3e40a3137f950ce3567, type: 3}

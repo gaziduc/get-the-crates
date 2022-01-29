@@ -113,7 +113,7 @@ public class PlayerWeapon : MonoBehaviour
     private void SetBulletProps(BulletMovement bullet, int weaponIndex, Vector3 bulletDirection, int viewID)
     {
         bullet.weaponNum = weaponIndex;
-        bullet.weaponDamage = damage[weaponNum];
+        bullet.weaponDamage = damage[weaponIndex];
         bullet.direction = bulletDirection;
         bullet.viewID = viewID;
     }

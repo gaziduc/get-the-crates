@@ -103,8 +103,7 @@ public class Options : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    getKey = false;
-                    controlsPanel.SetActive(false);
+                    HideControlsPanel();
                     return;
                 }
                 
@@ -113,8 +112,7 @@ public class Options : MonoBehaviour
                 {
                     if (gamepad.startButton.wasPressedThisFrame)
                     {
-                        getKey = false;
-                        controlsPanel.SetActive(false);
+                        HideControlsPanel();
                         return;
                     }
                     
@@ -143,8 +141,7 @@ public class Options : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    getKey = false;
-                    controlsPanel.SetActive(false);
+                    HideControlsPanel();
                     return;
                 }
                 
@@ -163,8 +160,7 @@ public class Options : MonoBehaviour
                         
                         keyTexts[controlNum].text = ((KeyCode) val).ToString();
 
-                        getKey = false;
-                        controlsPanel.SetActive(false);
+                        HideControlsPanel();
                         return;
                     }
                 }
@@ -184,6 +180,12 @@ public class Options : MonoBehaviour
             keyTexts[i].text = defaultControls[i];
             gamepadTexts[i].text = defaultControlsGamepad[i];
         }
+    }
+
+    public void HideControlsPanel()
+    {
+        getKey = false;
+        controlsPanel.SetActive(false);
     }
 
     public void SetSkin(int skinNum)
