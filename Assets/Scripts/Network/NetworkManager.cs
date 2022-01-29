@@ -137,6 +137,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void WantToLogin()
     {
+        selectSound.Play();
         LeanTween.scale(firstMenuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() =>
         {
             ActivateUIElement(loginPanel);
@@ -152,6 +153,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void WantToRegsiter()
     {
+        selectSound.Play();
         LeanTween.scale(firstMenuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
         {
             ActivateUIElement(registerPanel);
@@ -160,6 +162,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void WantToPlayAsGuest()
     {
+        selectSound.Play();
         LeanTween.scale(firstMenuPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
         {
             ActivateUIElement(playAsGuestPanel);
@@ -1357,6 +1360,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void LoginBackToFirstMenu()
     {
+        backSound.Play();
         LeanTween.scale(loginPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
         {
             ActivateUIElement(firstMenuPanel);
@@ -1365,6 +1369,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     
     public void RegisterBackToFirstMenu()
     {
+        backSound.Play();
         LeanTween.scale(registerPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
         {
             ActivateUIElement(firstMenuPanel);
@@ -1373,6 +1378,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     
     public void GuestBackToFirstMenu()
     {
+        backSound.Play();
         LeanTween.scale(playAsGuestPanel, Vector3.zero, UIAnimDelay).setEaseInBack().setOnComplete(() => 
         {
             ActivateUIElement(firstMenuPanel);

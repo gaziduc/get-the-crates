@@ -5,12 +5,22 @@ using Random = UnityEngine.Random;
 
 public class PlayerWeapon : MonoBehaviour
 {
+    public enum Weapon
+    {
+        Gun = 0,
+        MachineGun = 1,
+        ExplosiveGun = 2,
+        DoubleGun = 3,
+        DiskGun = 4,
+        Shotgun = 5,
+    }
+    
     public int weaponNum;
     public GameObject[] weaponPrefabs;
-    public string[] weaponName = { "Gun", "Machine Gun", "Explosive Gun", "Double Gun", "Disk Gun" };
-    public float[] reloadTime = { 0.25f, 0.15f, 1f, 0.25f, 1.3f };
-    private bool[] automatic = { false, true, false, false, false };
-    public int[] damage = { 1, 1, 4, 1, 4 };
+    public string[] weaponName = { "Gun", "Machine Gun", "Explosive Gun", "Double Gun", "Disk Gun", "Shotgun" };
+    public float[] reloadTime = { 0.25f, 0.15f, 1f, 0.25f, 1.3f, 0.55f };
+    private bool[] automatic = { false, true, false, false, false, false };
+    public int[] damage = { 1, 1, 4, 1, 4, 1 };
 
     private float reload;
     public bool isReloaded;
@@ -99,34 +109,54 @@ public class PlayerWeapon : MonoBehaviour
             weaponSound.Play();
         }
     }
+
+    private void SetBulletProps(BulletMovement bullet, int weaponIndex, Vector3 bulletDirection, int viewID)
+    {
+        bullet.weaponNum = weaponIndex;
+        bullet.weaponDamage = damage[weaponNum];
+        bullet.direction = bulletDirection;
+        bullet.viewID = viewID;
+    }
     
     [PunRPC]
-    void ShootBulletRPC(float posX, float posY, int weaponNum, float bulletDirection, int viewID)
+    void ShootBulletRPC(float posX, float posY, int weaponIndex, float bulletDirection, int viewID)
     {
-        GameObject bullet = GameObject.Instantiate(weaponPrefabs[weaponNum],
-            new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
-        BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
-
-        bulletMovement.weaponNum = weaponNum;
-        bulletMovement.weaponDamage = damage[weaponNum];
-        bulletMovement.direction = new Vector3(bulletDirection, 0, 0);
-        bulletMovement.viewID = viewID;
-
-        if (weaponNum == 3) // If Double Gun
+        switch (weaponIndex)
         {
-            GameObject oppositeBullet = GameObject.Instantiate(weaponPrefabs[weaponNum],
-                new Vector3(posX - bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
-            BulletMovement oppositeBulletMovement = oppositeBullet.GetComponent<BulletMovement>();
+            case (int) Weapon.Gun:
+            case (int) Weapon.DiskGun:
+            case (int) Weapon.MachineGun:
+            case (int) Weapon.ExplosiveGun:
+                GameObject bullet = GameObject.Instantiate(weaponPrefabs[weaponIndex],
+                    new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
+                SetBulletProps(bullet.GetComponent<BulletMovement>(), weaponIndex, new Vector3(bulletDirection, 0, 0), viewID);
+                break;
+            case (int) Weapon.DoubleGun:
+                GameObject bullet1 = GameObject.Instantiate(weaponPrefabs[weaponIndex],
+                    new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
+                SetBulletProps(bullet1.GetComponent<BulletMovement>(), weaponIndex, new Vector3(bulletDirection, 0, 0), viewID);
+                GameObject bullet2 = GameObject.Instantiate(weaponPrefabs[weaponIndex],
+                    new Vector3(posX - bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
+                SetBulletProps(bullet2.GetComponent<BulletMovement>(), weaponIndex, new Vector3(-bulletDirection, 0, 0), viewID);
+                break;
+            case (int) Weapon.Shotgun:
+                for (int i = -2; i <= 2; i++)
+                {
+                    GameObject shotgunBullet = GameObject.Instantiate(weaponPrefabs[weaponIndex],
+                        new Vector3(posX + bulletDirection * 0.2f, posY - 0.2f, 0), Quaternion.identity);
 
-            oppositeBulletMovement.weaponNum = weaponNum;
-            oppositeBulletMovement.weaponDamage = damage[weaponNum];
-            oppositeBulletMovement.direction = new Vector3(-bulletDirection, 0, 0);
-            oppositeBulletMovement.viewID = viewID;
+                    Vector3 direction = new Vector3();
+                    direction.x = bulletDirection * Mathf.Cos(i * 5 * Mathf.Deg2Rad);
+                    direction.y = bulletDirection * Mathf.Sin(i * 5 * Mathf.Deg2Rad);
+                    
+                    SetBulletProps(shotgunBullet.GetComponent<BulletMovement>(), weaponIndex, direction, viewID);
+                }
+                break;
         }
 
         PhotonView playerShooting = PhotonNetwork.GetPhotonView(viewID);
         ReloadBarAbovePlayer reloadBar = playerShooting.GetComponent<ReloadBarAbovePlayer>();
-        reloadBar.Shoot(reloadTime[weaponNum]);
+        reloadBar.Shoot(reloadTime[weaponIndex]);
 
         shoot.Play();
     }
