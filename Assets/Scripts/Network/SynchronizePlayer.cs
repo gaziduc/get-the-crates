@@ -5,6 +5,7 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
 {
     private Rigidbody2D rb;
     private SpriteRenderer sp;
+    [SerializeField] private SpriteRenderer weaponSpriteRenderer;
     private Animator anim;
     private PhotonView view;
     [SerializeField] private bool isBot = false;
@@ -38,6 +39,7 @@ public class SynchronizePlayer : MonoBehaviour, IPunObservable
         {
             networkPosition = (Vector2) stream.ReceiveNext();
             sp.flipX = (bool) stream.ReceiveNext();
+            weaponSpriteRenderer.flipX = !sp.flipX; // Weapon;
             anim.SetBool("IsRunning", (bool) stream.ReceiveNext());
             rb.velocity = (Vector2) stream.ReceiveNext();
 

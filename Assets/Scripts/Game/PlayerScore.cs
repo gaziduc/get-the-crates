@@ -25,7 +25,7 @@ public class PlayerScore : MonoBehaviour
     void SetNicknameRPC(int viewID, string nickname)
     {
         PhotonView v = PhotonNetwork.GetPhotonView(viewID);
-        v.transform.GetChild(1).GetChild(3).GetComponent<Text>().text = nickname;
+        v.transform.GetChild(1).GetChild(2).GetComponent<Text>().text = nickname;
     }
     
     public void PlayScoreSound()

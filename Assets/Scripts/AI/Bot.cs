@@ -176,9 +176,15 @@ public class Bot : MonoBehaviour
         if (directionLookEnabled)
         {
             if (rb.velocity.x > 0.05f)
+            {
                 sp.flipX = true;
+                weapon.SetWeaponOrientation(false);
+            }
             else if (rb.velocity.x < -0.05f)
+            {
                 sp.flipX = false;
+                weapon.SetWeaponOrientation(true);
+            }
         }
     }
 

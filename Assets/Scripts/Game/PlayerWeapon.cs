@@ -29,6 +29,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private Sprite[] weaponSprites;
     [SerializeField] private AudioSource shoot;
     [SerializeField] private AudioSource weaponSound;
+    [SerializeField] private SpriteRenderer weaponSpriteRenderer;
     
     private void Start()
     {
@@ -45,6 +46,16 @@ public class PlayerWeapon : MonoBehaviour
             if (reload >= reloadTime[weaponNum])
                 isReloaded = true;
         }
+    }
+
+    public void SetWeaponSpriteRenderer(int weaponIndex)
+    {
+        weaponSpriteRenderer.sprite = weaponSprites[weaponIndex];
+    }
+
+    public void SetWeaponOrientation(bool isLeft)
+    {
+        weaponSpriteRenderer.flipX = isLeft;
     }
 
     public void GetRandom()
@@ -92,8 +103,8 @@ public class PlayerWeapon : MonoBehaviour
     {
         PhotonView v = PhotonNetwork.GetPhotonView(viewId);
 
-        // Set weapon image
-        v.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = weaponSprites[weaponNum];
+        // Set weapon sprite
+        SetWeaponSpriteRenderer(weaponNum);
 
         ReloadBarAbovePlayer reloadBar = v.GetComponent<ReloadBarAbovePlayer>();
         reloadBar.SetToReloaded();

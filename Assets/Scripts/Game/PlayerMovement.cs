@@ -97,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
                 (joystick != null && joystick.Horizontal <= -0.2f))
             {
                 sp.flipX = false;
+                weapon.SetWeaponOrientation(true);
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = -moveSpeed;
@@ -106,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
                      (joystick != null && joystick.Horizontal >= 0.2f))
             {
                 sp.flipX = true;
+                weapon.SetWeaponOrientation(false);
                 if (!anim.GetBool("IsRunning"))
                     anim.SetBool("IsRunning", true);
                 change.x = moveSpeed;

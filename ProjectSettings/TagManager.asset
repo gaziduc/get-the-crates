@@ -18,7 +18,6 @@ TagManager:
   - ChatView
   - NetworkManager
   - TransitionPanel
-  - HealthBarP1
   - FxTemporaire
   - NumPlayersDropdown
   - NumBotsDropdown

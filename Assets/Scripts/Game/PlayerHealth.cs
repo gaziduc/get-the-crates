@@ -24,6 +24,8 @@ public class PlayerHealth : MonoBehaviour
         
         // Spawn particle effects
         GameObject.Instantiate(spawnPrefab, transform.position, Quaternion.identity);
+        
+        GetComponent<HealthBarAbovePlayer>().SetHealthBar(initialHealth);
     }
 
     private IEnumerator Respawn(PlayerHealth player, PhotonView v)
@@ -44,7 +46,7 @@ public class PlayerHealth : MonoBehaviour
         
         player.health = initialHealth;
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-        player.transform.localScale = Vector3.one;
+        player.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         player.invincible = true;
         
         PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();

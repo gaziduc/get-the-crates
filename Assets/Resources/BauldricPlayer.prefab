@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 2609fb67ca2078b4587cd8a1a46c4e7d, type: 2}
     - target: {fileID: 2515500007896418029, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
       propertyPath: m_TagString
-      value: HealthBarP2
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2721351325443451218, guid: 4365dac0dd0432f4d96bc032a51f1441, type: 3}
       propertyPath: m_Size.x
